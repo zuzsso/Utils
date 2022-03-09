@@ -16,10 +16,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Zuzsso\\": "src/"
+            "NetUtils\\": "src/"
         }
-    },
-    "require": {
-        "php-di/php-di": "^6.3"
     }
 }

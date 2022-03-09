@@ -2,8 +2,9 @@
 
 declare(strict_types=1);
 
+namespace NetUtils;
 
-class HostPublicIpV4Getter implements GetHostPublicIpV4
+class HostPublicIpV4Getter
 {
 	public function get(): string
 	{
