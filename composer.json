@@ -1,0 +1,25 @@
+{
+    "name": "zuzsso/netutils",
+    "description": "Common functionality related to networking",
+    "type": "library",
+    "authors": [
+        {
+            "name": "Nicky Santamaria",
+            "email": "ndsans@gmail.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "config": {
+        "platform": {
+            "php": "7.4.28"
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Zuzsso\\": "src/"
+        }
+    },
+    "require": {
+        "php-di/php-di": "^6.3"
+    }
+}
