@@ -6,7 +6,7 @@ namespace NetUtils;
 
 class GetHostIpV4
 {
-	public function getPublicAddress(): string
+	public static function getPublicAddress(): string
 	{
 		// create a new cURL resource
 		$ch = curl_init();
@@ -26,7 +26,7 @@ class GetHostIpV4
 		return $ip;
 	}
 
-	public function getLocalAddress(): string
+	public static function getLocalAddress(): string
 	{
 		return getHostByName(getHostName());
 	}
