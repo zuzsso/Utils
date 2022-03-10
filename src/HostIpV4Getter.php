@@ -4,9 +4,15 @@ declare(strict_types=1);
 
 namespace NetUtils;
 
-class GetHostIpV4
+use NetUtils\Object\IpV4;
+use NetUtils\UseCase\GetHostIpV4;
+
+class HostIpV4Getter implements GetHostIpV4
 {
-	public static function getPublicAddress(): string
+	/**
+	 * @inheritDoc
+	 */
+	public static function getPublicAddress(): IpV4
 	{
 		// create a new cURL resource
 		$ch = curl_init();
@@ -23,11 +29,14 @@ class GetHostIpV4
 		// close cURL resource, and free up system resources
 		curl_close($ch);
 
-		return $ip;
+		return IpV4::constructFromString($ip);
 	}
 
-	public static function getLocalAddress(): string
+	/**
+	 * @inheritDoc
+	 */
+	public static function getLocalAddress(): Ipv4
 	{
-		return getHostByName(getHostName());
+		return IpV4::constructFromString(getHostByName(getHostName()));
 	}
 }

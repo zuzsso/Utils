@@ -19,7 +19,15 @@
             "NetUtils\\": "src/"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "NetUtils\\Tests\\": "tests/"
+        }
+    },
     "require": {
         "ext-curl": "*"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9"
     }
 }
