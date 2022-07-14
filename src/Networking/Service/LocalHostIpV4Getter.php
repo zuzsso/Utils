@@ -7,7 +7,7 @@ namespace Utils\Networking\Service;
 use Utils\Networking\UseCase\GetLocalHostIpV4;
 use Utils\Networking\Object\IpV4;
 
-class HostIpV4Getter implements GetLocalHostIpV4
+class LocalHostIpV4Getter implements GetLocalHostIpV4
 {
 	/**
 	 * @inheritDoc
