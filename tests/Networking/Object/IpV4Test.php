@@ -2,12 +2,11 @@
 
 declare(strict_types=1);
 
-
-namespace NetUtils\Tests\Object;
+namespace Utils\Tests\Networking\Object;
 
 use LogicException;
-use NetUtils\Object\IpV4;
 use PHPUnit\Framework\TestCase;
+use Utils\Networking\Object\IpV4;
 
 class IpV4Test extends TestCase
 {

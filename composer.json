@@ -1,6 +1,6 @@
 {
-    "name": "zuzsso/netutils",
-    "description": "Common functionality related to networking",
+    "name": "zuzsso/utils",
+    "description": "Common shareable functionality",
     "type": "library",
     "authors": [
         {
@@ -16,12 +16,12 @@
     },
     "autoload": {
         "psr-4": {
-            "NetUtils\\": "src/"
+            "Utils\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "NetUtils\\Tests\\": "tests/"
+            "Utils\\Tests\\": "tests/"
         }
     },
     "require": {

@@ -3,11 +3,11 @@
 declare(strict_types=1);
 
 
-namespace NetUtils\UseCase;
+namespace Utils\Networking\UseCase;
 
-use NetUtils\Object\IpV4;
+use Utils\Networking\Object\IpV4;
 
-interface GetHostIpV4
+interface GetLocalHostIpV4
 {
 	/**
 	 * @return IpV4

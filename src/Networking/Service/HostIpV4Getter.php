@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace NetUtils;
+namespace Utils\Networking\Service;
 
-use NetUtils\Object\IpV4;
-use NetUtils\UseCase\GetHostIpV4;
+use Utils\Networking\UseCase\GetLocalHostIpV4;
+use Utils\Networking\Object\IpV4;
 
-class HostIpV4Getter implements GetHostIpV4
+class HostIpV4Getter implements GetLocalHostIpV4
 {
 	/**
 	 * @inheritDoc
