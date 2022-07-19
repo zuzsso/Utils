@@ -5,13 +5,16 @@ declare(strict_types=1);
 
 namespace Utils\Files\Service;
 
-class DirectoryIsWriteableChecker {
+use Utils\Files\UseCase\CheckDirectoryIsWriteable;
+
+class DirectoryIsWriteableChecker implements CheckDirectoryIsWriteable {
     public function check(string $dir): bool {
         $fileName = uniqid('', true);
 
         $path = $dir . '/' . $fileName;
 
-        set_error_handler(static function () {/* Ignore warnings if the directory is not writeable */});
+        set_error_handler(static function () {/* Ignore warnings if the directory is not writeable */
+        });
 
         $success = file_put_contents($path, 'random text');
 
