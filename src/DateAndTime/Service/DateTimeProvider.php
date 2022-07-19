@@ -9,7 +9,7 @@ use DateTimeImmutable;
 use Utils\DateAndTime\UseCase\ProvideDateTime;
 
 class DateTimeProvider implements ProvideDateTime {
-    public function getSystemTime(): DateTimeImmutable {
+    public function getSystemDateTime(): DateTimeImmutable {
         return new DateTimeImmutable('now');
     }
 }

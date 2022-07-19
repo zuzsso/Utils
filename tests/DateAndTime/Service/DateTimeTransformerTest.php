@@ -8,7 +8,6 @@ namespace Utils\Tests\DateAndTime\Service;
 use DateTimeImmutable;
 use DateTimeInterface;
 use PHPUnit\Framework\TestCase;
-use Utils\DateAndTime\Service\DateTimeProvider;
 use Utils\DateAndTime\Service\DateTimeTransformer;
 
 class DateTimeTransformerTest extends TestCase {

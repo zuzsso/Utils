@@ -8,3 +8,5 @@ Add the following dependencies to your DI container:
 1. `ProvideDateTime -> DateTimeProvider`
 2. `TransformDateTime -> DateTimeTransformer`
 
+## Files
+1. `CheckDirectoryIsWriteable -> DirectoryIsWriteableChecker`
