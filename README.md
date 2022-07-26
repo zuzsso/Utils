@@ -10,3 +10,7 @@ Add the following dependencies to your DI container:
 
 ## Files
 1. `CheckDirectoryIsWriteable -> DirectoryIsWriteableChecker`
+
+## Cryptography
+1. `PasswordHash -> HashService`
+2. `PasswordVerify -> HashService`
