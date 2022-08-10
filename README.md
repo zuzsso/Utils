@@ -14,6 +14,7 @@ Add the following dependencies to your DI container:
 ## Cryptography
 1. `PasswordHash -> HashService`
 2. `PasswordVerify -> HashService`
+3. `GenerateRandomStringToken -> RandomStringTokenGenerator`
 
 ## Email validation
 1. `ValidateEmailAddress -> EmailAddressValidator`
