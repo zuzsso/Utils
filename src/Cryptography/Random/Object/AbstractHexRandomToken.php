@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace Utils\Cryptography\Random\Object;
 
+use Utils\Cryptography\Random\Exception\InadequateTokenLengthException;
 use Utils\Cryptography\Random\Exception\InvalidHexStringTokenException;
 
 abstract class AbstractHexRandomToken extends AbstractRandomToken {
     /**
      * @throws InvalidHexStringTokenException
+     * @throws InadequateTokenLengthException
      */
     public function __construct(string $token) {
         parent::__construct($token);
