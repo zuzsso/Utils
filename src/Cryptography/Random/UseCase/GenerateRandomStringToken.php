@@ -12,6 +12,15 @@ interface GenerateRandomStringToken {
     /**
      * @throws Exception
      * @throws InvalidArgumentException
+     * @deprecated
      */
     public function hexTokenOfLength(int $charLength): HexRandomToken;
+
+    /**
+     * @throws Exception
+     * @throws InvalidArgumentException
+     * @param int $charLength
+     * @return string
+     */
+    public function hexTokenOfLengthRaw(int $charLength): string;
 }

@@ -15,12 +15,19 @@ class RandomStringTokenGenerator implements GenerateRandomStringToken {
      */
     public function hexTokenOfLength(int $charLength): HexRandomToken {
 
+        return new HexRandomToken($this->hexTokenOfLengthRaw($charLength));
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function hexTokenOfLengthRaw(int $charLength): string {
         if ($charLength < 1) {
             throw new InvalidArgumentException("Minimum length is 1, but passed $charLength");
         }
 
         $raw = bin2hex(random_bytes($charLength));
 
-        return new HexRandomToken(substr($raw, 0, $charLength));
+        return substr($raw, 0, $charLength);
     }
 }
