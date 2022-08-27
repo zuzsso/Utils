@@ -14,7 +14,7 @@ class RandomStringTokenGenerator implements GenerateRandomStringToken {
     /**
      * @inheritDoc
      */
-    public function hexTokenOfLengthRaw(int $charLength): string {
+    public function hexTokenOfLength(int $charLength): string {
         if ($charLength < 1) {
             throw new InvalidArgumentException("Minimum length is 1, but passed $charLength");
         }

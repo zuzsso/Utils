@@ -23,7 +23,7 @@ class RandomStringTokenGeneratorTest extends TestCase {
      */
     public function testGeneratesHexStringsOfGivenLength(): void {
         for ($i = 1; $i < 100; $i++) {
-            $actual = $this->sut->hexTokenOfLengthRaw($i);
+            $actual = $this->sut->hexTokenOfLength($i);
             self::assertEquals($i, strlen($actual));
         }
     }
@@ -34,7 +34,7 @@ class RandomStringTokenGeneratorTest extends TestCase {
      */
     public function testHexGeneratorOnlyUsesHexChars(): void {
         for ($i = 0; $i < 100; $i++) {
-            $actual = $this->sut->hexTokenOfLengthRaw(100);
+            $actual = $this->sut->hexTokenOfLength(100);
             self::assertTrue($this->assertStringContainsOnlyHexChars($actual));
         }
     }
@@ -58,7 +58,7 @@ class RandomStringTokenGeneratorTest extends TestCase {
     ): void {
         $this->expectException(InvalidArgumentException::class);
 
-        $this->sut->hexTokenOfLengthRaw($requiredLength);
+        $this->sut->hexTokenOfLength($requiredLength);
     }
 
     private function assertStringContainsOnlyHexChars(string $string): bool {

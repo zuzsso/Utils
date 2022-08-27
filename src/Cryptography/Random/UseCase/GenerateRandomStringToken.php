@@ -12,5 +12,5 @@ interface GenerateRandomStringToken {
      * @return string
      * @throws UnableToGenerateRandomTokenGeneralException
      */
-    public function hexTokenOfLengthRaw(int $charLength): string;
+    public function hexTokenOfLength(int $charLength): string;
 }
