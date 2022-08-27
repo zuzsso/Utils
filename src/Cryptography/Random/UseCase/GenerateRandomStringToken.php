@@ -4,23 +4,23 @@ declare(strict_types=1);
 
 namespace Utils\Cryptography\Random\UseCase;
 
-use Exception;
-use InvalidArgumentException;
+use Utils\Cryptography\Random\Exception\InvalidHexStringTokenException;
+use Utils\Cryptography\Random\Exception\UnableToGenerateRandomTokenGeneralException;
 use Utils\Cryptography\Random\Object\HexRandomToken;
 
 interface GenerateRandomStringToken {
     /**
-     * @throws Exception
-     * @throws InvalidArgumentException
-     * @deprecated
+     * @param int $charLength
+     * @return HexRandomToken
+     * @throws UnableToGenerateRandomTokenGeneralException
+     * @throws InvalidHexStringTokenException
      */
     public function hexTokenOfLength(int $charLength): HexRandomToken;
 
     /**
-     * @throws Exception
-     * @throws InvalidArgumentException
      * @param int $charLength
      * @return string
+     * @throws UnableToGenerateRandomTokenGeneralException
      */
     public function hexTokenOfLengthRaw(int $charLength): string;
 }
