@@ -9,9 +9,9 @@ use PHPUnit\Framework\TestCase;
 use ReflectionClass;
 use Utils\Cryptography\Random\Exception\InvalidHexStringTokenException;
 use Utils\Cryptography\Random\Object\AbstractRandomToken;
-use Utils\Cryptography\Random\Object\HexRandomToken;
+use Utils\Cryptography\Random\Object\AbstractHexRandomToken;
 
-class HexRandomTokenTest extends TestCase {
+class AbstractHexRandomTokenTest extends TestCase {
 
     public function correctlyThrowsExceptionIfNotHexCharsPassedDataProvider(): array {
         return [
@@ -29,12 +29,16 @@ class HexRandomTokenTest extends TestCase {
      */
     public function testCorrectlyThrowsExceptionIfNotHexCharsPassed(string $fixture): void {
         $this->expectException(InvalidHexStringTokenException::class);
-        new HexRandomToken($fixture);
+        $this->generateParametrizedSut($fixture);
     }
 
     public function testExtendsCorrectAbstractClass(): void {
-        $reflectionClass = new ReflectionClass(HexRandomToken::class);
+        $reflectionClass = new ReflectionClass(AbstractHexRandomToken::class);
 
         self::assertEquals(AbstractRandomToken::class, $reflectionClass->getParentClass()->getName());
+    }
+
+    private function generateParametrizedSut(string $randomToken): void {
+        $this->getMockForAbstractClass(AbstractHexRandomToken::class, [$randomToken]);
     }
 }

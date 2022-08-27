@@ -7,7 +7,6 @@ namespace Utils\Cryptography\Random\Service;
 use InvalidArgumentException;
 use Throwable;
 use Utils\Cryptography\Random\Exception\UnableToGenerateRandomTokenGeneralException;
-use Utils\Cryptography\Random\Object\HexRandomToken;
 use Utils\Cryptography\Random\UseCase\GenerateRandomStringToken;
 
 class RandomStringTokenGenerator implements GenerateRandomStringToken {

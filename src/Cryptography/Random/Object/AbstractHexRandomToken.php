@@ -6,7 +6,7 @@ namespace Utils\Cryptography\Random\Object;
 
 use Utils\Cryptography\Random\Exception\InvalidHexStringTokenException;
 
-class HexRandomToken extends AbstractRandomToken {
+abstract class AbstractHexRandomToken extends AbstractRandomToken {
     /**
      * @throws InvalidHexStringTokenException
      */
