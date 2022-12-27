@@ -18,3 +18,10 @@ Add the following dependencies to your DI container:
 
 ## Email validation
 1. `ValidateEmailAddress -> EmailAddressValidator`
+
+## System
+1. `GetOSDescription -> OsDescriptionGetter`
+2. `GetPhpIntSizeConstant -> PhpIntSizeConstantGetter`
+3. `CalculateSigned64BitIntFromString -> Signed64BitIntFromStringCalculator`
+4. `CalculateSizeOfOnesComplementOfZero -> SizeOfOnesComplementOfZero`
+5. `CheckSystem64Bits -> System64BitChecker`
