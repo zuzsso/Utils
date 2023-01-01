@@ -9,6 +9,6 @@ use Utils\Files\UseCase\CheckDirectoryIsReadable;
 
 class DirectoryIsReadableChecker implements CheckDirectoryIsReadable {
     public function check(string $dir): bool {
-        return is_writable($dir);
+        return is_readable($dir);
     }
 }
