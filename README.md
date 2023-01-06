@@ -27,3 +27,6 @@ Add the following dependencies to your DI container:
 3. `CalculateSigned64BitIntFromString => Signed64BitIntFromStringCalculator`
 4. `CalculateSizeOfOnesComplementOfZero => SizeOfOnesComplementOfZero`
 5. `CheckSystem64Bits => System64BitChecker`
+
+## Math
+1. `EqualFloats => FloatsService`
