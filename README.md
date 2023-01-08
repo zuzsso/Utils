@@ -11,6 +11,7 @@ Add the following dependencies to your DI container:
 ## Files
 1. `CheckDirectoryIsWriteable => DirectoryIsWriteableChecker`
 2. `CheckDirectoryIsReadable => DirectoryIsReadableChecker`
+3. `CheckFileExists => FileExistsChecker`
 
 ## Cryptography
 1. `PasswordHash => HashService`
