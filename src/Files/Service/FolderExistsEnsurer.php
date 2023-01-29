@@ -15,7 +15,7 @@ class FolderExistsEnsurer implements EnsureFolderExists {
     public function ensureFolderExists(string $folderPath, int $createWithPermissions): void {
         if (
             !file_exists($folderPath) &&
-            !mkdir($concurrentDirectory = $folderPath, 0770) &&
+            !mkdir($concurrentDirectory = $folderPath, 0770, true) &&
             !is_dir($concurrentDirectory)
         ) {
             throw new UnableToCreateFolderException("Could not create folder: $folderPath");
