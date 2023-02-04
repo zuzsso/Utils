@@ -14,5 +14,15 @@ interface EnsureFolderExists {
      * @param int $createWithPermissions
      * @throws UnableToCreateFolderException
      */
-    public function ensureFolderExists(string $folderPath, int $createWithPermissions): void;
+    public function ensureFolderExists(string $folderPath, int $createWithPermissions = 0770): void;
+
+    /**
+     * Creates the necessary directory structure to store the file represented by $filePath.
+     *
+     * @param string $filePath
+     * @param int $createWithPermissions
+     * @return string The created directory. Usually, the parent folder of the file path passed as parameter
+     * @throws UnableToCreateFolderException
+     */
+    public function ensureFolderExistsForFile(string $filePath, int $createWithPermissions = 0770): string;
 }

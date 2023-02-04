@@ -12,13 +12,24 @@ class FolderExistsEnsurer implements EnsureFolderExists {
     /**
      * @inheritDoc
      */
-    public function ensureFolderExists(string $folderPath, int $createWithPermissions): void {
+    public function ensureFolderExists(string $folderPath, int $createWithPermissions = 0770): void {
         if (
             !file_exists($folderPath) &&
-            !mkdir($concurrentDirectory = $folderPath, 0770, true) &&
+            !mkdir($concurrentDirectory = $folderPath, $createWithPermissions, true) &&
             !is_dir($concurrentDirectory)
         ) {
             throw new UnableToCreateFolderException("Could not create folder: $folderPath");
         }
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function ensureFolderExistsForFile(string $filePath, int $createWithPermissions = 0770): string {
+
+        $folderName = dirname($filePath);
+        $this->ensureFolderExists($folderName, $createWithPermissions);
+
+        return $folderName;
     }
 }
