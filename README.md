@@ -32,3 +32,4 @@ Add the following dependencies to your DI container:
 
 ## Math
 1. `EqualFloats => FloatsService`
+2. `CheckStringRepresentsIntegerValue => StringRepresentsIntegerValueChecker`
