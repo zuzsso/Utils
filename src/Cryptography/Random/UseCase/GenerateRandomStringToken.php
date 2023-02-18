@@ -8,8 +8,6 @@ use Utils\Cryptography\Random\Exception\UnableToGenerateRandomTokenGeneralExcept
 
 interface GenerateRandomStringToken {
     /**
-     * @param int $charLength
-     * @return string
      * @throws UnableToGenerateRandomTokenGeneralException
      */
     public function hexTokenOfLength(int $charLength): string;
