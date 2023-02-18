@@ -8,6 +8,7 @@ use Exception;
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use Utils\Cryptography\Random\Service\RandomStringTokenGenerator;
+use Utils\Tests\Cryptography\Random\Mocks\GenericCharacterPoolMock;
 
 class RandomStringTokenGeneratorTest extends TestCase {
     private RandomStringTokenGenerator $sut;
@@ -18,7 +19,6 @@ class RandomStringTokenGeneratorTest extends TestCase {
     }
 
     /**
-     * @return void
      * @throws Exception
      */
     public function testGeneratesHexStringsOfGivenLength(): void {
@@ -76,4 +76,60 @@ class RandomStringTokenGeneratorTest extends TestCase {
         }
         return true;
     }
+
+
+    /**
+     * @throws Exception
+     */
+    public function testThrowsExceptionIfEmptyCharacterPool(): void {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage("Character pool not big enough");
+        $cp = new GenericCharacterPoolMock('');
+        $this->sut->generateRandomStringOfLengthInChars($cp, 3);
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function testThrowsExceptionIfRequiredLengthTooSmall(): void {
+        $this->expectException(InvalidArgumentException::class);
+
+        $this->expectExceptionMessage(
+            "The current implementation only generates random strings of length [1, " .
+            PHP_INT_MAX .
+            "], but requested 0"
+        );
+
+        $cp = new GenericCharacterPoolMock('abc');
+        $this->sut->generateRandomStringOfLengthInChars($cp, 0);
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function testGeneratesStringOfRequiredLength(): void {
+        $cp = new GenericCharacterPoolMock('ab');
+        $str = $this->sut->generateRandomStringOfLengthInChars($cp, 25);
+
+        self::assertEquals(25, strlen($str));
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function testUsesAlCharactersInThePool(): void {
+        $cp = new GenericCharacterPoolMock('abcd');
+        $str = $this->sut->generateRandomStringOfLengthInChars($cp, 10000);
+
+        self::assertEquals(10000, strlen($str));
+
+        self::assertGreaterThanOrEqual(0, strpos($str, 'a'));
+        self::assertGreaterThanOrEqual(0, strpos($str, 'b'));
+        self::assertGreaterThanOrEqual(0, strpos($str, 'c'));
+        self::assertGreaterThanOrEqual(0, strpos($str, 'd'));
+
+        // Sanity test
+        self::assertFalse(strpos($str, 'Z'));
+    }
+
 }
