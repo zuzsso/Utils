@@ -44,4 +44,19 @@ abstract class AbstractCharacterPool {
 
         return $this->characterPool[$zeroBasedPosition];
     }
+
+    public function checkStringIsCompatibleWithCharacterPool(string $s): bool {
+        $characterPoolOneLine = $this->getCharacterPoolAsSingleString();
+        $stringLengh = strlen($s);
+
+        for($i = 0; $i < $stringLengh; $i++){
+            $thisChar = $s[$i];
+
+            if (strpos($characterPoolOneLine, $thisChar) === false) {
+                return false;
+            }
+        }
+
+        return true;
+    }
 }

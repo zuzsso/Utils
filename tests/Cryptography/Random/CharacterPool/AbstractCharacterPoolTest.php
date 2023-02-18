@@ -12,6 +12,7 @@ use PHPUnit\Framework\TestCase;
 use ReflectionClass;
 use ReflectionException;
 use Utils\Cryptography\Random\Object\CharacterPool\AbstractCharacterPool;
+use Utils\Tests\Cryptography\Random\Mocks\GenericCharacterPoolMock;
 
 class AbstractCharacterPoolTest extends TestCase {
     /**
@@ -137,6 +138,29 @@ class AbstractCharacterPoolTest extends TestCase {
 
         self::assertEquals('a', $this->sut->getCharAt(0));
         self::assertEquals('b', $this->sut->getCharAt(1));
+    }
+
+    public function correctlyChecksIfStringIsCompatibleWithCharacterPoolDataProvider(): array {
+        return [
+            ['A', true],
+            ['AA', true],
+            ['AbAbAb', true],
+            ['AbCdAbCd', true],
+            ['a', false],
+            ['aBcD', false],
+            ['!', false]
+        ];
+    }
+
+    /**
+     * @dataProvider correctlyChecksIfStringIsCompatibleWithCharacterPoolDataProvider
+     */
+    public function testCorrectlyChecksIfStringIsCompatibleWithCharacterPool(string $s, bool $expected): void {
+        $sut = new GenericCharacterPoolMock('AbCd');
+
+        $actual = $sut->checkStringIsCompatibleWithCharacterPool($s);
+
+        self::assertEquals($expected, $actual);
     }
 
     /**
