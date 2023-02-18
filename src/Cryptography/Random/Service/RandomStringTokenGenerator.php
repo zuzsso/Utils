@@ -6,9 +6,8 @@ namespace Utils\Cryptography\Random\Service;
 
 use Exception;
 use InvalidArgumentException;
-use Throwable;
-use Utils\Cryptography\Random\Exception\UnableToGenerateRandomTokenGeneralException;
 use Utils\Cryptography\Random\Object\CharacterPool\AbstractCharacterPool;
+use Utils\Cryptography\Random\Object\CharacterPool\HexadecimalLowerCaseCharacterPool;
 use Utils\Cryptography\Random\UseCase\GenerateRandomStringToken;
 
 class RandomStringTokenGenerator implements GenerateRandomStringToken {
@@ -22,12 +21,7 @@ class RandomStringTokenGenerator implements GenerateRandomStringToken {
             throw new InvalidArgumentException("Minimum length is 1, but passed $charLength");
         }
 
-        try {
-            $raw = bin2hex(random_bytes($charLength));
-            return substr($raw, 0, $charLength);
-        } catch (Throwable $e) {
-            throw new UnableToGenerateRandomTokenGeneralException(null, null, $e);
-        }
+        return $this->generateRandomStringOfLengthInChars(new HexadecimalLowerCaseCharacterPool(), $charLength);
     }
 
     /**
