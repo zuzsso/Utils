@@ -26,6 +26,7 @@ class AbstractCharacterPoolTest extends TestCase {
         $this->sut = $this->getMockForAbstractClass(AbstractCharacterPool::class);
     }
 
+
     public function throwsExceptionIfIncorrectCharPoolConfig(): array {
         $msg1 =
             "This current implementation doesn't support multi char strings, empty strings " .
@@ -78,6 +79,17 @@ class AbstractCharacterPoolTest extends TestCase {
         $actual = $this->sut->characterPoolSize();
 
         self::assertEquals($expected, $actual);
+    }
+
+    /**
+     * @throws ReflectionException
+     */
+    public function testCharacterPoolIsCaseSensitive(): void {
+        self::callAddCharacterToPool($this->sut, ['a']);
+        self::callAddCharacterToPool($this->sut, ['A']);
+
+        $actual = $this->sut->getCharacterPoolAsSingleString();
+        self::assertEquals('aA', $actual);
     }
 
     /**
