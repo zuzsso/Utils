@@ -5,11 +5,9 @@ declare(strict_types=1);
 namespace Utils\Tests\Cryptography\Object;
 
 use PHPUnit\Framework\TestCase;
-use ReflectionClass;
 use Utils\Cryptography\Random\Exception\InadequateTokenLengthException;
 use Utils\Cryptography\Random\Exception\InvalidHexStringTokenException;
-use Utils\Cryptography\Random\Object\AbstractRandomToken;
-use Utils\Cryptography\Random\Object\AbstractHexRandomToken;
+use Utils\Cryptography\Random\Exception\TokenNotCompatibleWithCharacterPoolException;
 use Utils\Tests\Cryptography\Object\Mocks\AbstractHexRandomTokenMock;
 
 class AbstractHexRandomTokenTest extends TestCase {
@@ -23,27 +21,18 @@ class AbstractHexRandomTokenTest extends TestCase {
     }
 
     /**
-     * @param string $fixture
-     * @return void
      * @dataProvider correctlyThrowsExceptionIfNotHexCharsPassedDataProvider
      * @throws InadequateTokenLengthException
+     * @throws TokenNotCompatibleWithCharacterPoolException
      */
     public function testCorrectlyThrowsExceptionIfNotHexCharsPassed(string $fixture): void {
-        $this->expectException(InvalidHexStringTokenException::class);
+        $this->expectException(TokenNotCompatibleWithCharacterPoolException::class);
         $this->generateParametrizedSut($fixture);
     }
 
-    public function testExtendsCorrectAbstractClass(): void {
-        $reflectionClass = new ReflectionClass(AbstractHexRandomToken::class);
-
-        self::assertEquals(AbstractRandomToken::class, $reflectionClass->getParentClass()->getName());
-    }
-
     /**
-     * @param string $randomToken
-     * @return void
-     * @throws InvalidHexStringTokenException
      * @throws InadequateTokenLengthException
+     * @throws TokenNotCompatibleWithCharacterPoolException
      */
     private function generateParametrizedSut(string $randomToken): void {
         new AbstractHexRandomTokenMock($randomToken);

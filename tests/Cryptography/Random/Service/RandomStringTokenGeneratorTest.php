@@ -7,6 +7,7 @@ namespace Utils\Tests\Cryptography\Random\Service;
 use Exception;
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
+use Utils\Cryptography\Random\Object\CharacterPool\HexadecimalLowerCaseCharacterPool;
 use Utils\Cryptography\Random\Service\RandomStringTokenGenerator;
 use Utils\Tests\Cryptography\Random\Mocks\GenericCharacterPoolMock;
 
@@ -23,7 +24,7 @@ class RandomStringTokenGeneratorTest extends TestCase {
      */
     public function testGeneratesHexStringsOfGivenLength(): void {
         for ($i = 1; $i < 100; $i++) {
-            $actual = $this->sut->hexTokenOfLength($i);
+            $actual = $this->sut->generateRandomStringOfLengthInChars(new HexadecimalLowerCaseCharacterPool(), $i);
             self::assertEquals($i, strlen($actual));
         }
     }
@@ -34,7 +35,7 @@ class RandomStringTokenGeneratorTest extends TestCase {
      */
     public function testHexGeneratorOnlyUsesHexChars(): void {
         for ($i = 0; $i < 100; $i++) {
-            $actual = $this->sut->hexTokenOfLength(100);
+            $actual = $this->sut->generateRandomStringOfLengthInChars(new HexadecimalLowerCaseCharacterPool(), 100);
             self::assertTrue($this->assertStringContainsOnlyHexChars($actual));
         }
     }
@@ -58,7 +59,7 @@ class RandomStringTokenGeneratorTest extends TestCase {
     ): void {
         $this->expectException(InvalidArgumentException::class);
 
-        $this->sut->hexTokenOfLength($requiredLength);
+        $this->sut->generateRandomStringOfLengthInChars(new HexadecimalLowerCaseCharacterPool(), $requiredLength);
     }
 
     private function assertStringContainsOnlyHexChars(string $string): bool {

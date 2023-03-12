@@ -2,19 +2,20 @@
 
 declare(strict_types=1);
 
-
 namespace Utils\Tests\Cryptography\Object;
 
 use PHPUnit\Framework\TestCase;
 use Utils\Cryptography\Random\Exception\InadequateTokenLengthException;
+use Utils\Cryptography\Random\Exception\TokenNotCompatibleWithCharacterPoolException;
 use Utils\Tests\Cryptography\Object\Mocks\AbstractRandomTokenMock;
 
 class AbstractRandomTokenTest extends TestCase {
     /**
      * @throws InadequateTokenLengthException
+     * @throws TokenNotCompatibleWithCharacterPoolException
      */
     public function testCorrectlyReturnsToken(): void {
-        $randomToken = 'aQmkvgcF6lfkUvnYJO7gkDYtZ4mAsc0J';
+        $randomToken = '0123456789abcdef0123456789abcdef';
         $sut = new AbstractRandomTokenMock($randomToken);
 
         $actual = $sut->getStringToken();
