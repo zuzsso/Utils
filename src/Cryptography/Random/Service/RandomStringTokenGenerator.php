@@ -9,6 +9,9 @@ use InvalidArgumentException;
 use Utils\Cryptography\Random\Object\CharacterPool\AbstractCharacterPool;
 use Utils\Cryptography\Random\UseCase\GenerateRandomStringToken;
 
+/**
+ * @deprecated Use AbstractCrypToken class
+ */
 class RandomStringTokenGenerator implements GenerateRandomStringToken {
     /**
      * @throws Exception

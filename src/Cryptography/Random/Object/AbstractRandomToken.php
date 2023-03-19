@@ -8,6 +8,9 @@ use Utils\Cryptography\Random\Exception\InadequateTokenLengthException;
 use Utils\Cryptography\Random\Exception\TokenNotCompatibleWithCharacterPoolException;
 use Utils\Cryptography\Random\Object\CharacterPool\AbstractCharacterPool;
 
+/**
+ * @deprecated Use AbstractCrypToken class
+ */
 abstract class AbstractRandomToken {
     protected string $token;
 

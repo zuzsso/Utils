@@ -2,7 +2,6 @@
 
 declare(strict_types=1);
 
-
 namespace Utils\Tests\Cryptography\Random\CharacterPool;
 
 use InvalidArgumentException;

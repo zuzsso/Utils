@@ -1,0 +1,114 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Utils\Cryptography\Random\Object;
+
+use Exception;
+use InvalidArgumentException;
+use Utils\Cryptography\Random\Exception\InadequateTokenLengthException;
+use Utils\Cryptography\Random\Exception\TokenNotCompatibleWithCharacterPoolException;
+use Utils\Cryptography\Random\Object\CharacterPool\AbstractCharacterPool;
+
+abstract class AbstractCrypToken {
+    private string $crypToken;
+
+    /**
+     * @throws Exception
+     */
+    public function __construct(?string $crypToken) {
+        $characterPool = $this->getCharacterPool();
+        $tokenLengthInOneByteChars = $this->getTokenLengthInOneByteChars();
+
+        $this->validateCharacterPool($characterPool);
+        $this->validateLength($tokenLengthInOneByteChars);
+
+        if ($crypToken === null) {
+            $this->crypToken = $this->generateNewCryptoken(
+                $characterPool,
+                $tokenLengthInOneByteChars
+            );
+        } else {
+            $this->crypToken = $crypToken;
+            $this->checkLength($this->crypToken, $tokenLengthInOneByteChars);
+            $this->checkTokenCompatibleWithCharacterPool($characterPool, $this->crypToken);
+        }
+    }
+
+    private function validateLength(int $tokenLengthInOneByteChars): void {
+        if ($tokenLengthInOneByteChars < 1) {
+            throw new InvalidArgumentException(
+                "The current implementation only generates random strings of length [1, " .
+                PHP_INT_MAX . "], but requested $tokenLengthInOneByteChars"
+            );
+        }
+    }
+
+    private function validateCharacterPool(AbstractCharacterPool $characterPool): void {
+        $poolSize = $characterPool->characterPoolSize();
+
+        if ($poolSize < 1) {
+            throw new InvalidArgumentException('Character pool not big enough');
+        }
+    }
+
+    /**
+     * @param AbstractCharacterPool $characterPool
+     * @param int $tokenLengthInOneByteChars
+     * @return string
+     * @throws Exception
+     * @noinspection DuplicatedCode
+     */
+    private function generateNewCryptoken(
+        AbstractCharacterPool $characterPool,
+        int $tokenLengthInOneByteChars
+    ): string {
+        $poolSize = $characterPool->characterPoolSize();
+
+        $result = '';
+
+        while (strlen($result) < $tokenLengthInOneByteChars) {
+            $atRandom = random_int(0, $poolSize - 1);
+            $result .= $characterPool->getCharAt($atRandom);
+        }
+
+        return $result;
+    }
+
+    abstract public function getCharacterPool(): AbstractCharacterPool;
+
+    abstract public function getTokenLengthInOneByteChars(): int;
+
+    public function getCryptokenAsString(): string {
+        return $this->crypToken;
+    }
+
+    /**
+     * @throws TokenNotCompatibleWithCharacterPoolException
+     */
+    private function checkTokenCompatibleWithCharacterPool(
+        AbstractCharacterPool $characterPool,
+        string $crypToken
+    ): void {
+        if (!$characterPool->checkStringIsCompatibleWithCharacterPool($crypToken)) {
+            $allowed = $characterPool->getCharacterPoolAsSingleString();
+            throw new TokenNotCompatibleWithCharacterPoolException(
+                "This token contains character outside the allowed character pool. Make " .
+                "sure it only contains characters from this list: '$allowed'. Given: '$crypToken'"
+            );
+        }
+    }
+
+    /**
+     * @throws InadequateTokenLengthException
+     */
+    private function checkLength(string $crypToken, int $expectedTokenLength): void {
+        $a = strlen($crypToken);
+
+        if ($a !== $expectedTokenLength) {
+            throw new InadequateTokenLengthException(
+                "This token is required to be of $expectedTokenLength chars long, but got $a: '$crypToken'"
+            );
+        }
+    }
+}
