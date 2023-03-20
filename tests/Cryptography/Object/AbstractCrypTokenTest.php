@@ -14,8 +14,6 @@ use Utils\Cryptography\Random\Object\CharacterPool\AbstractCharacterPool;
 use Utils\Cryptography\Random\Object\CharacterPool\AlphanumericCaseSensitive;
 use Utils\Cryptography\Random\Object\CharacterPool\HexadecimalLowerCaseCharacterPool;
 use Utils\Cryptography\Random\Object\CharacterPool\HexadecimalUpperCaseCharacterPool;
-use Utils\Cryptography\Random\Object\CharacterPool\MfaRecoveryCodeCharacterPool;
-use Utils\Cryptography\Random\Object\CharacterPool\S3FilenameHashCharacterPool;
 
 class AbstractCrypTokenTest extends TestCase {
 
@@ -60,8 +58,6 @@ class AbstractCrypTokenTest extends TestCase {
         $alphanumericCharacterPool = new AlphanumericCaseSensitive();
         $hexadecimalLowerCase = new HexadecimalLowerCaseCharacterPool();
         $hexadecimalUpperCase = new HexadecimalUpperCaseCharacterPool();
-        $mfaRecovertyCodeCharacterPool = new MfaRecoveryCodeCharacterPool();
-        $s3FileNameHashCharacterPool = new S3FilenameHashCharacterPool();
         $emptyCharacterPool = new class() extends AbstractCharacterPool {
         };
 
