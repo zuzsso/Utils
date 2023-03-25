@@ -16,7 +16,7 @@ abstract class AbstractCrypToken {
     /**
      * @throws Exception
      */
-    public function __construct(?string $crypToken) {
+    public function __construct(?string $crypToken = null) {
         $characterPool = $this->getCharacterPool();
         $tokenLengthInOneByteChars = $this->getTokenLengthInOneByteChars();
 
