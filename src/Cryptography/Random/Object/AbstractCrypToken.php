@@ -8,13 +8,16 @@ use Exception;
 use InvalidArgumentException;
 use Utils\Cryptography\Random\Exception\InadequateTokenLengthException;
 use Utils\Cryptography\Random\Exception\TokenNotCompatibleWithCharacterPoolException;
+use Utils\Cryptography\Random\Exception\UnableToGenerateRandomTokenGeneralException;
 use Utils\Cryptography\Random\Object\CharacterPool\AbstractCharacterPool;
 
 abstract class AbstractCrypToken {
     private string $crypToken;
 
     /**
-     * @throws Exception
+     * @throws InadequateTokenLengthException
+     * @throws TokenNotCompatibleWithCharacterPoolException
+     * @throws UnableToGenerateRandomTokenGeneralException
      */
     public function __construct(?string $crypToken = null) {
         $characterPool = $this->getCharacterPool();
@@ -56,8 +59,8 @@ abstract class AbstractCrypToken {
      * @param AbstractCharacterPool $characterPool
      * @param int $tokenLengthInOneByteChars
      * @return string
-     * @throws Exception
      * @noinspection DuplicatedCode
+     * @throws UnableToGenerateRandomTokenGeneralException
      */
     private function generateNewCryptoken(
         AbstractCharacterPool $characterPool,
@@ -68,7 +71,15 @@ abstract class AbstractCrypToken {
         $result = '';
 
         while (strlen($result) < $tokenLengthInOneByteChars) {
-            $atRandom = random_int(0, $poolSize - 1);
+            try {
+                $atRandom = random_int(0, $poolSize - 1);
+            } catch (Exception $e) {
+                throw new UnableToGenerateRandomTokenGeneralException(
+                    "Could not generate a random integer using PHP native functions",
+                    $e->getCode(),
+                    $e
+                );
+            }
             $result .= $characterPool->getCharAt($atRandom);
         }
 
