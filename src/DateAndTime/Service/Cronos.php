@@ -72,7 +72,7 @@ class Cronos
 	 * @throws StopwatchNeverStoppedException
 	 * @throws NoStopwatchesInCollectionException
 	 */
-	public static function dumpReport(): string
+	public static function dumpReportInSeconds(): string
 	{
 		if (count(self::$stopwatches) === 0) {
 			throw new NoStopwatchesInCollectionException("Empty stopwatch collection. Nothing to report");
@@ -89,4 +89,27 @@ class Cronos
 
 		return $report;
 	}
+
+    /**
+     * @throws StopwatchNeverStartedException
+     * @throws StopwatchNeverStoppedException
+     * @throws NoStopwatchesInCollectionException
+     */
+    public static function dumpReportInMilliSeconds(): string
+    {
+        if (count(self::$stopwatches) === 0) {
+            throw new NoStopwatchesInCollectionException("Empty stopwatch collection. Nothing to report");
+        }
+
+        $report = '';
+
+        foreach (self::$stopwatches as $stopwatch) {
+            $timelapse = $stopwatch->getTimeLapseInMilliseconds();
+            $id = $stopwatch->getId();
+
+            $report .= ("$id -> $timelapse (ms)" . PHP_EOL);
+        }
+
+        return $report;
+    }
 }
