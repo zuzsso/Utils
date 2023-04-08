@@ -95,8 +95,8 @@ class Stopwatch {
             throw new StopwatchNeverStoppedException("Stopwatch never stopped. ID = " . $this->id);
         }
 
-        $s = (int)$this->start->format('Uu');
-        $e = (int)$this->stop->format('Uu');
+        $s = (int)$this->start->format('Uv');
+        $e = (int)$this->stop->format('Uv');
 
         $interval = $e - $s;
 
