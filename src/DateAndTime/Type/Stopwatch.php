@@ -14,9 +14,9 @@ use Utils\DateAndTime\Exception\StopwatchNeverStoppedException;
 class Stopwatch {
     private string $id;
 
-    private ?DateTimeImmutable $start;
+    private ?DateTimeImmutable $start = null;
 
-    private ?DateTimeImmutable $stop;
+    private ?DateTimeImmutable $stop = null;
 
     public function __construct(string $id, bool $start = true) {
         $this->id = $id;
