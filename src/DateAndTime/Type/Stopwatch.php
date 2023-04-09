@@ -62,24 +62,8 @@ class Stopwatch {
      * @throws StopwatchNeverStoppedException
      */
     public function getTimeLapseInSeconds(): int {
-        if ($this->start === null) {
-            throw new StopwatchNeverStartedException("Stopwatch never started. ID = " . $this->id);
-        }
-
-        if ($this->stop === null) {
-            throw new StopwatchNeverStoppedException("Stopwatch never stopped. ID = " . $this->id);
-        }
-
-        $s = $this->start->getTimestamp();
-        $e = $this->stop->getTimestamp();
-
-        $interval = $e - $s;
-
-        if ($interval < 0) {
-            throw new LogicException("Time difference unexpected to be negative: " . $interval);
-        }
-
-        return $interval;
+        $millis = $this->getTimeLapseInMilliseconds();
+        return $millis / 1000;
     }
 
     /**
