@@ -61,7 +61,7 @@ class Stopwatch {
      * @throws StopwatchNeverStartedException
      * @throws StopwatchNeverStoppedException
      */
-    public function getTimeLapseInSeconds(): int {
+    public function getTimeLapseInSeconds(): float {
         $millis = $this->getTimeLapseInMilliseconds();
         return $millis / 1000;
     }
