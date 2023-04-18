@@ -110,7 +110,7 @@ class Cronos {
     /**
      * @throws StopwatchAlreadyStoppedException
      */
-    public function cancelAllRunningTraces(): void {
+    public static function cancelAllRunningTraces(): void {
         foreach (self::$stopwatches as $sw) {
             if ($sw->isRunning()) {
                 $sw->stop();
