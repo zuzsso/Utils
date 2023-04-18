@@ -90,4 +90,8 @@ class Stopwatch {
 
         return $interval;
     }
+
+    public function isRunning(): bool {
+        return (($this->start !== null) && ($this->stop === null));
+    }
 }
