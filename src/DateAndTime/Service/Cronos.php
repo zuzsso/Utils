@@ -51,7 +51,7 @@ class Cronos {
     /**
      * @throws StopwatchIdNotFoundException
      */
-    public function getStopwatchById(string $id): Stopwatch {
+    public static function getStopwatchById(string $id): Stopwatch {
         if (array_key_exists($id, self::$stopwatches)) {
             return self::$stopwatches[$id];
         }
