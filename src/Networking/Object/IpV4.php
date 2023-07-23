@@ -53,7 +53,14 @@ class IpV4 {
             ($this->fourthOctet === $anotherIpV4->fourthOctet);
     }
 
+    /**
+     * @deprecated Use class method ->toString()
+     */
     public function __toString(): string {
+        return $this->firstOctet . '.' . $this->secondOctet . '.' . $this->thirdOctect . '.' . $this->fourthOctet;
+    }
+
+    public function toString(): string {
         return $this->firstOctet . '.' . $this->secondOctet . '.' . $this->thirdOctect . '.' . $this->fourthOctet;
     }
 }
