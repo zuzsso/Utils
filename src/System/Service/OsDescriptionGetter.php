@@ -3,9 +3,9 @@
 declare(strict_types=1);
 
 
-namespace Utils\System\UseCase;
+namespace Utils\System\Service;
 
-use Utils\System\Service\GetOSDescription;
+use Utils\System\UseCase\GetOSDescription;
 
 class OsDescriptionGetter implements GetOSDescription {
     /**

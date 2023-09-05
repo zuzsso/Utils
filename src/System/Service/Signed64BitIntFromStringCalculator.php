@@ -3,9 +3,9 @@
 declare(strict_types=1);
 
 
-namespace Utils\System\UseCase;
+namespace Utils\System\Service;
 
-use Utils\System\Service\CalculateSigned64BitIntFromString;
+use Utils\System\UseCase\CalculateSigned64BitIntFromString;
 
 class Signed64BitIntFromStringCalculator implements CalculateSigned64BitIntFromString {
     /**

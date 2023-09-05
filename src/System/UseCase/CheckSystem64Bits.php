@@ -1,6 +1,6 @@
 <?php
 
-namespace Utils\System\Service;
+namespace Utils\System\UseCase;
 
 interface CheckSystem64Bits {
     /**

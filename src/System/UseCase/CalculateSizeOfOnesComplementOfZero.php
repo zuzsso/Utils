@@ -3,9 +3,9 @@
 declare(strict_types=1);
 
 
-namespace Utils\System\Service;
+namespace Utils\System\UseCase;
 
-interface CalculateSigned64BitIntFromString {
+interface CalculateSizeOfOnesComplementOfZero {
     /**
      * @return int
      */

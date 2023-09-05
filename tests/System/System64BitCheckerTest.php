@@ -7,11 +7,11 @@ namespace Utils\Tests\System;
 
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use Utils\System\Service\CalculateSigned64BitIntFromString;
-use Utils\System\Service\CalculateSizeOfOnesComplementOfZero;
-use Utils\System\Service\GetOSDescription;
-use Utils\System\Service\GetPhpIntSizeConstant;
-use Utils\System\UseCase\System64BitChecker;
+use Utils\System\Service\System64BitChecker;
+use Utils\System\UseCase\CalculateSigned64BitIntFromString;
+use Utils\System\UseCase\CalculateSizeOfOnesComplementOfZero;
+use Utils\System\UseCase\GetOSDescription;
+use Utils\System\UseCase\GetPhpIntSizeConstant;
 
 class System64BitCheckerTest extends TestCase {
 

@@ -3,13 +3,13 @@
 declare(strict_types=1);
 
 
-namespace Utils\System\UseCase;
+namespace Utils\System\Service;
 
-use Utils\System\Service\CalculateSigned64BitIntFromString;
-use Utils\System\Service\CalculateSizeOfOnesComplementOfZero;
-use Utils\System\Service\CheckSystem64Bits;
-use Utils\System\Service\GetOSDescription;
-use Utils\System\Service\GetPhpIntSizeConstant;
+use Utils\System\UseCase\CalculateSigned64BitIntFromString;
+use Utils\System\UseCase\CalculateSizeOfOnesComplementOfZero;
+use Utils\System\UseCase\CheckSystem64Bits;
+use Utils\System\UseCase\GetOSDescription;
+use Utils\System\UseCase\GetPhpIntSizeConstant;
 
 class System64BitChecker implements CheckSystem64Bits {
 

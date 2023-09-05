@@ -26,7 +26,8 @@
     },
     "require": {
         "ext-curl": "*",
-        "ext-sodium": "*"
+        "ext-sodium": "*",
+        "php-di/php-di": "^6.2"
     },
     "require-dev": {
         "phpunit/phpunit": "^9"
