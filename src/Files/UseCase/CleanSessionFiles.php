@@ -7,4 +7,7 @@ namespace Utils\Files\UseCase;
 
 interface CleanSessionFiles {
 
+    public function addFileToClean(string $fileFullPath): void;
+
+    public function cleanAllListed(): void;
 }
