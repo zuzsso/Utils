@@ -45,7 +45,7 @@ class FloatsServiceTest extends TestCase {
      * @dataProvider comparesCorrectlyDataProvider
      */
     public function testComparesCorrectly(float $f1, float $f2, bool $expected): void {
-        $actual = $this->sut->equalFloats($f1, $f2);
+        $actual = $this->sut->equalFloats($f1, $f2, PHP_FLOAT_EPSILON);
 
         self::assertEquals($expected, $actual);
     }
