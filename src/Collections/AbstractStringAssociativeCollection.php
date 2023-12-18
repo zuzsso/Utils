@@ -18,7 +18,7 @@ abstract class AbstractStringAssociativeCollection implements Iterator, Countabl
 {
     /**
      * @deprecated This class parameter will be made private in future releases
-     * @see \Utils\Collections\AbstractStringAssociativeCollection::addUniqueUntyped
+     * @see \Utils\Collections\AbstractStringAssociativeCollection::addUniqueKeyUntyped
      */
     protected array $collection = [];
 
@@ -27,13 +27,25 @@ abstract class AbstractStringAssociativeCollection implements Iterator, Countabl
     /**
      * @throws KeyAlreadyExistsException
      */
-    final public function addUniqueUntyped(string $key, $value): void
+    final public function addUniqueKeyUntyped(string $key, $value): void
     {
         if (array_key_exists($key, $this->collection)) {
             throw new KeyAlreadyExistsException("Key '$key' already exists in this collection");
         }
 
         $this->collection[$key] = $value;
+    }
+
+    /**
+     * @throws KeyAlreadyExistsException
+     */
+    final public function addSurrogateKeyUntyped(?int $key, $value): void
+    {
+        if ($key !== null) {
+            $this->addUniqueKeyUntyped((string)$key, $value);
+        } else {
+            $this->collection[] = $value;
+        }
     }
 
     final public function next(): void
