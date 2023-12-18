@@ -6,6 +6,7 @@ declare(strict_types=1);
 
 namespace Utils\Collections;
 
+use Countable;
 use Iterator;
 use Utils\Collections\Exception\ArrayIndexOutOfBoundsException;
 use Utils\Collections\Exception\KeyAlreadyExistsException;
@@ -13,7 +14,7 @@ use Utils\Collections\Exception\KeyAlreadyExistsException;
 /**
  * Holds an associative string array, as in [$key => $value], in which $key is a string and $value is any value
  */
-abstract class AbstractStringAssociativeCollection implements Iterator
+abstract class AbstractStringAssociativeCollection implements Iterator, Countable
 {
     /**
      * @deprecated This class parameter will be made private in future releases
