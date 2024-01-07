@@ -8,18 +8,20 @@ use Exception;
 use InvalidArgumentException;
 use Utils\Cryptography\Random\Exception\InadequateTokenLengthException;
 use Utils\Cryptography\Random\Exception\TokenNotCompatibleWithCharacterPoolException;
-use Utils\Cryptography\Random\Exception\UnableToGenerateRandomTokenGeneralException;
+use Utils\Cryptography\Random\Exception\UnableToGenerateRandomTokenUnmanagedException;
 use Utils\Cryptography\Random\Object\CharacterPool\AbstractCharacterPool;
 
-abstract class AbstractCrypToken {
+abstract class AbstractCrypToken
+{
     private string $crypToken;
 
     /**
      * @throws InadequateTokenLengthException
      * @throws TokenNotCompatibleWithCharacterPoolException
-     * @throws UnableToGenerateRandomTokenGeneralException
+     * @throws UnableToGenerateRandomTokenUnmanagedException
      */
-    public function __construct(?string $crypToken = null) {
+    public function __construct(?string $crypToken = null)
+    {
         $characterPool = $this->getCharacterPool();
         $tokenLengthInOneByteChars = $this->getTokenLengthInOneByteChars();
 
@@ -38,7 +40,8 @@ abstract class AbstractCrypToken {
         }
     }
 
-    private function validateLength(int $tokenLengthInOneByteChars): void {
+    private function validateLength(int $tokenLengthInOneByteChars): void
+    {
         if ($tokenLengthInOneByteChars < 1) {
             throw new InvalidArgumentException(
                 "The current implementation only generates random strings of length [1, " .
@@ -47,7 +50,8 @@ abstract class AbstractCrypToken {
         }
     }
 
-    private function validateCharacterPool(AbstractCharacterPool $characterPool): void {
+    private function validateCharacterPool(AbstractCharacterPool $characterPool): void
+    {
         $poolSize = $characterPool->characterPoolSize();
 
         if ($poolSize < 1) {
@@ -56,11 +60,7 @@ abstract class AbstractCrypToken {
     }
 
     /**
-     * @param AbstractCharacterPool $characterPool
-     * @param int $tokenLengthInOneByteChars
-     * @return string
-     * @noinspection DuplicatedCode
-     * @throws UnableToGenerateRandomTokenGeneralException
+     * @throws UnableToGenerateRandomTokenUnmanagedException
      */
     private function generateNewCryptoken(
         AbstractCharacterPool $characterPool,
@@ -74,7 +74,7 @@ abstract class AbstractCrypToken {
             try {
                 $atRandom = random_int(0, $poolSize - 1);
             } catch (Exception $e) {
-                throw new UnableToGenerateRandomTokenGeneralException(
+                throw new UnableToGenerateRandomTokenUnmanagedException(
                     "Could not generate a random integer using PHP native functions",
                     $e->getCode(),
                     $e
@@ -90,7 +90,8 @@ abstract class AbstractCrypToken {
 
     abstract public function getTokenLengthInOneByteChars(): int;
 
-    public function getCryptokenAsString(): string {
+    public function getCryptokenAsString(): string
+    {
         return $this->crypToken;
     }
 
@@ -113,7 +114,8 @@ abstract class AbstractCrypToken {
     /**
      * @throws InadequateTokenLengthException
      */
-    private function checkLength(string $crypToken, int $expectedTokenLength): void {
+    private function checkLength(string $crypToken, int $expectedTokenLength): void
+    {
         $a = strlen($crypToken);
 
         if ($a !== $expectedTokenLength) {

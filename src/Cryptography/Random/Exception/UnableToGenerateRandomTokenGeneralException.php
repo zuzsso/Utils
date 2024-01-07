@@ -7,6 +7,11 @@ namespace Utils\Cryptography\Random\Exception;
 
 use Exception;
 
-class UnableToGenerateRandomTokenGeneralException extends Exception {
+/**
+ * @deprecated
+ * @see \Utils\Cryptography\Random\Exception\UnableToGenerateRandomTokenUnmanagedException
+ */
+class UnableToGenerateRandomTokenGeneralException extends Exception
+{
 
 }
