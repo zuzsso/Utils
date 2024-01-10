@@ -127,4 +127,9 @@ abstract class AbstractStringAssociativeCollection implements Iterator, Countabl
 
         throw new ArrayIndexOutOfBoundsException("Ofset $offset outside of interval [0, $count)");
     }
+
+    final protected function customAssociativeSort(callable $userFunc): void
+    {
+        uasort($this->collection, $userFunc);
+    }
 }
