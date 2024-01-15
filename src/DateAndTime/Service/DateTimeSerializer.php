@@ -106,7 +106,7 @@ class DateTimeSerializer implements SerializeDateTime
 
     public function serializeImmutableForLanguage(DateTimeImmutable $dateTime, AbstractLanguage $lan): array
     {
-        $monthNumeralZeroBased = (int)$dateTime->format('m');
+        $monthNumeralZeroBased = (int)$dateTime->format('m') - 1;
 
         $longMonthNames = $this->getLongMonthNames();
 
