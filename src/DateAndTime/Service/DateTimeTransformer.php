@@ -16,14 +16,55 @@ class DateTimeTransformer implements TransformDateTime
         return $dateTimeImmutable->modify('midnight');
     }
 
+    /**
+     * @inheritDoc
+     */
     public function substractDays(DateTimeImmutable $d, int $days): DateTimeImmutable
     {
-        if ($days <= 0) {
-            throw new DatetimeCommonOperationsUnmanagedException(
-                "This function requires a positive number of days and greater than 0 to substract. Provided: $days"
-            );
-        }
+        $this->checkStrictlyPositive($days);
 
         return $d->sub(new DateInterval("P${days}D"));
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function substractSeconds(DateTimeImmutable $d, int $seconds): DateTimeImmutable
+    {
+        $this->checkStrictlyPositive($seconds);
+
+        return $d->sub(new DateInterval("PT${seconds}S"));
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function addSeconds(DateTimeImmutable $d, int $seconds): DateTimeImmutable
+    {
+        $this->checkStrictlyPositive($seconds);
+
+        return $d->add(new DateInterval("PT${seconds}S"));
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function addDays(DateTimeImmutable $d, int $days): DateTimeImmutable
+    {
+        $this->checkStrictlyPositive($days);
+
+        return $d->add(new DateInterval("P${days}D"));
+    }
+
+    /**
+     * @throws DatetimeCommonOperationsUnmanagedException
+     */
+    private function checkStrictlyPositive(int $value): void
+    {
+        if ($value <= 0) {
+            throw new DatetimeCommonOperationsUnmanagedException(
+                "This function requires a positive number of days and greater than 0 to substract. Provided: $value"
+            );
+        }
     }
 }
