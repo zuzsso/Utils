@@ -15,4 +15,9 @@ interface ImplementDateTimeCommonOperations
     public function fromMySqlDateTimeToImmutable(string $mysqlDateTime): DateTimeImmutable;
 
     public function fromImmutableToMySqlDateTime(DateTimeImmutable $d): string;
+
+    /**
+     * @throws DatetimeCommonOperationsUnmanagedException
+     */
+    public function substractDays(DateTimeImmutable $d, int $days): DateTimeImmutable;
 }
