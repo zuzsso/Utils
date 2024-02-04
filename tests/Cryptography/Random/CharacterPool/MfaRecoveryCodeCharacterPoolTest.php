@@ -8,20 +8,24 @@ use PHPUnit\Framework\TestCase;
 use Utils\Cryptography\Random\Object\CharacterPool\AbstractCharacterPool;
 use Utils\Cryptography\Random\Object\CharacterPool\MfaRecoveryCodeCharacterPool;
 
-class MfaRecoveryCodeCharacterPoolTest extends TestCase {
+class MfaRecoveryCodeCharacterPoolTest extends TestCase
+{
     private MfaRecoveryCodeCharacterPool $sut;
 
-    public function setUp(): void {
+    public function setUp(): void
+    {
         parent::setUp();
         $this->sut = new MfaRecoveryCodeCharacterPool();
     }
 
-    public function testHasExpectedCharacters(): void {
+    public function testHasExpectedCharacters(): void
+    {
         $actual = $this->sut->getCharacterPoolAsSingleString();
         self::assertEquals('23456789BCDFGHJKLMNPQRSTVWXYZ', $actual);
     }
 
-    public function testExtendsExpectedClass(): void {
+    public function testExtendsExpectedClass(): void
+    {
         self::assertInstanceOf(AbstractCharacterPool::class, $this->sut);
     }
 }

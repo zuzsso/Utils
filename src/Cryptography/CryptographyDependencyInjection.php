@@ -9,10 +9,13 @@ use Utils\Cryptography\Hash\Service\HashService;
 use Utils\Cryptography\Hash\UseCase\GenerateStringHash;
 use Utils\Cryptography\Hash\UseCase\PasswordHash;
 use Utils\Cryptography\Hash\UseCase\PasswordVerify;
+
 use function DI\autowire;
 
-class CryptographyDependencyInjection extends AbstractDependencyInjection {
-    public static function getDependencies(): array {
+class CryptographyDependencyInjection extends AbstractDependencyInjection
+{
+    public static function getDependencies(): array
+    {
         return [
             GenerateStringHash::class => autowire(HashService::class),
             PasswordHash::class => autowire(HashService::class),

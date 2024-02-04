@@ -12,16 +12,18 @@ use Utils\DateAndTime\Exception\StopwatchNeverStartedException;
 use Utils\DateAndTime\Exception\StopwatchNeverStoppedException;
 use Utils\DateAndTime\Type\Stopwatch;
 
-class Cronos {
+class Cronos
+{
     /**
      * @var Stopwatch[]
      */
-    static private array $stopwatches = [];
+    private static array $stopwatches = [];
 
     /**
      * @throws StopwatchIdAlreadyExistsException
      */
-    public static function startTraceId(string $id, bool $start = true): void {
+    public static function startTraceId(string $id, bool $start = true): void
+    {
         $stopWatch = new Stopwatch($id, $start);
 
         self::addStopwatch($stopWatch);
@@ -32,7 +34,8 @@ class Cronos {
      * @throws NoStopwatchesInCollectionException
      * @throws StopwatchIdNotFoundException
      */
-    public static function stopTraceId(string $id): void {
+    public static function stopTraceId(string $id): void
+    {
         if (count(self::$stopwatches) === 0) {
             throw new NoStopwatchesInCollectionException("Can't stop stopwatch. Empty stopwatch collection");
         }
@@ -51,7 +54,8 @@ class Cronos {
     /**
      * @throws StopwatchIdNotFoundException
      */
-    public static function getStopwatchById(string $id): Stopwatch {
+    public static function getStopwatchById(string $id): Stopwatch
+    {
 
         foreach(self::$stopwatches as $stopwatch) {
             if ($stopwatch->getId() === $id) {
@@ -65,7 +69,8 @@ class Cronos {
     /**
      * @throws StopwatchIdAlreadyExistsException
      */
-    private static function addStopwatch(Stopwatch $s): void {
+    private static function addStopwatch(Stopwatch $s): void
+    {
         $stopwatchId = $s->getId();
 
         foreach (self::$stopwatches as $stopwatch) {
@@ -82,7 +87,8 @@ class Cronos {
      * @throws StopwatchNeverStoppedException
      * @throws NoStopwatchesInCollectionException
      */
-    public static function dumpReportInSeconds(): string {
+    public static function dumpReportInSeconds(): string
+    {
         if (count(self::$stopwatches) === 0) {
             throw new NoStopwatchesInCollectionException("Empty stopwatch collection. Nothing to report");
         }
@@ -104,7 +110,8 @@ class Cronos {
      * @throws StopwatchNeverStoppedException
      * @throws NoStopwatchesInCollectionException
      */
-    public static function dumpReportInMilliSeconds(): string {
+    public static function dumpReportInMilliSeconds(): string
+    {
         if (count(self::$stopwatches) === 0) {
             throw new NoStopwatchesInCollectionException("Empty stopwatch collection. Nothing to report");
         }
@@ -124,7 +131,8 @@ class Cronos {
     /**
      * @throws StopwatchAlreadyStoppedException
      */
-    public static function cancelAllRunningTraces(): void {
+    public static function cancelAllRunningTraces(): void
+    {
         foreach (self::$stopwatches as $sw) {
             if ($sw->isRunning()) {
                 $sw->stop();

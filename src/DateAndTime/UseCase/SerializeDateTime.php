@@ -7,7 +7,8 @@ namespace Utils\DateAndTime\UseCase;
 use DateTimeImmutable;
 use Utils\Language\Type\Language\AbstractLanguage;
 
-interface SerializeDateTime {
+interface SerializeDateTime
+{
     /**
      * @deprecated
      * @see \Utils\DateAndTime\UseCase\SerializeDateTime::serializeImmutableForLanguage

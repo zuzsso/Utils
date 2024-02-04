@@ -11,14 +11,16 @@ use Utils\DateAndTime\Exception\StopwatchAlreadyStoppedException;
 use Utils\DateAndTime\Exception\StopwatchNeverStartedException;
 use Utils\DateAndTime\Exception\StopwatchNeverStoppedException;
 
-class Stopwatch {
+class Stopwatch
+{
     private string $id;
 
     private ?DateTimeImmutable $start = null;
 
     private ?DateTimeImmutable $stop = null;
 
-    public function __construct(string $id, bool $start = true) {
+    public function __construct(string $id, bool $start = true)
+    {
         $this->id = $id;
 
         if ($start) {
@@ -29,14 +31,16 @@ class Stopwatch {
     /**
      * @return string
      */
-    public function getId(): string {
+    public function getId(): string
+    {
         return $this->id;
     }
 
     /**
      * @throws StopwatchAlreadyStartedException
      */
-    public function start(): void {
+    public function start(): void
+    {
         if ($this->start === null) {
             $this->start = new DateTimeImmutable();
             return;
@@ -48,7 +52,8 @@ class Stopwatch {
     /**
      * @throws StopwatchAlreadyStoppedException
      */
-    public function stop(): void {
+    public function stop(): void
+    {
         if ($this->stop === null) {
             $this->stop = new DateTimeImmutable();
             return;
@@ -61,7 +66,8 @@ class Stopwatch {
      * @throws StopwatchNeverStartedException
      * @throws StopwatchNeverStoppedException
      */
-    public function getTimeLapseInSeconds(): float {
+    public function getTimeLapseInSeconds(): float
+    {
         $millis = $this->getTimeLapseInMilliseconds();
         return $millis / 1000;
     }
@@ -70,7 +76,8 @@ class Stopwatch {
      * @throws StopwatchNeverStartedException
      * @throws StopwatchNeverStoppedException
      */
-    public function getTimeLapseInMilliseconds(): int {
+    public function getTimeLapseInMilliseconds(): int
+    {
         if ($this->start === null) {
             throw new StopwatchNeverStartedException("Stopwatch never started. ID = " . $this->id);
         }
@@ -91,7 +98,8 @@ class Stopwatch {
         return $interval;
     }
 
-    public function isRunning(): bool {
+    public function isRunning(): bool
+    {
         return (($this->start !== null) && ($this->stop === null));
     }
 }

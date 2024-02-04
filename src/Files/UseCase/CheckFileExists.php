@@ -2,7 +2,8 @@
 
 namespace Utils\Files\UseCase;
 
-interface CheckFileExists {
+interface CheckFileExists
+{
     /**
      * @param string $path
      * @param bool $checkEmpty

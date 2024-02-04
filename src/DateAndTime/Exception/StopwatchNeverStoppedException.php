@@ -6,6 +6,6 @@ namespace Utils\DateAndTime\Exception;
 
 use Exception;
 
-class StopwatchNeverStoppedException extends Exception {
-
+class StopwatchNeverStoppedException extends Exception
+{
 }

@@ -2,7 +2,6 @@
 
 declare(strict_types=1);
 
-
 namespace Utils\System\Service;
 
 use Utils\System\UseCase\CalculateSigned64BitIntFromString;
@@ -11,8 +10,8 @@ use Utils\System\UseCase\CheckSystem64Bits;
 use Utils\System\UseCase\GetOSDescription;
 use Utils\System\UseCase\GetPhpIntSizeConstant;
 
-class System64BitChecker implements CheckSystem64Bits {
-
+class System64BitChecker implements CheckSystem64Bits
+{
     private GetPhpIntSizeConstant $getPhpIntSizeConstant;
     private CalculateSizeOfOnesComplementOfZero $calculateSizeOfOnesComplementOfZero;
     private GetOSDescription $getOSDescription;
@@ -33,7 +32,8 @@ class System64BitChecker implements CheckSystem64Bits {
     /**
      * @inheritDoc
      */
-    public function is64Bits(): bool {
+    public function is64Bits(): bool
+    {
         $strategy01 = $this->getPhpIntSizeConstant->get() === 8;
         $strategy02 = $this->calculateSizeOfOnesComplementOfZero->calculate() === 64;
         $strategy03 = strpos($this->getOSDescription->get(), '64') !== false;

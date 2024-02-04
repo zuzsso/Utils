@@ -2,11 +2,12 @@
 
 declare(strict_types=1);
 
-
 namespace Utils\Cryptography\Random\Object\CharacterPool;
 
-class AlphanumericCaseSensitive extends AbstractCharacterPool {
-    public function __construct() {
+class AlphanumericCaseSensitive extends AbstractCharacterPool
+{
+    public function __construct()
+    {
         /** @noinspection DuplicatedCode */
         $this->addCharacterToPool("0");
         $this->addCharacterToPool("1");

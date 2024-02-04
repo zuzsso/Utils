@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-
 namespace Utils\System\UseCase;
 
-interface CalculateSizeOfOnesComplementOfZero {
+interface CalculateSizeOfOnesComplementOfZero
+{
     /**
      * @return int
      */

@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-
 namespace Utils\System\UseCase;
 
-interface GetOSDescription {
+interface GetOSDescription
+{
     /**
      * @return string
      */

@@ -10,18 +10,20 @@ use Utils\Files\Type\TemporaryFileName;
 use Utils\Files\UseCase\CheckFileExists;
 use Utils\Files\UseCase\GenerateTemporaryFilename;
 
-class TemporaryFilenameGenerator implements GenerateTemporaryFilename {
-
+class TemporaryFilenameGenerator implements GenerateTemporaryFilename
+{
     private CheckFileExists $checkFileExists;
 
-    public function __construct(CheckFileExists $checkFileExists) {
+    public function __construct(CheckFileExists $checkFileExists)
+    {
         $this->checkFileExists = $checkFileExists;
     }
 
     /**
      * @inheritDoc
      */
-    public function randomNameWithExtensionAndGetFullPath(AbstractFileExtension $fileExtension): string {
+    public function randomNameWithExtensionAndGetFullPath(AbstractFileExtension $fileExtension): string
+    {
 
         $tmpFolder = sys_get_temp_dir();
 

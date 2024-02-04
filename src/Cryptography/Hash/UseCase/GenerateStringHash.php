@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-
 namespace Utils\Cryptography\Hash\UseCase;
 
-interface GenerateStringHash {
+interface GenerateStringHash
+{
     /**
      * @param string $clearTextString
      * @return string

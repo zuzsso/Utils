@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-
 namespace Utils\EmailAddress\UseCase;
 
-interface ValidateEmailAddress {
+interface ValidateEmailAddress
+{
     public function isValidEmailAddress(string $emailAddress): bool;
 }

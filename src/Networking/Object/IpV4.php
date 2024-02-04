@@ -6,13 +6,15 @@ namespace Utils\Networking\Object;
 
 use LogicException;
 
-class IpV4 {
+class IpV4
+{
     private int $firstOctet;
     private int $secondOctet;
     private int $thirdOctect;
     private int $fourthOctet;
 
-    private function __construct(int $firstOctet, int $secondOctet, int $thirdOctet, int $fourthOctet) {
+    private function __construct(int $firstOctet, int $secondOctet, int $thirdOctet, int $fourthOctet)
+    {
         $this->firstOctet = $firstOctet;
         $this->secondOctet = $secondOctet;
         $this->thirdOctect = $thirdOctet;
@@ -23,7 +25,8 @@ class IpV4 {
      * @param string $ipInStringFormat
      * @return static
      */
-    public static function constructFromString(string $ipInStringFormat): self {
+    public static function constructFromString(string $ipInStringFormat): self
+    {
         $valid = filter_var($ipInStringFormat, FILTER_VALIDATE_IP);
 
         if ($valid === false) {
@@ -37,7 +40,7 @@ class IpV4 {
             throw new LogicException("Expected to find four octets");
         }
 
-        return new self (
+        return new self(
             (int)$parts[0],
             (int)$parts[1],
             (int)$parts[2],
@@ -45,7 +48,8 @@ class IpV4 {
         );
     }
 
-    public function equalsTo(IpV4 $anotherIpV4): bool {
+    public function equalsTo(IpV4 $anotherIpV4): bool
+    {
         return
             ($this->firstOctet === $anotherIpV4->firstOctet) &&
             ($this->secondOctet === $anotherIpV4->secondOctet) &&
@@ -56,11 +60,13 @@ class IpV4 {
     /**
      * @deprecated Use class method ->toString()
      */
-    public function __toString(): string {
+    public function __toString(): string
+    {
         return $this->firstOctet . '.' . $this->secondOctet . '.' . $this->thirdOctect . '.' . $this->fourthOctet;
     }
 
-    public function toString(): string {
+    public function toString(): string
+    {
         return $this->firstOctet . '.' . $this->secondOctet . '.' . $this->thirdOctect . '.' . $this->fourthOctet;
     }
 }

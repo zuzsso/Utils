@@ -2,21 +2,23 @@
 
 declare(strict_types=1);
 
-
 namespace Utils\Tests\Math\Numbers\Service;
 
 use PHPUnit\Framework\TestCase;
 use Utils\Math\Numbers\Service\FloatsService;
 
-class FloatsServiceTest extends TestCase {
+class FloatsServiceTest extends TestCase
+{
     private FloatsService $sut;
 
-    public function setUp(): void {
+    public function setUp(): void
+    {
         parent::setUp();
         $this->sut = new FloatsService();
     }
 
-    public function comparesCorrectlyDataProvider(): array {
+    public function comparesCorrectlyDataProvider(): array
+    {
         return [
             [0, 0, true],
             [1, 1, true],
@@ -44,7 +46,8 @@ class FloatsServiceTest extends TestCase {
      * @return void
      * @dataProvider comparesCorrectlyDataProvider
      */
-    public function testComparesCorrectly(float $f1, float $f2, bool $expected): void {
+    public function testComparesCorrectly(float $f1, float $f2, bool $expected): void
+    {
         $actual = $this->sut->equalFloats($f1, $f2, PHP_FLOAT_EPSILON);
 
         self::assertEquals($expected, $actual);

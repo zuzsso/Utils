@@ -9,6 +9,6 @@ cd "$PROJECT_PATH" || exit
 
 
 
-php $PHP_CS_FIXER_PATH fix --rules=@PSR12 --verbose /var/www/html/XStitch/backend/src
-php $PHP_CS_FIXER_PATH fix --rules=@PSR12 --verbose /var/www/html/XStitch/backend/tests
+php $PHP_CS_FIXER_PATH fix --rules=@PSR12 --verbose /var/www/html/Utils/src
+php $PHP_CS_FIXER_PATH fix --rules=@PSR12 --verbose /var/www/html/Utils/tests
 

@@ -2,6 +2,7 @@
 
 namespace Utils\Files\UseCase;
 
-interface CheckDirectoryIsWriteable {
+interface CheckDirectoryIsWriteable
+{
     public function check(string $dir): bool;
 }

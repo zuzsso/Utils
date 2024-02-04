@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-
 namespace Utils\Cryptography\Hash\UseCase;
 
 use SodiumException;
 
-interface PasswordHash {
+interface PasswordHash
+{
     /**
      * @param string $clearTextString
      * @return string
@@ -15,4 +15,3 @@ interface PasswordHash {
      */
     public function passwordHash(string $clearTextString): string;
 }
-

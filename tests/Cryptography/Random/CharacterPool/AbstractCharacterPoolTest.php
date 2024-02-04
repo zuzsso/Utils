@@ -13,20 +13,23 @@ use ReflectionException;
 use Utils\Cryptography\Random\Object\CharacterPool\AbstractCharacterPool;
 use Utils\Tests\Cryptography\Random\Mocks\GenericCharacterPoolMock;
 
-class AbstractCharacterPoolTest extends TestCase {
+class AbstractCharacterPoolTest extends TestCase
+{
     /**
      * @var AbstractCharacterPool | MockObject
      */
     private $sut;
 
-    public function setUp(): void {
+    public function setUp(): void
+    {
         parent::setUp();
 
         $this->sut = $this->getMockForAbstractClass(AbstractCharacterPool::class);
     }
 
 
-    public function throwsExceptionIfIncorrectCharPoolConfig(): array {
+    public function throwsExceptionIfIncorrectCharPoolConfig(): array
+    {
         $msg1 =
             "This current implementation doesn't support multi char strings, empty strings " .
             "or multi-byte encoded chars in the character pool";
@@ -58,7 +61,8 @@ class AbstractCharacterPoolTest extends TestCase {
         }
     }
 
-    public function returnsCorrectCharPoolSizeDataProvider(): array {
+    public function returnsCorrectCharPoolSizeDataProvider(): array
+    {
         return [
             [[], 0],
             [['a'], 1],
@@ -70,7 +74,8 @@ class AbstractCharacterPoolTest extends TestCase {
      * @throws ReflectionException
      * @dataProvider returnsCorrectCharPoolSizeDataProvider
      */
-    public function testReturnsCorrectCharPoolSize(array $charsFixture, int $expected): void {
+    public function testReturnsCorrectCharPoolSize(array $charsFixture, int $expected): void
+    {
         foreach ($charsFixture as $char) {
             self::callAddCharacterToPool($this->sut, [$char]);
         }
@@ -83,7 +88,8 @@ class AbstractCharacterPoolTest extends TestCase {
     /**
      * @throws ReflectionException
      */
-    public function testCharacterPoolIsCaseSensitive(): void {
+    public function testCharacterPoolIsCaseSensitive(): void
+    {
         self::callAddCharacterToPool($this->sut, ['a']);
         self::callAddCharacterToPool($this->sut, ['A']);
 
@@ -94,7 +100,8 @@ class AbstractCharacterPoolTest extends TestCase {
     /**
      * @throws ReflectionException
      */
-    public function testCorrectlyGetsTheCharPoolAsString(): void {
+    public function testCorrectlyGetsTheCharPoolAsString(): void
+    {
         $charsFixture = ['a', 'b', 'c'];
 
         foreach ($charsFixture as $char) {
@@ -106,7 +113,8 @@ class AbstractCharacterPoolTest extends TestCase {
         self::assertEquals('abc', $actual);
     }
 
-    public function throwsExceptionIfGettingCharOutsideCollectionLimitsDataProvider(): array {
+    public function throwsExceptionIfGettingCharOutsideCollectionLimitsDataProvider(): array
+    {
         $charset = ['a', 'b', 'c'];
 
         $e = OutOfBoundsException::class;
@@ -143,7 +151,8 @@ class AbstractCharacterPoolTest extends TestCase {
     /**
      * @throws ReflectionException
      */
-    public function testCorrectlyRetrievesCharAt(): void {
+    public function testCorrectlyRetrievesCharAt(): void
+    {
         self::callAddCharacterToPool($this->sut, ['a']);
         self::callAddCharacterToPool($this->sut, ['b']);
 
@@ -151,7 +160,8 @@ class AbstractCharacterPoolTest extends TestCase {
         self::assertEquals('b', $this->sut->getCharAt(1));
     }
 
-    public function correctlyChecksIfStringIsCompatibleWithCharacterPoolDataProvider(): array {
+    public function correctlyChecksIfStringIsCompatibleWithCharacterPoolDataProvider(): array
+    {
         return [
             ['A', true],
             ['AA', true],
@@ -166,7 +176,8 @@ class AbstractCharacterPoolTest extends TestCase {
     /**
      * @dataProvider correctlyChecksIfStringIsCompatibleWithCharacterPoolDataProvider
      */
-    public function testCorrectlyChecksIfStringIsCompatibleWithCharacterPool(string $s, bool $expected): void {
+    public function testCorrectlyChecksIfStringIsCompatibleWithCharacterPool(string $s, bool $expected): void
+    {
         $sut = new GenericCharacterPoolMock('AbCd');
 
         $actual = $sut->checkStringIsCompatibleWithCharacterPool($s);
@@ -177,7 +188,8 @@ class AbstractCharacterPoolTest extends TestCase {
     /**
      * @throws ReflectionException
      */
-    private static function callAddCharacterToPool(AbstractCharacterPool $obj, array $args): void {
+    private static function callAddCharacterToPool(AbstractCharacterPool $obj, array $args): void
+    {
         $class = new ReflectionClass($obj);
         $method = $class->getMethod('addCharacterToPool');
         $method->setAccessible(true);

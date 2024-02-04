@@ -2,7 +2,6 @@
 
 declare(strict_types=1);
 
-
 namespace Utils\Tests\Cryptography\Object;
 
 use InvalidArgumentException;
@@ -15,9 +14,10 @@ use Utils\Cryptography\Random\Object\CharacterPool\AlphanumericCaseSensitive;
 use Utils\Cryptography\Random\Object\CharacterPool\HexadecimalLowerCaseCharacterPool;
 use Utils\Cryptography\Random\Object\CharacterPool\HexadecimalUpperCaseCharacterPool;
 
-class AbstractCrypTokenTest extends TestCase {
-
-    public function testGeneratesNewTokenIfNoneProvided(): void {
+class AbstractCrypTokenTest extends TestCase
+{
+    public function testGeneratesNewTokenIfNoneProvided(): void
+    {
         $generated = [];
 
         $iterations = 10;
@@ -31,7 +31,8 @@ class AbstractCrypTokenTest extends TestCase {
         self::assertCount($iterations, $actual);
     }
 
-    public function acceptsStringTokenIfMeetsRules(): array {
+    public function acceptsStringTokenIfMeetsRules(): array
+    {
         $alphanumericCharacterPool = new AlphanumericCaseSensitive();
         $hexadecimalLowerCase = new HexadecimalLowerCaseCharacterPool();
         $hexadecimalUpperCase = new HexadecimalUpperCaseCharacterPool();
@@ -54,11 +55,12 @@ class AbstractCrypTokenTest extends TestCase {
         self::assertNotNull($this->getParametrizedSut($characterPool, $length, $token));
     }
 
-    public function rejectsTokenIfItDoesntMeetTheRulesDataProvider(): array {
+    public function rejectsTokenIfItDoesntMeetTheRulesDataProvider(): array
+    {
         $alphanumericCharacterPool = new AlphanumericCaseSensitive();
         $hexadecimalLowerCase = new HexadecimalLowerCaseCharacterPool();
         $hexadecimalUpperCase = new HexadecimalUpperCaseCharacterPool();
-        $emptyCharacterPool = new class() extends AbstractCharacterPool {
+        $emptyCharacterPool = new class () extends AbstractCharacterPool {
         };
 
         return [
@@ -90,8 +92,7 @@ class AbstractCrypTokenTest extends TestCase {
         int $tokenLengthInOneByteChars,
         ?string $token
     ): AbstractCrypToken {
-        return new class($characterPool, $tokenLengthInOneByteChars, $token) extends AbstractCrypToken {
-
+        return new class ($characterPool, $tokenLengthInOneByteChars, $token) extends AbstractCrypToken {
             private int $tokenLengthInOneByteChars;
             private AbstractCharacterPool $characterPool;
 
@@ -109,11 +110,13 @@ class AbstractCrypTokenTest extends TestCase {
 
             }
 
-            public function getCharacterPool(): AbstractCharacterPool {
+            public function getCharacterPool(): AbstractCharacterPool
+            {
                 return $this->characterPool;
             }
 
-            public function getTokenLengthInOneByteChars(): int {
+            public function getTokenLengthInOneByteChars(): int
+            {
                 return $this->tokenLengthInOneByteChars;
             }
         };

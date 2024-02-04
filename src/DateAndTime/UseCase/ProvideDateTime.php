@@ -4,6 +4,7 @@ namespace Utils\DateAndTime\UseCase;
 
 use DateTimeImmutable;
 
-interface ProvideDateTime {
+interface ProvideDateTime
+{
     public function getSystemDateTime(): DateTimeImmutable;
 }

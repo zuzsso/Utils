@@ -6,6 +6,6 @@ namespace Utils\DateAndTime\Exception;
 
 use Exception;
 
-class StopwatchIdNotFoundException extends Exception {
-
+class StopwatchIdNotFoundException extends Exception
+{
 }

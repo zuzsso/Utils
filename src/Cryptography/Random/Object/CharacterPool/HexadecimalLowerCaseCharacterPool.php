@@ -2,12 +2,13 @@
 
 declare(strict_types=1);
 
-
 namespace Utils\Cryptography\Random\Object\CharacterPool;
 
-class HexadecimalLowerCaseCharacterPool extends AbstractCharacterPool {
+class HexadecimalLowerCaseCharacterPool extends AbstractCharacterPool
+{
     /** @noinspection DuplicatedCode */
-    public function __construct() {
+    public function __construct()
+    {
         $this->addCharacterToPool("0");
         $this->addCharacterToPool("1");
         $this->addCharacterToPool("2");

@@ -7,10 +7,12 @@ namespace Utils\Tests\EmailAddress\Service;
 use PHPUnit\Framework\TestCase;
 use Utils\EmailAddress\Service\EmailAddressValidator;
 
-class EmailAddressValidatorTest extends TestCase {
+class EmailAddressValidatorTest extends TestCase
+{
     private EmailAddressValidator $sut;
 
-    public function setUp(): void {
+    public function setUp(): void
+    {
         parent::setUp();
         $this->sut = new EmailAddressValidator();
     }
@@ -19,7 +21,8 @@ class EmailAddressValidatorTest extends TestCase {
      * Basically, it tests emails from https://fightingforalostcause.net/content/misc/2006/compare-email-regex.php
      * @return array
      */
-    public function validEmailAddressDataProvider(): array {
+    public function validEmailAddressDataProvider(): array
+    {
         return [
             ['first."mid\dle"."last"@iana.org'],
             ['bob@example.com'],
@@ -34,14 +37,16 @@ class EmailAddressValidatorTest extends TestCase {
      * @return void
      * @dataProvider validEmailAddressDataProvider
      */
-    public function testValidEmailAddress(string $emailToTest): void {
+    public function testValidEmailAddress(string $emailToTest): void
+    {
         self::assertTrue($this->sut->isValidEmailAddress($emailToTest));
     }
 
     /**
      * @return array
      */
-    public function invalidEmailAddressDataProvider(): array {
+    public function invalidEmailAddressDataProvider(): array
+    {
         return [
 
             ['jdoe@machine(comment). example'],
@@ -54,7 +59,8 @@ class EmailAddressValidatorTest extends TestCase {
      * @return void
      * @dataProvider invalidEmailAddressDataProvider
      */
-    public function testInvalidEmailAddress(string $emailToTest): void {
+    public function testInvalidEmailAddress(string $emailToTest): void
+    {
         self::assertFalse($this->sut->isValidEmailAddress($emailToTest));
     }
 }

@@ -15,10 +15,13 @@ use Utils\System\UseCase\CalculateSizeOfOnesComplementOfZero;
 use Utils\System\UseCase\CheckSystem64Bits;
 use Utils\System\UseCase\GetOSDescription;
 use Utils\System\UseCase\GetPhpIntSizeConstant;
+
 use function DI\autowire;
 
-class SystemDependencyInjection extends AbstractDependencyInjection {
-    public static function getDependencies(): array {
+class SystemDependencyInjection extends AbstractDependencyInjection
+{
+    public static function getDependencies(): array
+    {
         return [
             GetOSDescription::class => autowire(OsDescriptionGetter::class),
             GetPhpIntSizeConstant::class => autowire(PhpIntSizeConstantGetter::class),

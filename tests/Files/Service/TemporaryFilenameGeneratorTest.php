@@ -11,14 +11,15 @@ use Utils\Files\Service\TemporaryFilenameGenerator;
 use Utils\Files\Type\FileExtension\Jpg;
 use Utils\Files\UseCase\CheckFileExists;
 
-class TemporaryFilenameGeneratorTest extends TestCase {
-
+class TemporaryFilenameGeneratorTest extends TestCase
+{
     /** @var MockObject|CheckFileExists */
     private $fileExistsChecker;
 
     private TemporaryFilenameGenerator $sut;
 
-    public function setUp(): void {
+    public function setUp(): void
+    {
         parent::setUp();
 
         $this->fileExistsChecker = $this->createMock(CheckFileExists::class);
@@ -29,7 +30,8 @@ class TemporaryFilenameGeneratorTest extends TestCase {
     /**
      * @throws UnableToGenerateTemporaryFileException
      */
-    public function testCorrectlyGeneratesFile(): void {
+    public function testCorrectlyGeneratesFile(): void
+    {
 
         $this->fileExistsChecker->method('check')->willReturn(false);
 
@@ -41,7 +43,8 @@ class TemporaryFilenameGeneratorTest extends TestCase {
     /**
      * @throws UnableToGenerateTemporaryFileException
      */
-    public function testRaisesExceptionIfUnableToGenerate(): void {
+    public function testRaisesExceptionIfUnableToGenerate(): void
+    {
         $this->expectException(UnableToGenerateTemporaryFileException::class);
         $this->expectExceptionMessage('Reached max attempts');
         $this->fileExistsChecker->method('check')->willReturn(true);

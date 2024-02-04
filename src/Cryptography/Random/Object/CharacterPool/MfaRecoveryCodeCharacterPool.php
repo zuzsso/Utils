@@ -2,12 +2,13 @@
 
 declare(strict_types=1);
 
-
 namespace Utils\Cryptography\Random\Object\CharacterPool;
 
-class MfaRecoveryCodeCharacterPool extends AbstractCharacterPool {
+class MfaRecoveryCodeCharacterPool extends AbstractCharacterPool
+{
     /** @noinspection DuplicatedCode */
-    public function __construct() {
+    public function __construct()
+    {
         $this->addCharacterToPool("2");
         $this->addCharacterToPool("3");
         $this->addCharacterToPool("4");

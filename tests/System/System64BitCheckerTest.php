@@ -2,7 +2,6 @@
 
 declare(strict_types=1);
 
-
 namespace Utils\Tests\System;
 
 use PHPUnit\Framework\MockObject\MockObject;
@@ -13,8 +12,8 @@ use Utils\System\UseCase\CalculateSizeOfOnesComplementOfZero;
 use Utils\System\UseCase\GetOSDescription;
 use Utils\System\UseCase\GetPhpIntSizeConstant;
 
-class System64BitCheckerTest extends TestCase {
-
+class System64BitCheckerTest extends TestCase
+{
     private System64BitChecker $sut;
 
     /**
@@ -37,7 +36,8 @@ class System64BitCheckerTest extends TestCase {
      */
     private $calculateSigned64BitIntFromString;
 
-    public function setUp(): void {
+    public function setUp(): void
+    {
         parent::setUp();
 
         $this->getPhpIntSizeConstant = $this->createMock(GetPhpIntSizeConstant::class);
@@ -53,7 +53,8 @@ class System64BitCheckerTest extends TestCase {
         );
     }
 
-    public function is64BitSystemDataProvider(): array {
+    public function is64BitSystemDataProvider(): array
+    {
         return [
             ['64'],
             [' 64 '],
@@ -68,7 +69,8 @@ class System64BitCheckerTest extends TestCase {
      * @return void
      * @dataProvider is64BitSystemDataProvider
      */
-    public function testIs64BitSystem(string $osDescription): void {
+    public function testIs64BitSystem(string $osDescription): void
+    {
         $this->getPhpIntSizeConstant->expects(self::once())->method('get')->willReturn(8);
         $this->calculateSizeOfOnesComplementOfZero->expects(self::once())->method('calculate')->willReturn(64);
         $this->getOSDescription->expects(self::once())->method('get')->willReturn($osDescription);
@@ -84,7 +86,8 @@ class System64BitCheckerTest extends TestCase {
     /**
      * @return array
      */
-    public function isNot64BitSystemDataProvider(): array {
+    public function isNot64BitSystemDataProvider(): array
+    {
         // All good except the int size constant
         $suite01 = [
             [4, 64, '64', 9223372036854775807],

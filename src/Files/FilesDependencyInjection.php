@@ -17,10 +17,13 @@ use Utils\Files\UseCase\CheckFileExists;
 use Utils\Files\UseCase\CleanSessionFiles;
 use Utils\Files\UseCase\EnsureFolderExists;
 use Utils\Files\UseCase\GenerateTemporaryFilename;
+
 use function DI\autowire;
 
-class FilesDependencyInjection extends AbstractDependencyInjection {
-    public static function getDependencies(): array {
+class FilesDependencyInjection extends AbstractDependencyInjection
+{
+    public static function getDependencies(): array
+    {
         return [
             CleanSessionFiles::class => autowire(SessionFilesCleaner::class),
             CheckDirectoryIsReadable::class => autowire(DirectoryIsReadableChecker::class),

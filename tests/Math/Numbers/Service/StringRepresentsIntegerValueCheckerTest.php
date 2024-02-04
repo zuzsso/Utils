@@ -7,11 +7,12 @@ namespace Utils\Tests\Math\Numbers\Service;
 use PHPUnit\Framework\TestCase;
 use Utils\Math\Numbers\Service\StringRepresentsIntegerValueChecker;
 
-class StringRepresentsIntegerValueCheckerTest extends TestCase {
-
+class StringRepresentsIntegerValueCheckerTest extends TestCase
+{
     private StringRepresentsIntegerValueChecker $sut;
 
-    public function setUp(): void {
+    public function setUp(): void
+    {
         parent::setUp();
         $this->sut = new StringRepresentsIntegerValueChecker();
     }
@@ -19,7 +20,8 @@ class StringRepresentsIntegerValueCheckerTest extends TestCase {
     /**
      * @return array
      */
-    public function returnsCorrectValuePositiveOrZeroDataProvider(): array {
+    public function returnsCorrectValuePositiveOrZeroDataProvider(): array
+    {
         return [
             ['123', true],
             ['abc', false],
@@ -38,7 +40,8 @@ class StringRepresentsIntegerValueCheckerTest extends TestCase {
      * @param bool $expected
      * @return void
      */
-    public function testReturnsCorrectValuesPositiveOrZero(string $s, bool $expected): void {
+    public function testReturnsCorrectValuesPositiveOrZero(string $s, bool $expected): void
+    {
         $actual = $this->sut->checkPositiveOrZero($s);
         self::assertEquals($expected, $actual);
     }

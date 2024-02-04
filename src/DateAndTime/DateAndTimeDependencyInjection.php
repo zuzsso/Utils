@@ -13,10 +13,13 @@ use Utils\DateAndTime\UseCase\ImplementDateTimeCommonOperations;
 use Utils\DateAndTime\UseCase\ProvideDateTime;
 use Utils\DateAndTime\UseCase\SerializeDateTime;
 use Utils\DateAndTime\UseCase\TransformDateTime;
+
 use function DI\autowire;
 
-class DateAndTimeDependencyInjection extends AbstractDependencyInjection {
-    public static function getDependencies(): array {
+class DateAndTimeDependencyInjection extends AbstractDependencyInjection
+{
+    public static function getDependencies(): array
+    {
         return [
             ImplementDateTimeCommonOperations::class => autowire(DateTimeCommonOperationsImplementer::class),
             ProvideDateTime::class => autowire(DateTimeProvider::class),

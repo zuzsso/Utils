@@ -2,16 +2,17 @@
 
 declare(strict_types=1);
 
-
 namespace Utils\Cryptography\Random\Object\CharacterPool;
 
 use InvalidArgumentException;
 use OutOfBoundsException;
 
-abstract class AbstractCharacterPool {
+abstract class AbstractCharacterPool
+{
     protected array $characterPool = [];
 
-    protected function addCharacterToPool(string $char): void {
+    protected function addCharacterToPool(string $char): void
+    {
         if (strlen($char) !== 1) {
             throw new InvalidArgumentException(
                 "This current implementation doesn't support multi char strings, empty strings " .
@@ -26,30 +27,33 @@ abstract class AbstractCharacterPool {
         $this->characterPool[] = $char;
     }
 
-    public function characterPoolSize(): int {
+    public function characterPoolSize(): int
+    {
         return count($this->characterPool);
     }
 
-    public function getCharacterPoolAsSingleString(): string {
+    public function getCharacterPoolAsSingleString(): string
+    {
         return implode('', $this->characterPool);
     }
 
-    public function getCharAt(int $zeroBasedPosition): string {
+    public function getCharAt(int $zeroBasedPosition): string
+    {
         $poolSize = $this->characterPoolSize();
         $upperLimit = $poolSize - 1;
         if (($zeroBasedPosition < 0) || ($zeroBasedPosition > $upperLimit)) {
-
             throw new OutOfBoundsException("Position $zeroBasedPosition outside of interval [0, $upperLimit]");
         }
 
         return $this->characterPool[$zeroBasedPosition];
     }
 
-    public function checkStringIsCompatibleWithCharacterPool(string $s): bool {
+    public function checkStringIsCompatibleWithCharacterPool(string $s): bool
+    {
         $characterPoolOneLine = $this->getCharacterPoolAsSingleString();
         $stringLengh = strlen($s);
 
-        for($i = 0; $i < $stringLengh; $i++){
+        for ($i = 0; $i < $stringLengh; $i++) {
             $thisChar = $s[$i];
 
             if (strpos($characterPoolOneLine, $thisChar) === false) {

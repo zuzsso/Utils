@@ -8,16 +8,18 @@ use DateTimeImmutable;
 use PHPUnit\Framework\TestCase;
 use Utils\DateAndTime\Service\DateTimeSerializer;
 
-class DateTimeSerializerTest extends TestCase {
-
+class DateTimeSerializerTest extends TestCase
+{
     private DateTimeSerializer $sut;
 
-    public function setUp(): void {
+    public function setUp(): void
+    {
         parent::setUp();
         $this->sut = new DateTimeSerializer();
     }
 
-    public function testCorrectlySerializes(): void {
+    public function testCorrectlySerializes(): void
+    {
         $date = DateTimeImmutable::createFromFormat('Y-m-d H:i:s', '2023-07-08 18:35:45');
         $actual = $this->sut->serializeImmutable($date);
 

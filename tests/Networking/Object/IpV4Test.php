@@ -8,9 +8,10 @@ use LogicException;
 use PHPUnit\Framework\TestCase;
 use Utils\Networking\Object\IpV4;
 
-class IpV4Test extends TestCase {
-
-    public function correctlyBuildsObjectDataProvider(): array {
+class IpV4Test extends TestCase
+{
+    public function correctlyBuildsObjectDataProvider(): array
+    {
         return [
             ['10.1.2.3'],
             ['255.255.255.255'],
@@ -23,13 +24,15 @@ class IpV4Test extends TestCase {
      * @dataProvider correctlyBuildsObjectDataProvider
      * @param string $fixture
      */
-    public function testCorrectlyBuildsObject(string $fixture): void {
+    public function testCorrectlyBuildsObject(string $fixture): void
+    {
         $sut = IpV4::constructFromString($fixture);
 
         self::assertEquals($fixture, $sut->__toString());
     }
 
-    public function correctlyFailsBuildingObjectDataProvider(): array {
+    public function correctlyFailsBuildingObjectDataProvider(): array
+    {
         return [
             ['', "Unrecognized IP V4 address: ''"],
             ['test', "Unrecognized IP V4 address: 'test'"],
@@ -56,14 +59,16 @@ class IpV4Test extends TestCase {
      * @param string $exceptionMessage
      * @dataProvider correctlyFailsBuildingObjectDataProvider
      */
-    public function testCorrectlyFailsBuildingObject(string $fixture, string $exceptionMessage): void {
+    public function testCorrectlyFailsBuildingObject(string $fixture, string $exceptionMessage): void
+    {
         $this->expectExceptionMessage($exceptionMessage);
         $this->expectException(LogicException::class);
 
         IpV4::constructFromString($fixture);
     }
 
-    public function correctlyComparesIpV4DataProvider(): array {
+    public function correctlyComparesIpV4DataProvider(): array
+    {
         return [
             ['127.1.2.3', '127.1.2.3', true],
             ['127.1.2.3', '127.255.2.3', false],
@@ -80,7 +85,8 @@ class IpV4Test extends TestCase {
      * @return void
      * @dataProvider correctlyComparesIpV4DataProvider
      */
-    public function testCorrectlyComparesIpV4(string $ip1AsString, string $ip2AsString, bool $expected): void {
+    public function testCorrectlyComparesIpV4(string $ip1AsString, string $ip2AsString, bool $expected): void
+    {
         $ip1 = IpV4::constructFromString($ip1AsString);
         $ip2 = IpV4::constructFromString($ip2AsString);
 

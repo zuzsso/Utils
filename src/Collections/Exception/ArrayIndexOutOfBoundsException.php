@@ -6,7 +6,8 @@ namespace Utils\Collections\Exception;
 
 use Exception;
 
-class ArrayIndexOutOfBoundsException extends Exception {
+class ArrayIndexOutOfBoundsException extends Exception
+{
     /**
      * @throws ArrayIndexOutOfBoundsException
      */
@@ -23,12 +24,12 @@ class ArrayIndexOutOfBoundsException extends Exception {
         $count = count($myArray);
 
         if ($count === 0) {
-            throw new self ('The array is actually empty');
+            throw new self('The array is actually empty');
         }
 
         if ($position >= $count) {
             if ($count === 1) {
-                throw new self ("The only available index is 0, but passed $position");
+                throw new self("The only available index is 0, but passed $position");
             }
             throw new self("Only allowed index between [0, " . ($count - 1) . "], but passed $position");
         }

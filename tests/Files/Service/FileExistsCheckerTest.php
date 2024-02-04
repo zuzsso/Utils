@@ -7,16 +7,18 @@ namespace Utils\Tests\Files\Service;
 use PHPUnit\Framework\TestCase;
 use Utils\Files\Service\FileExistsChecker;
 
-class FileExistsCheckerTest extends TestCase {
-
+class FileExistsCheckerTest extends TestCase
+{
     private FileExistsChecker $sut;
 
-    public function setUp(): void {
+    public function setUp(): void
+    {
         parent::setUp();
         $this->sut = new FileExistsChecker();
     }
 
-    public function returnsCorrectResultsDataProvider(): array {
+    public function returnsCorrectResultsDataProvider(): array
+    {
         return [
             ['non_existing_file.png', false, false],
             ['non_existing_file.png', true, false],

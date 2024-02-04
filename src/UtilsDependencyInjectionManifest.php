@@ -2,7 +2,6 @@
 
 declare(strict_types=1);
 
-
 namespace Utils;
 
 use Utils\Cryptography\CryptographyDependencyInjection;
@@ -13,8 +12,10 @@ use Utils\Math\MathDependencyInjection;
 use Utils\Networking\NetworkingDependencyInjection;
 use Utils\System\SystemDependencyInjection;
 
-class UtilsDependencyInjectionManifest extends AbstractDependencyInjection {
-    public static function getDependencies(): array {
+class UtilsDependencyInjectionManifest extends AbstractDependencyInjection
+{
+    public static function getDependencies(): array
+    {
         return array_merge(
             CryptographyDependencyInjection::getDependencies(),
             DateAndTimeDependencyInjection::getDependencies(),

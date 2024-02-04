@@ -7,7 +7,8 @@ namespace Utils\Files\UseCase;
 use Utils\Files\Exception\UnableToGenerateTemporaryFileException;
 use Utils\Files\Type\FileExtension\AbstractFileExtension;
 
-interface GenerateTemporaryFilename {
+interface GenerateTemporaryFilename
+{
     /**
      * @throws UnableToGenerateTemporaryFileException
      */

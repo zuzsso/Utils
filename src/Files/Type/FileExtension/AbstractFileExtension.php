@@ -6,14 +6,15 @@ namespace Utils\Files\Type\FileExtension;
 
 use Utils\Files\Exception\UnrecognizedImageExtensionException;
 
-abstract class AbstractFileExtension {
-
+abstract class AbstractFileExtension
+{
     abstract public static function getExtensionLiteralNoDot(): string;
 
     /**
      * @throws UnrecognizedImageExtensionException
      */
-    public static function constructFromExtensionLiteralNoDot(string $extensionLiteral): self {
+    public static function constructFromExtensionLiteralNoDot(string $extensionLiteral): self
+    {
         $lowered = strtolower(trim($extensionLiteral));
 
         switch ($lowered) {

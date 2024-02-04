@@ -8,12 +8,15 @@ use Utils\Cryptography\Random\Object\AbstractCrypToken;
 use Utils\Cryptography\Random\Object\CharacterPool\AbstractCharacterPool;
 use Utils\Cryptography\Random\Object\CharacterPool\AlphanumericCaseSensitive;
 
-class TemporaryFileName extends AbstractCrypToken {
-    public function getCharacterPool(): AbstractCharacterPool {
+class TemporaryFileName extends AbstractCrypToken
+{
+    public function getCharacterPool(): AbstractCharacterPool
+    {
         return new AlphanumericCaseSensitive();
     }
 
-    public function getTokenLengthInOneByteChars(): int {
+    public function getTokenLengthInOneByteChars(): int
+    {
         return 24;
     }
 }

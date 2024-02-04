@@ -2,7 +2,8 @@
 
 namespace Utils\System\UseCase;
 
-interface CheckSystem64Bits {
+interface CheckSystem64Bits
+{
     /**
      * @return bool
      */
