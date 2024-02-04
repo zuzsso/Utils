@@ -15,7 +15,7 @@ class DateTimeCommonOperationsImplementer implements ImplementDateTimeCommonOper
     /**
      * @inheritDoc
      */
-    public function dateTimeImmutableFromMySql(string $mysqlDateTime): DateTimeImmutable
+    public function fromMySqlDateTimeToImmutable(string $mysqlDateTime): DateTimeImmutable
     {
         $result = DateTimeImmutable::createFromFormat(self::MYSQL_DATE_TIME_FORMAT, $mysqlDateTime);
 
@@ -26,5 +26,10 @@ class DateTimeCommonOperationsImplementer implements ImplementDateTimeCommonOper
         }
 
         return $result;
+    }
+
+    public function fromImmutableToMySqlDateTime(DateTimeImmutable $d): string
+    {
+        return $d->format(self::MYSQL_DATE_TIME_FORMAT);
     }
 }

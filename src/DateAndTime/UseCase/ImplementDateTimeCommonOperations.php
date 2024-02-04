@@ -12,5 +12,7 @@ interface ImplementDateTimeCommonOperations
     /**
      * @throws DatetimeCommonOperationsUnmanagedException
      */
-    public function dateTimeImmutableFromMySql(string $mysqlDateTime): DateTimeImmutable;
+    public function fromMySqlDateTimeToImmutable(string $mysqlDateTime): DateTimeImmutable;
+
+    public function fromImmutableToMySqlDateTime(DateTimeImmutable $d): string;
 }
