@@ -7,7 +7,7 @@ namespace Utils\DateAndTime\UseCase;
 use DateTimeImmutable;
 use Utils\DateAndTime\Exception\DatetimeCommonOperationsUnmanagedException;
 
-interface ImplementDateTimeCommonOperations
+interface FormatDateTime
 {
     /**
      * @throws DatetimeCommonOperationsUnmanagedException
@@ -15,9 +15,4 @@ interface ImplementDateTimeCommonOperations
     public function fromMySqlDateTimeToImmutable(string $mysqlDateTime): DateTimeImmutable;
 
     public function fromImmutableToMySqlDateTime(DateTimeImmutable $d): string;
-
-    /**
-     * @throws DatetimeCommonOperationsUnmanagedException
-     */
-    public function substractDays(DateTimeImmutable $d, int $days): DateTimeImmutable;
 }
