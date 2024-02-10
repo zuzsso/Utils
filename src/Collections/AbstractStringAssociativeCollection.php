@@ -98,8 +98,6 @@ abstract class AbstractStringAssociativeCollection implements Iterator, Countabl
     }
 
     /**
-     * @deprecated Not to be manipulated by child classes
-     *
      * You need to implement the function 'current' of the Iterator interface in your subclass, and
      * typehint the return value to not lose custody of the type. Then you only need to call this
      * function to do the actual work
