@@ -27,7 +27,7 @@ abstract class AbstractStringAssociativeCollection implements Iterator, Countabl
     /**
      * @throws KeyAlreadyExistsException
      */
-    final public function addStringKeyUntyped(string $key, $value): void
+    final protected function addStringKeyUntyped(string $key, $value): void
     {
         if (array_key_exists($key, $this->collection)) {
             throw new KeyAlreadyExistsException("Key '$key' already exists in this collection");
@@ -39,7 +39,7 @@ abstract class AbstractStringAssociativeCollection implements Iterator, Countabl
     /**
      * @throws KeyAlreadyExistsException
      */
-    final public function addIntKeyUntyped(?int $key, $value): void
+    final protected function addIntKeyUntyped(?int $key, $value): void
     {
         if ($key !== null) {
             $this->addStringKeyUntyped((string)$key, $value);
@@ -48,11 +48,13 @@ abstract class AbstractStringAssociativeCollection implements Iterator, Countabl
         }
     }
 
+    /** @deprecated Not to be manipulated by child classes */
     final public function next(): void
     {
         $this->it++;
     }
 
+    /** @deprecated Not to be manipulated by child classes */
     final public function key(): string
     {
         $keys = array_keys($this->collection);
@@ -60,6 +62,7 @@ abstract class AbstractStringAssociativeCollection implements Iterator, Countabl
         return $keys[$this->it];
     }
 
+    /** @deprecated Not to be manipulated by child classes */
     final public function valid(): bool
     {
         return
@@ -67,17 +70,21 @@ abstract class AbstractStringAssociativeCollection implements Iterator, Countabl
             ($this->it < count($this->collection));
     }
 
+    /** @deprecated Not to be manipulated by child classes */
     final public function rewind(): void
     {
         $this->it = 0;
     }
 
+    /** @deprecated Not to be manipulated by child classes */
     final public function count(): int
     {
         return count($this->collection);
     }
 
     /**
+     * @deprecated Not to be manipulated by child classes
+     *
      * You need to implement the function 'current' of the Iterator interface in your subclass, and
      * typehint the return value to not lose custody of the type. Then you only need to call this
      * function to do the actual work
