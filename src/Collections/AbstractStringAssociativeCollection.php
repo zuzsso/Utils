@@ -24,11 +24,6 @@ abstract class AbstractStringAssociativeCollection implements Iterator, Countabl
 
     private int $it = 0;
 
-    final protected function addUnindexedUntypedElement($value): void
-    {
-        $this->collection[] = $value;
-    }
-
     /** @deprecated Not to be manipulated by child classes */
     final public function next(): void
     {
@@ -97,6 +92,11 @@ abstract class AbstractStringAssociativeCollection implements Iterator, Countabl
         $this->collection[$key] = $value;
     }
 
+    final protected function addUnindexedUntypedElement($value): void
+    {
+        $this->collection[] = $value;
+    }
+
     /**
      * You need to implement the function 'current' of the Iterator interface in your subclass, and
      * typehint the return value to not lose custody of the type. Then you only need to call this
@@ -141,5 +141,10 @@ abstract class AbstractStringAssociativeCollection implements Iterator, Countabl
     final protected function customAssociativeSort(callable $userFunc): void
     {
         uasort($this->collection, $userFunc);
+    }
+
+    final protected function sortCollectionByKeyAlphabeticallyNaturalOrder(): void
+    {
+        ksort($this->collection, SORT_NATURAL);
     }
 }
