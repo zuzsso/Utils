@@ -11,12 +11,9 @@ use Iterator;
 use Utils\Collections\Exception\ArrayIndexOutOfBoundsException;
 use Utils\Collections\Exception\KeyAlreadyExistsException;
 
-/**
- * Holds an associative string array, as in [$key => $value], in which $key is a string and $value is any value
- */
 abstract class AbstractStringAssociativeCollection implements Iterator, Countable
 {
-    protected array $collection = [];
+    private array $collection = [];
 
     private int $it = 0;
 
