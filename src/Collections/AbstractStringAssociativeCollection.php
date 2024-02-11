@@ -16,10 +16,6 @@ use Utils\Collections\Exception\KeyAlreadyExistsException;
  */
 abstract class AbstractStringAssociativeCollection implements Iterator, Countable
 {
-    /**
-     * @deprecated This class parameter will be made private in future releases
-     * @see        \Utils\Collections\AbstractStringAssociativeCollection::addStringKeyUntyped
-     */
     protected array $collection = [];
 
     private int $it = 0;
@@ -51,7 +47,6 @@ abstract class AbstractStringAssociativeCollection implements Iterator, Countabl
         $this->it = 0;
     }
 
-    /** @deprecated Not to be manipulated by child classes */
     final public function count(): int
     {
         return count($this->collection);
@@ -146,5 +141,20 @@ abstract class AbstractStringAssociativeCollection implements Iterator, Countabl
     final protected function sortCollectionByKeyAlphabeticallyNaturalOrder(): void
     {
         ksort($this->collection, SORT_NATURAL);
+    }
+
+    final protected function checkStringKeyExists(string $k): bool
+    {
+        return array_key_exists($k, $this->collection);
+    }
+
+    final protected function checkIntegerKeyExists(int $k): bool
+    {
+        return array_key_exists($k, $this->collection);
+    }
+
+    final protected function mergeAnotherCollection(AbstractStringAssociativeCollection $anotherCollection): void
+    {
+        $this->collection = array_merge($this->collection, $anotherCollection->collection);
     }
 }
