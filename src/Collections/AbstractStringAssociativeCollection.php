@@ -28,7 +28,7 @@ abstract class AbstractStringAssociativeCollection implements Iterator, Countabl
     {
         $keys = array_keys($this->collection);
 
-        return $keys[$this->it];
+        return (string)$keys[$this->it];
     }
 
     /** @deprecated Not to be manipulated by child classes */
