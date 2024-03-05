@@ -8,6 +8,7 @@ use Utils\AbstractDependencyInjection;
 use Utils\Files\Service\DirectoryIsReadableChecker;
 use Utils\Files\Service\DirectoryIsWriteableChecker;
 use Utils\Files\Service\FileExistsChecker;
+use Utils\Files\Service\FileRemover;
 use Utils\Files\Service\FolderExistsEnsurer;
 use Utils\Files\Service\SessionFilesCleaner;
 use Utils\Files\Service\TemporaryFilenameGenerator;
@@ -18,6 +19,8 @@ use Utils\Files\UseCase\CleanSessionFiles;
 use Utils\Files\UseCase\EnsureFolderExists;
 use Utils\Files\UseCase\GenerateTemporaryFilename;
 
+use Utils\Files\UseCase\RemoveFile;
+
 use function DI\autowire;
 
 class FilesDependencyInjection extends AbstractDependencyInjection
@@ -25,6 +28,7 @@ class FilesDependencyInjection extends AbstractDependencyInjection
     public static function getDependencies(): array
     {
         return [
+            RemoveFile::class => autowire(FileRemover::class),
             CleanSessionFiles::class => autowire(SessionFilesCleaner::class),
             CheckDirectoryIsReadable::class => autowire(DirectoryIsReadableChecker::class),
             CheckDirectoryIsWriteable::class => autowire(DirectoryIsWriteableChecker::class),
