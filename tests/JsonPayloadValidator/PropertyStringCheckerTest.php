@@ -10,6 +10,7 @@ use Utils\JsonPayloadValidator\Exception\EntryMissingException;
 use Utils\JsonPayloadValidator\Exception\IncorrectParametrizationException;
 use Utils\JsonPayloadValidator\Exception\OptionalPropertyNotAStringException;
 use Utils\JsonPayloadValidator\Exception\ValueNotAStringException;
+use Utils\JsonPayloadValidator\Exception\ValueStringNotExactLengthException;
 use Utils\JsonPayloadValidator\Exception\ValueStringTooBigException;
 use Utils\JsonPayloadValidator\Exception\ValueStringTooSmallException;
 use Utils\JsonPayloadValidator\Service\PropertyPresenceChecker;
@@ -264,5 +265,56 @@ class PropertyStringCheckerTest extends TestCase
     ): void {
         $this->sut->byteLengthRange($key, $payload, $minLength, $maximumLength, $required);
         $this->expectNotToPerformAssertions();
+    }
+
+    public function shouldFailExactByteLengthDataProvider(): array
+    {
+        $key = 'myKey';
+
+        $m1 = "Negative lengths not allowed, but you specified an exact length of '-1'";
+        $m2 = "Zero lengths would require the 'optional' validator. Please correct the length";
+        $m3 = "The entry 'myKey' is not a string";
+        $m4 = "Entry 'myKey' empty";
+
+        return [
+            [$key, [], -1, true, IncorrectParametrizationException::class, $m1],
+            [$key, [], -1, false, IncorrectParametrizationException::class, $m1],
+            [$key, [], 0, true, IncorrectParametrizationException::class, $m2],
+            [$key, [], 0, false, IncorrectParametrizationException::class, $m2],
+
+            [$key, [$key => 1], 1, false, ValueNotAStringException::class, $m3],
+            [$key, [$key => 1], 1, true, ValueNotAStringException::class, $m3],
+            [$key, [$key => true], 1, false, ValueNotAStringException::class, $m3],
+            [$key, [$key => false], 1, true, ValueNotAStringException::class, $m3],
+            [$key, [$key => 1.1], 1, false, ValueNotAStringException::class, $m3],
+            [$key, [$key => 1.1], 1, true, ValueNotAStringException::class, $m3],
+
+            [$key, [$key => []], 1, false, EntryEmptyException::class, $m4],
+            [$key, [$key => []], 1, true, EntryEmptyException::class, $m4],
+            [$key, [$key => ""], 1, false, EntryEmptyException::class, $m4],
+            [$key, [$key => ""], 1, true, EntryEmptyException::class, $m4],
+        ];
+    }
+
+    /**
+     * @throws EntryEmptyException
+     * @throws EntryMissingException
+     * @throws IncorrectParametrizationException
+     * @throws ValueStringNotExactLengthException
+     * @throws ValueNotAStringException
+     * @dataProvider shouldFailExactByteLengthDataProvider
+     */
+    public function testShouldFailExactByteLength(
+        string $key,
+        array $payload,
+        int $exactLength,
+        bool $required,
+        string $expectedException,
+        string $expectedExceptionMessage
+    ): void {
+        $this->expectException($expectedException);
+        $this->expectExceptionMessage($expectedExceptionMessage);
+
+        $this->sut->exactByteLength($key, $payload, $exactLength, $required);
     }
 }

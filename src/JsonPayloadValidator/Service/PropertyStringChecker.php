@@ -73,7 +73,6 @@ class PropertyStringChecker implements CheckPropertyString
         ?int $maximumLength,
         bool $required = true
     ): CheckPropertyString {
-
         if ($minimumLength !== null) {
             if ($minimumLength < 0) {
                 throw new IncorrectParametrizationException(
@@ -134,7 +133,6 @@ class PropertyStringChecker implements CheckPropertyString
         return $this;
     }
 
-
     /**
      * @inheritDoc
      */
@@ -153,9 +151,30 @@ class PropertyStringChecker implements CheckPropertyString
     /**
      * @inheritDoc
      */
-    public function exactLength(string $key, array $payload, int $exactLength): self
+    public function exactByteLength(string $key, array $payload, int $exactLength, bool $required = true): self
     {
-        $this->checkPropertyPresence->required($key, $payload);
+        if ($exactLength < 0) {
+            throw new IncorrectParametrizationException(
+                "Negative lengths not allowed, but you specified an exact length of '$exactLength'"
+            );
+        }
+
+        if ($exactLength === 0) {
+            throw new IncorrectParametrizationException(
+                "Zero lengths would require the 'optional' validator. Please correct the length"
+            );
+        }
+
+        if (!$required) {
+            try {
+                $this->checkPropertyPresence->forbidden($key, $payload);
+                return $this;
+            } catch (EntryForbiddenException $e) {
+                // Property exists, validate it as if it was required
+            }
+        }
+
+        $this->required($key, $payload);
 
         $len = strlen($payload[$key]);
         if ($len !== $exactLength) {

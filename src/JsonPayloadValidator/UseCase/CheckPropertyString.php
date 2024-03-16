@@ -53,11 +53,13 @@ interface CheckPropertyString
     public function urlFormat(string $key, array $payload): self;
 
     /**
+     * @throws IncorrectParametrizationException
      * @throws ValueStringNotExactLengthException
      * @throws EntryEmptyException
      * @throws EntryMissingException
+     * @throws ValueNotAStringException
      */
-    public function exactLength(string $key, array $payload, int $exactLength): self;
+    public function exactByteLength(string $key, array $payload, int $exactLength): self;
 
     /**
      * @throws InvalidDateValueException
