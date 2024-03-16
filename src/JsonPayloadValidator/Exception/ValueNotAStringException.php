@@ -8,10 +8,7 @@ class ValueNotAStringException extends AbstractMalformedRequestBody
 {
     public static function constructForStandardMessage(string $key): self
     {
-        return new self(
-            "The entry '%key%' is not a string",
-            ['key' => $key]
-        );
+        return new self("The entry '$key' is not a string");
     }
 
     public function errorCode(): string
