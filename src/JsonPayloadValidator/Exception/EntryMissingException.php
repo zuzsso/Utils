@@ -8,10 +8,7 @@ class EntryMissingException extends AbstractMalformedRequestBody
 {
     public static function constructForKeyNameMissing(string $key): self
     {
-        return new self(
-            "Entry %key% missing",
-            ['key' => $key]
-        );
+        return new self("Entry '$key' missing");
     }
 
     public function errorCode(): string
