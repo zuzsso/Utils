@@ -6,6 +6,7 @@ namespace Utils\Tests\JsonPayloadValidator;
 
 use PHPUnit\Framework\TestCase;
 use Utils\JsonPayloadValidator\Exception\EntryEmptyException;
+use Utils\JsonPayloadValidator\Exception\EntryForbiddenException;
 use Utils\JsonPayloadValidator\Exception\EntryMissingException;
 use Utils\JsonPayloadValidator\Service\PropertyPresenceChecker;
 
@@ -29,6 +30,7 @@ class PropertyPresenceCheckerValidator extends TestCase
             [[$key => null], $key, EntryEmptyException::class, "Entry 'myKey' empty"],
             [[$key => ''], $key, EntryEmptyException::class, "Entry 'myKey' empty"],
             [[$key => '    '], $key, EntryEmptyException::class, "Entry 'myKey' empty"],
+            [[$key => []], $key, EntryEmptyException::class, "Entry 'myKey' empty"],
         ];
     }
 
@@ -46,5 +48,76 @@ class PropertyPresenceCheckerValidator extends TestCase
         $this->expectException($expectedExceptionClass);
         $this->expectExceptionMessage($expectedExceptionMessage);
         $this->sut->required($requiredKey, $payloadFixture);
+    }
+
+    public function shouldPassRequiredPresenceDataProvider(): array
+    {
+        $key = 'myKey';
+        return [
+            [[$key => 'blah'], $key],
+            [[$key => 0], $key],
+            [[$key => [[]]], $key],
+        ];
+    }
+
+    /**
+     * @dataProvider shouldPassRequiredPresenceDataProvider
+     * @throws EntryEmptyException
+     * @throws EntryMissingException
+     */
+    public function testShouldPassRequiredPresence(
+        array $payloadFixture,
+        string $requiredKey
+    ): void {
+        $this->sut->required($requiredKey, $payloadFixture);
+        $this->expectNotToPerformAssertions();
+    }
+
+    public function shouldFailForbiddenPresenceDataProvider(): array
+    {
+        $key = 'myKey';
+        $msg = "Entry 'myKey' should not be present in the payload";
+        return [
+            [[$key => ''], $key, EntryForbiddenException::class, $msg],
+            [[$key => '   '], $key, EntryForbiddenException::class, $msg],
+            [[$key => []], $key, EntryForbiddenException::class, $msg],
+            [[$key => [[]]], $key, EntryForbiddenException::class, $msg],
+            [[$key => 0], $key, EntryForbiddenException::class, $msg],
+            [[$key => 0.0], $key, EntryForbiddenException::class, $msg]
+        ];
+    }
+
+    /**
+     * @dataProvider shouldFailForbiddenPresenceDataProvider
+     * @throws EntryForbiddenException
+     */
+    public function testShouldFailForbiddenPresence(
+        array $payloadFixture,
+        string $forbiddenKey,
+        string $expectedExceptionClass,
+        string $expectedExceptionMessage
+    ): void {
+        $this->expectException($expectedExceptionClass);
+        $this->expectExceptionMessage($expectedExceptionMessage);
+        $this->sut->forbidden($forbiddenKey, $payloadFixture);
+    }
+
+    public function shouldPassForbiddenPresenceDataProvider(): array
+    {
+        $key = 'myKey';
+        return [
+            [[], $key],
+            [[$key => null], $key]
+        ];
+    }
+
+    /**
+     * @dataProvider shouldPassForbiddenPresenceDataProvider
+     * @throws EntryForbiddenException
+     */
+    public function testShouldPassForbiddenPresence(array $payloadFixture, $forbiddenKey): void
+    {
+        $this->sut->forbidden($forbiddenKey, $payloadFixture);
+        $this->expectNotToPerformAssertions();
     }
 }
