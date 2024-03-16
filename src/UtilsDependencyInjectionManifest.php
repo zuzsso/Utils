@@ -8,6 +8,7 @@ use Utils\Cryptography\CryptographyDependencyInjection;
 use Utils\DateAndTime\DateAndTimeDependencyInjection;
 use Utils\EmailAddress\EmailAddressDependencyInjection;
 use Utils\Files\FilesDependencyInjection;
+use Utils\JsonPayloadValidator\JsonPayloadValidatorDependencyInjection;
 use Utils\Math\MathDependencyInjection;
 use Utils\Networking\NetworkingDependencyInjection;
 use Utils\System\SystemDependencyInjection;
@@ -23,7 +24,8 @@ class UtilsDependencyInjectionManifest extends AbstractDependencyInjection
             FilesDependencyInjection::getDependencies(),
             MathDependencyInjection::getDependencies(),
             NetworkingDependencyInjection::getDependencies(),
-            SystemDependencyInjection::getDependencies()
+            SystemDependencyInjection::getDependencies(),
+            JsonPayloadValidatorDependencyInjection::getDependencies()
         );
     }
 }
