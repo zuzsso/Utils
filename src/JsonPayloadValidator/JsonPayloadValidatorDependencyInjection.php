@@ -17,6 +17,7 @@ use Utils\JsonPayloadValidator\UseCase\CheckPropertyFloat;
 use Utils\JsonPayloadValidator\UseCase\CheckPropertyInteger;
 use Utils\JsonPayloadValidator\UseCase\CheckPropertyPresence;
 use Utils\JsonPayloadValidator\UseCase\CheckPropertyString;
+
 use function DI\autowire;
 
 class JsonPayloadValidatorDependencyInjection extends AbstractDependencyInjection

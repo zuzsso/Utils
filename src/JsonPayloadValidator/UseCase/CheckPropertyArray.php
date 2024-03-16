@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Utils\JsonPayloadValidator\UseCase;
 
-
 use Utils\JsonPayloadValidator\Exception\ArrayDoesNotHaveMinimumElementCountException;
 use Utils\JsonPayloadValidator\Exception\ArrayExceedsMaximumnAllowedNumberOfElementsException;
 use Utils\JsonPayloadValidator\Exception\ArrayWithCustomIndexNumeration;

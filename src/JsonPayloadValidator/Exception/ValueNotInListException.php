@@ -8,14 +8,9 @@ class ValueNotInListException extends AbstractMalformedRequestBody
 {
     public static function constructForList(string $key, array $listOfValidValues, string $givenValue): self
     {
-        return new self(
-            "The key '%key%' can only be one of the following: [%values%], but it is '%givenValue%'",
-            [
-                'key' => $key,
-                'givenValue' => $givenValue,
-                'values' => implode(' | ', $listOfValidValues)
-            ]
-        );
+        $vals = implode(' | ', $listOfValidValues);
+
+        return new self("The key '$key' can only be one of the following: [$vals], but it is '$givenValue'");
     }
 
     public function errorCode(): string

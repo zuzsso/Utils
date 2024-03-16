@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Utils\JsonPayloadValidator\Service;
 
-
 use Utils\JsonPayloadValidator\Exception\EntryEmptyException;
 use Utils\JsonPayloadValidator\Exception\EntryForbiddenException;
 use Utils\JsonPayloadValidator\Exception\EntryMissingException;

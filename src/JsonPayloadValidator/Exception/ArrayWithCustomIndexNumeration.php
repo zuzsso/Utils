@@ -9,7 +9,8 @@ class ArrayWithCustomIndexNumeration extends AbstractMalformedRequestBody
     public static function constructForCustomNumeration(): self
     {
         return new self(
-            "The array first index is not 0 or the last index is not equals to the array count minus one", []
+            "The array first index is not 0 or the last index is not equals to the array count minus one",
+            []
         );
     }
 

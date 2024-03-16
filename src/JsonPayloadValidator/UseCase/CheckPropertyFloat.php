@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Utils\JsonPayloadValidator\UseCase;
 
-
 use Utils\JsonPayloadValidator\Exception\EntryEmptyException;
 use Utils\JsonPayloadValidator\Exception\EntryMissingException;
 use Utils\JsonPayloadValidator\Exception\OptionalPropertyNotAFloatException;
