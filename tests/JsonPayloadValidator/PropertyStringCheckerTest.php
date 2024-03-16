@@ -7,6 +7,7 @@ namespace Utils\Tests\JsonPayloadValidator;
 use PHPUnit\Framework\TestCase;
 use Utils\JsonPayloadValidator\Exception\EntryEmptyException;
 use Utils\JsonPayloadValidator\Exception\EntryMissingException;
+use Utils\JsonPayloadValidator\Exception\OptionalPropertyNotAStringException;
 use Utils\JsonPayloadValidator\Exception\ValueNotAStringException;
 use Utils\JsonPayloadValidator\Service\PropertyPresenceChecker;
 use Utils\JsonPayloadValidator\Service\PropertyStringChecker;
@@ -77,5 +78,25 @@ class PropertyStringCheckerTest extends TestCase
         $this->expectExceptionMessage($expectedExceptionMessage);
 
         $this->sut->required($key, $payload);
+    }
+
+
+    public function shouldPassOptionalDataProvider(): array
+    {
+        $key = 'myKey';
+        return [
+            [$key, []],
+            [$key, [$key => 'abc']]
+        ];
+    }
+
+    /**
+     * @dataProvider shouldPassOptionalDataProvider
+     * @throws OptionalPropertyNotAStringException
+     */
+    public function testShouldPassOptional(string $key, array $payload): void
+    {
+        $this->sut->optional($key, $payload);
+        $this->expectNotToPerformAssertions();
     }
 }
