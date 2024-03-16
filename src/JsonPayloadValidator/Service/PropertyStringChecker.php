@@ -176,7 +176,7 @@ class PropertyStringChecker implements CheckPropertyString
 
         $this->required($key, $payload);
 
-        $len = strlen($payload[$key]);
+        $len = strlen(trim($payload[$key]));
         if ($len !== $exactLength) {
             throw ValueStringNotExactLengthException::constructForStandardMessage($key, $exactLength, $len);
         }

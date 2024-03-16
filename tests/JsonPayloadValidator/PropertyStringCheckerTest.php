@@ -293,6 +293,7 @@ class PropertyStringCheckerTest extends TestCase
             [$key, [$key => []], 1, true, EntryEmptyException::class, $m4],
             [$key, [$key => ""], 1, false, EntryEmptyException::class, $m4],
             [$key, [$key => ""], 1, true, EntryEmptyException::class, $m4],
+            [$key, [$key => null], 1, true, EntryEmptyException::class, $m4],
         ];
     }
 
@@ -316,5 +317,44 @@ class PropertyStringCheckerTest extends TestCase
         $this->expectExceptionMessage($expectedExceptionMessage);
 
         $this->sut->exactByteLength($key, $payload, $exactLength, $required);
+    }
+
+
+    public function shouldPassExactByteLengthDataProvider(): array
+    {
+        $key = 'myKey';
+
+        return [
+            [$key, [], 1, false],
+            [$key, [$key => null], 1, false],
+            [$key, [$key => 'a'], 1, false],
+            [$key, [$key => 'a'], 1, true],
+
+            // Trailing and leading whitespaces are trimmed
+            [$key, [$key => '     a     '], 1, true],
+            [$key, [$key => '     a     '], 1, false],
+
+            // Looks like a one char string, but we don't measure the length in chars, but in bytes
+            [$key, [$key => '漢'], 3, false],
+            [$key, [$key => '漢'], 3, true],
+        ];
+    }
+
+    /**
+     * @dataProvider shouldPassExactByteLengthDataProvider
+     * @throws EntryEmptyException
+     * @throws EntryMissingException
+     * @throws IncorrectParametrizationException
+     * @throws ValueNotAStringException
+     * @throws ValueStringNotExactLengthException
+     */
+    public function testShouldPassExactByteLength(
+        string $key,
+        array $payload,
+        int $exactLength,
+        bool $required
+    ): void {
+        $this->sut->exactByteLength($key, $payload, $exactLength, $required);
+        $this->expectNotToPerformAssertions();
     }
 }
