@@ -5,11 +5,13 @@ declare(strict_types=1);
 namespace Utils\Tests\JsonPayloadValidator;
 
 use PHPUnit\Framework\TestCase;
-use Symfony\Component\Console\Exception\MissingInputException;
 use Utils\JsonPayloadValidator\Exception\EntryEmptyException;
 use Utils\JsonPayloadValidator\Exception\EntryMissingException;
+use Utils\JsonPayloadValidator\Exception\IncorrectParametrizationException;
 use Utils\JsonPayloadValidator\Exception\OptionalPropertyNotAStringException;
 use Utils\JsonPayloadValidator\Exception\ValueNotAStringException;
+use Utils\JsonPayloadValidator\Exception\ValueStringTooBigException;
+use Utils\JsonPayloadValidator\Exception\ValueStringTooSmallException;
 use Utils\JsonPayloadValidator\Service\PropertyPresenceChecker;
 use Utils\JsonPayloadValidator\Service\PropertyStringChecker;
 
@@ -129,5 +131,45 @@ class PropertyStringCheckerTest extends TestCase
         $this->expectExceptionMessage($expectedExceptionMessage);
 
         $this->sut->optional($key, $payload);
+    }
+
+
+    public function shouldThrowIncorrectParametersExceptionDataProvider(): array
+    {
+        $key = 'myKey';
+
+        $m1 = "Negative lengths not allowed, but you specified a minimum length of '-1'";
+        $m2 = "Negative lengths not allowed, but you specified a maximum length of '-1'";
+        $m3 = "Minimum length cannot be greater or equals than maximum length";
+
+        return [
+            [$key, [$key => 'not relevant'], -1, null, IncorrectParametrizationException::class, $m1],
+            [$key, [$key => 'not relevant'], null, -1, IncorrectParametrizationException::class, $m2],
+            [$key, [$key => 'not relevant'], 4, 3, IncorrectParametrizationException::class, $m3],
+            [$key, [$key => 'not relevant'], 4, 4, IncorrectParametrizationException::class, $m3],
+        ];
+    }
+
+    /**
+     * @dataProvider shouldThrowIncorrectParametersExceptionDataProvider
+     * @throws EntryEmptyException
+     * @throws EntryMissingException
+     * @throws ValueNotAStringException
+     * @throws IncorrectParametrizationException
+     * @throws ValueStringTooBigException
+     * @throws ValueStringTooSmallException
+     */
+    public function testShouldThrowIncorrectParametersException(
+        string $key,
+        array $payload,
+        ?int $minLength,
+        ?int $maximumLength,
+        string $expectedException,
+        string $expectedExceptionMessage
+    ): void {
+        $this->expectException($expectedException);
+        $this->expectExceptionMessage($expectedExceptionMessage);
+
+        $this->sut->byteLengthRange($key, $payload, $minLength, $maximumLength);
     }
 }

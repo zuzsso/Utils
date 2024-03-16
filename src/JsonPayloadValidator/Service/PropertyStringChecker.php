@@ -133,7 +133,6 @@ class PropertyStringChecker implements CheckPropertyString
         return $this;
     }
 
-
     /**
      * @inheritDoc
      */
