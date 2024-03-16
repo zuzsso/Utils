@@ -73,16 +73,33 @@ class PropertyStringChecker implements CheckPropertyString
         ?int $maximumLength,
         bool $required = true
     ): CheckPropertyString {
-        if (($minimumLength !== null) && ($minimumLength < 0)) {
-            throw new IncorrectParametrizationException(
-                "Negative lengths not allowed, but you specified a minimum length of '$minimumLength'"
-            );
+
+        if ($minimumLength !== null) {
+            if ($minimumLength < 0) {
+                throw new IncorrectParametrizationException(
+                    "Negative lengths not allowed, but you specified a minimum length of '$minimumLength'"
+                );
+            }
+
+            if ($minimumLength === 0) {
+                throw new IncorrectParametrizationException(
+                    "Zero lengths would require the 'optional' validator. Please correct the minimum length"
+                );
+            }
         }
 
-        if (($maximumLength !== null) && ($maximumLength < 0)) {
-            throw new IncorrectParametrizationException(
-                "Negative lengths not allowed, but you specified a maximum length of '$maximumLength'"
-            );
+        if ($maximumLength !== null) {
+            if ($maximumLength < 0) {
+                throw new IncorrectParametrizationException(
+                    "Negative lengths not allowed, but you specified a maximum length of '$maximumLength'"
+                );
+            }
+
+            if ($maximumLength === 0) {
+                throw new IncorrectParametrizationException(
+                    "Zero lengths would require the 'optional' validator. Please correct the maximum length"
+                );
+            }
         }
 
         if (($minimumLength !== null) && ($maximumLength !== null) && ($minimumLength >= $maximumLength)) {
