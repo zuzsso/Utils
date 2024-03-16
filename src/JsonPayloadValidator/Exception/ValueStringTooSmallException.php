@@ -9,12 +9,7 @@ class ValueStringTooSmallException extends AbstractMalformedRequestBody
     public static function constructForStandardMessage(string $key, int $minimumLength, int $actualLength): self
     {
         return new self(
-            "Entry %key% is expected to be at least %minimumLength% chars long, but it is %actualLength%",
-            [
-                "key" => $key,
-                "minimumLength" => $minimumLength,
-                "actualLength" => $actualLength
-            ]
+            "Entry '$key' is expected to be at least $minimumLength bytes long, but it is $actualLength"
         );
     }
 

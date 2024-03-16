@@ -6,11 +6,13 @@ namespace Utils\JsonPayloadValidator\UseCase;
 
 use Utils\JsonPayloadValidator\Exception\EntryEmptyException;
 use Utils\JsonPayloadValidator\Exception\EntryMissingException;
+use Utils\JsonPayloadValidator\Exception\IncorrectParametrizationException;
 use Utils\JsonPayloadValidator\Exception\InvalidDateValueException;
 use Utils\JsonPayloadValidator\Exception\OptionalPropertyNotAStringException;
 use Utils\JsonPayloadValidator\Exception\StringIsNotAnUrlException;
 use Utils\JsonPayloadValidator\Exception\ValueNotAStringException;
 use Utils\JsonPayloadValidator\Exception\ValueStringNotExactLengthException;
+use Utils\JsonPayloadValidator\Exception\ValueStringTooBigException;
 use Utils\JsonPayloadValidator\Exception\ValueStringTooSmallException;
 
 interface CheckPropertyString
@@ -28,12 +30,20 @@ interface CheckPropertyString
     public function optional(string $key, array $payload): self;
 
     /**
-     * @throws ValueNotAStringException
-     * @throws ValueStringTooSmallException
      * @throws EntryEmptyException
      * @throws EntryMissingException
+     * @throws IncorrectParametrizationException
+     * @throws ValueNotAStringException
+     * @throws ValueStringTooBigException
+     * @throws ValueStringTooSmallException
      */
-    public function minimumLength(string $key, array $payload, int $minimumLength): self;
+    public function byteLengthRange(
+        string $key,
+        array $payload,
+        ?int $minimumLength,
+        ?int $maximumLength,
+        bool $required = true
+    ): self;
 
     /**
      * @throws StringIsNotAnUrlException

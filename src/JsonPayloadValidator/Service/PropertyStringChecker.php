@@ -8,11 +8,13 @@ use DateTimeImmutable;
 use Utils\JsonPayloadValidator\Exception\EntryEmptyException;
 use Utils\JsonPayloadValidator\Exception\EntryForbiddenException;
 use Utils\JsonPayloadValidator\Exception\EntryMissingException;
+use Utils\JsonPayloadValidator\Exception\IncorrectParametrizationException;
 use Utils\JsonPayloadValidator\Exception\InvalidDateValueException;
 use Utils\JsonPayloadValidator\Exception\OptionalPropertyNotAStringException;
 use Utils\JsonPayloadValidator\Exception\StringIsNotAnUrlException;
 use Utils\JsonPayloadValidator\Exception\ValueNotAStringException;
 use Utils\JsonPayloadValidator\Exception\ValueStringNotExactLengthException;
+use Utils\JsonPayloadValidator\Exception\ValueStringTooBigException;
 use Utils\JsonPayloadValidator\Exception\ValueStringTooSmallException;
 use Utils\JsonPayloadValidator\UseCase\CheckPropertyPresence;
 use Utils\JsonPayloadValidator\UseCase\CheckPropertyString;
@@ -64,20 +66,57 @@ class PropertyStringChecker implements CheckPropertyString
     /**
      * @inheritDoc
      */
-    public function minimumLength(string $key, array $payload, int $minimumLength): self
-    {
-        $this->checkPropertyPresence->required($key, $payload);
+    public function byteLengthRange(
+        string $key,
+        array $payload,
+        ?int $minimumLength,
+        ?int $maximumLength,
+        bool $required = true
+    ): CheckPropertyString {
+        if (($minimumLength !== null) && ($minimumLength < 0)) {
+            throw new IncorrectParametrizationException(
+                "Negative lengths not allowed, but you specified a minimum length of '$minimumLength'"
+            );
+        }
+
+        if (($maximumLength !== null) && ($maximumLength < 0)) {
+            throw new IncorrectParametrizationException(
+                "Negative lengths not allowed, but you specified a maximum length of '$maximumLength'"
+            );
+        }
+
+        if (($minimumLength !== null) && ($maximumLength !== null) && ($minimumLength >= $maximumLength)) {
+            throw new IncorrectParametrizationException(
+                "Minimum length cannot be greater or equals than maximum length"
+            );
+        }
+
+        if (!$required) {
+            try {
+                $this->checkPropertyPresence->forbidden($key, $payload);
+                return $this;
+            } catch (EntryForbiddenException $e) {
+                // The property exists, so validate it as if it was required
+            }
+        }
+
         $this->required($key, $payload);
 
-        $len = strlen($payload[$key]);
-        if ($len < $minimumLength) {
-            throw new ValueStringTooSmallException(
-                "Entry $key is expected to be at least $minimumLength chars long, but it is $len"
-            );
+        $trim = trim($payload[$key]);
+
+        $length = strlen($trim);
+
+        if (($minimumLength !== null) && ($length < $minimumLength)) {
+            throw ValueStringTooSmallException::constructForStandardMessage($key, $minimumLength, $length);
+        }
+
+        if ($maximumLength !== null && ($length > $maximumLength)) {
+            throw ValueStringTooBigException::constructForStandardMessage($key, $maximumLength, $length);
         }
 
         return $this;
     }
+
 
     /**
      * @inheritDoc

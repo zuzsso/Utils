@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Utils\Tests\JsonPayloadValidator;
 
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\Console\Exception\MissingInputException;
 use Utils\JsonPayloadValidator\Exception\EntryEmptyException;
 use Utils\JsonPayloadValidator\Exception\EntryMissingException;
 use Utils\JsonPayloadValidator\Exception\OptionalPropertyNotAStringException;
@@ -86,7 +87,8 @@ class PropertyStringCheckerTest extends TestCase
         $key = 'myKey';
         return [
             [$key, []],
-            [$key, [$key => 'abc']]
+            [$key, [$key => 'abc']],
+            [$key, [$key => null]]
         ];
     }
 
@@ -98,5 +100,34 @@ class PropertyStringCheckerTest extends TestCase
     {
         $this->sut->optional($key, $payload);
         $this->expectNotToPerformAssertions();
+    }
+
+    public function shouldFailOptionalDataProvider(): array
+    {
+        $key = 'myKey';
+        $msg001 = "The entry 'myKey' is optional, but if provided it should be a string";
+
+        return [
+            [$key, [$key => ''], OptionalPropertyNotAStringException::class, $msg001],
+            [$key, [$key => '        '], OptionalPropertyNotAStringException::class, $msg001],
+            [$key, [$key => 3], OptionalPropertyNotAStringException::class, $msg001],
+            [$key, [$key => []], OptionalPropertyNotAStringException::class, $msg001],
+        ];
+    }
+
+    /**
+     * @dataProvider shouldFailOptionalDataProvider
+     * @throws OptionalPropertyNotAStringException
+     */
+    public function testShouldFailOptional(
+        string $key,
+        array $payload,
+        string $expectedException,
+        string $expectedExceptionMessage
+    ): void {
+        $this->expectException($expectedException);
+        $this->expectExceptionMessage($expectedExceptionMessage);
+
+        $this->sut->optional($key, $payload);
     }
 }
