@@ -7,6 +7,7 @@ namespace Utils\Tests\JsonPayloadValidator;
 use PHPUnit\Framework\TestCase;
 use Utils\JsonPayloadValidator\Exception\EntryEmptyException;
 use Utils\JsonPayloadValidator\Exception\EntryMissingException;
+use Utils\JsonPayloadValidator\Exception\OptionalPropertyNotAFloatException;
 use Utils\JsonPayloadValidator\Exception\ValueNotAFloatException;
 use Utils\JsonPayloadValidator\Service\PropertyFloatChecker;
 use Utils\JsonPayloadValidator\Service\PropertyPresenceChecker;
@@ -89,5 +90,38 @@ class PropertyFloatCheckerTest extends TestCase
     {
         $this->sut->required($key, $payload);
         $this->expectNotToPerformAssertions();
+    }
+
+    public function shouldFailOptionalDataProvider(): array
+    {
+        $key = 'myKey';
+
+        $m1 = "The entry 'myKey' is optional, but if provided it should be a a float";
+
+        return [
+            [$key, [$key => ''], OptionalPropertyNotAFloatException::class, $m1],
+            [$key, [$key => []], OptionalPropertyNotAFloatException::class, $m1],
+            [$key, [$key => "1"], OptionalPropertyNotAFloatException::class, $m1],
+            [$key, [$key => "abc"], OptionalPropertyNotAFloatException::class, $m1],
+            [$key, [$key => [[]]], OptionalPropertyNotAFloatException::class, $m1],
+            [$key, [$key => true], OptionalPropertyNotAFloatException::class, $m1],
+            [$key, [$key => false], OptionalPropertyNotAFloatException::class, $m1],
+        ];
+    }
+
+    /**
+     * @dataProvider shouldFailOptionalDataProvider
+     *
+     * @throws OptionalPropertyNotAFloatException
+     */
+    public function testShouldFailOptional(
+        string $key,
+        array $payload,
+        string $expectedException,
+        string $expectedExceptionmessage
+    ): void {
+        $this->expectException($expectedException);
+        $this->expectExceptionMessage($expectedExceptionmessage);
+        $this->sut->optional($key, $payload);
     }
 }
