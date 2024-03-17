@@ -13,6 +13,8 @@ use Utils\JsonPayloadValidator\Exception\OptionalPropertyNotAnIntegerException;
 use Utils\JsonPayloadValidator\Exception\ValueNotEqualsToException;
 use Utils\JsonPayloadValidator\Exception\ValueNotGreaterThanException;
 use Utils\JsonPayloadValidator\Exception\ValueNotSmallerThanException;
+use Utils\JsonPayloadValidator\Exception\ValueTooBigException;
+use Utils\JsonPayloadValidator\Exception\ValueTooSmallException;
 use Utils\JsonPayloadValidator\UseCase\CheckPropertyInteger;
 use Utils\JsonPayloadValidator\UseCase\CheckPropertyPresence;
 
@@ -76,12 +78,7 @@ class PropertyIntegerChecker implements CheckPropertyInteger
     }
 
     /**
-     * @throws EntryEmptyException
-     * @throws EntryMissingException
-     * @throws IncorrectParametrizationException
-     * @throws InvalidIntegerValueException
-     * @throws ValueNotGreaterThanException
-     * @throws ValueNotSmallerThanException
+     * @inheritDoc
      */
     public function withinRange(
         string $key,
@@ -90,6 +87,10 @@ class PropertyIntegerChecker implements CheckPropertyInteger
         ?int $maxValue,
         bool $required = true
     ): self {
+
+        if (($minValue === null) && ($maxValue === null)) {
+            throw new IncorrectParametrizationException("No range defined");
+        }
         if (($minValue !== null) && ($maxValue !== null) && ($minValue >= $maxValue)) {
             throw new IncorrectParametrizationException("Min value cannot be greater or equal than max value");
         }
@@ -107,11 +108,11 @@ class PropertyIntegerChecker implements CheckPropertyInteger
         $value = (int)$payload[$key];
 
         if (($minValue !== null) && ($value < $minValue)) {
-            throw  ValueNotSmallerThanException::constructForStandardMessageInteger($key, $minValue, $value);
+            throw ValueTooSmallException::constructForInteger($key, $minValue, $value);
         }
 
         if (($maxValue !== null) && ($value > $maxValue)) {
-            throw ValueNotGreaterThanException::constructForStandardIntegerMessage($key, $maxValue, $value);
+            throw ValueTooBigException::constructForInteger($key, $maxValue, $value);
         }
 
         return $this;

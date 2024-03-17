@@ -12,6 +12,8 @@ use Utils\JsonPayloadValidator\Exception\OptionalPropertyNotAnIntegerException;
 use Utils\JsonPayloadValidator\Exception\ValueNotEqualsToException;
 use Utils\JsonPayloadValidator\Exception\ValueNotGreaterThanException;
 use Utils\JsonPayloadValidator\Exception\ValueNotSmallerThanException;
+use Utils\JsonPayloadValidator\Exception\ValueTooBigException;
+use Utils\JsonPayloadValidator\Exception\ValueTooSmallException;
 
 interface CheckPropertyInteger
 {
@@ -30,8 +32,12 @@ interface CheckPropertyInteger
 
 
     /**
+     * @throws EntryEmptyException
+     * @throws EntryMissingException
+     * @throws IncorrectParametrizationException
      * @throws InvalidIntegerValueException
-     * @throws OptionalPropertyNotAnIntegerException
+     * @throws ValueTooBigException
+     * @throws ValueTooSmallException
      */
     public function withinRange(
         string $key,

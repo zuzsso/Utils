@@ -13,7 +13,7 @@ class ValueTooBigException extends AbstractMalformedRequestBody
         );
     }
 
-    public static function constructForStandardIntegerMessage(string $key, int $compareTo, int $value): self
+    public static function constructForInteger(string $key, int $compareTo, int $value): self
     {
         return new self("Entry '$key' is meant to be equals or less than '$compareTo': '$value'");
     }
