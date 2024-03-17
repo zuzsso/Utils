@@ -32,16 +32,15 @@ class PropertyIntegerCheckerTest extends TestCase
 
         return [
             [$key, [], EntryMissingException::class, $m1],
-
             [$key, [$key => null], EntryEmptyException::class, $m2],
             [$key, [$key => []], EntryEmptyException::class, $m2],
             [$key, [$key => ''], EntryEmptyException::class, $m2],
             [$key, [$key => false], InvalidIntegerValueException::class, $m3],
             [$key, [$key => true], InvalidIntegerValueException::class, $m3],
+            [$key, [$key => "0"], InvalidIntegerValueException::class, $m3],
             [$key, [$key => "blah"], InvalidIntegerValueException::class, $m3],
             [$key, [$key => 1.25], InvalidIntegerValueException::class, $m3],
             [$key, [$key => [[]]], InvalidIntegerValueException::class, $m3],
-
         ];
     }
 
@@ -60,5 +59,30 @@ class PropertyIntegerCheckerTest extends TestCase
         $this->expectException($expectedException);
         $this->expectExceptionMessage($expectedExceptionMessage);
         $this->sut->required($key, $payload);
+    }
+
+    public function shouldPassRequiredDataProvider(): array
+    {
+        $key = 'myKey';
+
+        return [
+            [$key, [$key => 1]],
+            [$key, [$key => 0]],
+            [$key, [$key => -1]]
+        ];
+    }
+
+    /**
+     * @dataProvider shouldPassRequiredDataProvider
+     * @throws EntryEmptyException
+     * @throws EntryMissingException
+     * @throws InvalidIntegerValueException
+     */
+    public function testShouldPassRequired(
+        string $key,
+        array $payload
+    ): void {
+        $this->sut->required($key, $payload);
+        $this->expectNotToPerformAssertions();
     }
 }

@@ -42,6 +42,10 @@ class PropertyIntegerChecker implements CheckPropertyInteger
             throw InvalidIntegerValueException::constructForStandardMessage($key);
         }
 
+        if (is_string($originalValue)) {
+            throw InvalidIntegerValueException::constructForStandardMessage($key);
+        }
+
         $parsed = (int)$originalValue;
 
         if ((string)$parsed !== (string)$originalValue) {
