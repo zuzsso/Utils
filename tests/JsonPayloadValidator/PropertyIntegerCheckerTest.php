@@ -160,42 +160,33 @@ class PropertyIntegerCheckerTest extends TestCase
         $m5 = "Entry 'myKey' does not hold a valid int value";
         $m6 = "Entry 'myKey' is meant to be greater than '5': '6'";
 
-        return [
-            [$key, [$key => 123], 4, 4, true, IncorrectParametrizationException::class, $m1],
-            [$key, [$key => 123], 4, 4, false, IncorrectParametrizationException::class, $m1],
-            [$key, [$key => 123], 5, 4, true, IncorrectParametrizationException::class, $m1],
-            [$key, [$key => 123], 5, 4, false, IncorrectParametrizationException::class, $m1],
-
+        $fixedTests = [
             [$key, [], null, null, true, EntryMissingException::class, $m2],
-
             [$key, [$key => null], null, null, true, EntryEmptyException::class, $m3],
             [$key, [$key => ''], null, null, true, EntryEmptyException::class, $m3],
             [$key, [$key => []], null, null, true, EntryEmptyException::class, $m3],
-
-            [$key, [$key => "blah"], null, null, true, InvalidIntegerValueException::class, $m5],
-            [$key, [$key => "1"], null, null, true, InvalidIntegerValueException::class, $m5],
-            [$key, [$key => true], null, null, true, InvalidIntegerValueException::class, $m5],
-            [$key, [$key => false], null, null, true, InvalidIntegerValueException::class, $m5],
-            [$key, [$key => [[]]], null, null, true, InvalidIntegerValueException::class, $m5],
-            [$key, [$key => 1.1], null, null, true, InvalidIntegerValueException::class, $m5],
-
-            [$key, [$key => "blah"], null, null, false, InvalidIntegerValueException::class, $m5],
-            [$key, [$key => "1"], null, null, false, InvalidIntegerValueException::class, $m5],
-            [$key, [$key => true], null, null, false, InvalidIntegerValueException::class, $m5],
-            [$key, [$key => false], null, null, false, InvalidIntegerValueException::class, $m5],
-            [$key, [$key => [[]]], null, null, false, InvalidIntegerValueException::class, $m5],
-            [$key, [$key => 1.1], null, null, false, InvalidIntegerValueException::class, $m5],
-
-            [$key, [$key => 2], 3, null, true, ValueNotSmallerThanException::class, $m4],
-            [$key, [$key => 2], 3, 5, true, ValueNotSmallerThanException::class, $m4],
-            [$key, [$key => 6], null, 5, true, ValueNotGreaterThanException::class, $m6],
-            [$key, [$key => 6], 3, 5, true, ValueNotGreaterThanException::class, $m6],
-
-            [$key, [$key => 2], 3, null, false, ValueNotSmallerThanException::class, $m4],
-            [$key, [$key => 2], 3, 5, false, ValueNotSmallerThanException::class, $m4],
-            [$key, [$key => 6], null, 5, false, ValueNotGreaterThanException::class, $m6],
-            [$key, [$key => 6], 3, 5, false, ValueNotGreaterThanException::class, $m6],
         ];
+
+        $variableTests = [];
+
+        $variable = [true, false];
+
+        foreach ($variable as $v) {
+            $variableTests[] = [$key, [$key => 123], 4, 4, $v, IncorrectParametrizationException::class, $m1];
+            $variableTests[] = [$key, [$key => 123], 5, 4, $v, IncorrectParametrizationException::class, $m1];
+            $variableTests[] = [$key, [$key => "blah"], null, null, $v, InvalidIntegerValueException::class, $m5];
+            $variableTests[] = [$key, [$key => "1"], null, null, $v, InvalidIntegerValueException::class, $m5];
+            $variableTests[] = [$key, [$key => true], null, null, $v, InvalidIntegerValueException::class, $m5];
+            $variableTests[] = [$key, [$key => false], null, null, $v, InvalidIntegerValueException::class, $m5];
+            $variableTests[] = [$key, [$key => [[]]], null, null, $v, InvalidIntegerValueException::class, $m5];
+            $variableTests[] = [$key, [$key => 1.1], null, null, $v, InvalidIntegerValueException::class, $m5];
+            $variableTests[] = [$key, [$key => 2], 3, null, $v, ValueNotSmallerThanException::class, $m4];
+            $variableTests[] = [$key, [$key => 2], 3, 5, $v, ValueNotSmallerThanException::class, $m4];
+            $variableTests[] = [$key, [$key => 6], null, 5, $v, ValueNotGreaterThanException::class, $m6];
+            $variableTests[] = [$key, [$key => 6], 3, 5, $v, ValueNotGreaterThanException::class, $m6];
+        }
+
+        return array_merge($variableTests, $fixedTests);
     }
 
     /**
@@ -226,33 +217,28 @@ class PropertyIntegerCheckerTest extends TestCase
     {
         $key = 'myKey';
 
-        return [
+        $fixedTests = [
             [$key, [], null, null, false],
             [$key, [], 1, null, false],
             [$key, [], null, 2, false],
-            [$key, [], 1, 2, false],
-
-            [$key, [$key => 1], null, null, true],
-            [$key, [$key => 1], 1, null, true],
-            [$key, [$key => 2], 1, null, true],
-
-            [$key, [$key => 2], null, 3, true],
-            [$key, [$key => 3], null, 3, true],
-            [$key, [$key => 2], 2, 4, true],
-            [$key, [$key => 3], 2, 4, true],
-            [$key, [$key => 4], 2, 4, true],
-
-            [$key, [$key => 1], null, null, false],
-            [$key, [$key => 1], 1, null, false],
-            [$key, [$key => 2], 1, null, false],
-
-            [$key, [$key => 2], null, 3, false],
-            [$key, [$key => 3], null, 3, false],
-            [$key, [$key => 2], 2, 4, false],
-            [$key, [$key => 3], 2, 4, false],
-            [$key, [$key => 4], 2, 4, false],
-
+            [$key, [], 1, 2, false]
         ];
+
+        $variable = [true, false];
+        $variableTests = [];
+
+        foreach ($variable as $v) {
+            $variableTests[] = [$key, [$key => 1], null, null, $v];
+            $variableTests[] = [$key, [$key => 1], 1, null, $v];
+            $variableTests[] = [$key, [$key => 2], 1, null, $v];
+            $variableTests[] = [$key, [$key => 2], null, 3, $v];
+            $variableTests[] = [$key, [$key => 2], 2, 4, $v];
+            $variableTests[] = [$key, [$key => 3], null, 3, $v];
+            $variableTests[] = [$key, [$key => 3], 2, 4, $v];
+            $variableTests[] = [$key, [$key => 4], 2, 4, $v];
+        }
+
+        return array_merge($fixedTests, $variableTests);
     }
 
     /**
