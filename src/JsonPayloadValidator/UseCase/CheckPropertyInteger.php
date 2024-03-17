@@ -41,14 +41,6 @@ interface CheckPropertyInteger
         bool $required = true
     ): self;
 
-//    /**
-//     * @throws InvalidIntegerValueException
-//     * @throws ValueNotSmallerThanException
-//     * @throws EntryEmptyException
-//     * @throws EntryMissingException
-//     */
-//    public function lessThan(string $key, array $payload, int $compareTo): self;
-
     /**
      * @throws InvalidIntegerValueException
      * @throws ValueNotEqualsToException

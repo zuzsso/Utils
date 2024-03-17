@@ -117,22 +117,6 @@ class PropertyIntegerChecker implements CheckPropertyInteger
         return $this;
     }
 
-//    /**
-//     * @inheritDoc
-//     */
-//    public function lessThan(string $key, array $payload, int $compareTo): self
-//    {
-//        $this->checkPropertyPresence->required($key, $payload);
-//        $this->required($key, $payload);
-//        $value = (int)$payload[$key];
-//
-//        if (!($value < $compareTo)) {
-//            throw  ValueNotSmallerThanException::constructForStandardMessage($key, $compareTo, $value);
-//        }
-//
-//        return $this;
-//    }
-
     /**
      * @inheritDoc
      */
