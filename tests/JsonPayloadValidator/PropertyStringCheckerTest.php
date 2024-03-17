@@ -152,51 +152,45 @@ class PropertyStringCheckerTest extends TestCase
         $m9 = "Zero lengths would require the 'optional' validator. Please correct the minimum length";
         $ma = "Zero lengths would require the 'optional' validator. Please correct the maximum length";
 
-        return [
+        $fixedTests = [
             // These errors are about failure to configure the validator. They are not related to failed validation
             [$key, [$key => 'not relevant'], -1, null, true, IncorrectParametrizationException::class, $m1],
             [$key, [$key => 'not relevant'], null, -1, true, IncorrectParametrizationException::class, $m2],
             [$key, [$key => 'not relevant'], 4, 3, true, IncorrectParametrizationException::class, $m3],
             [$key, [$key => 'not relevant'], 4, 4, true, IncorrectParametrizationException::class, $m3],
-
-            [$key, [$key => 'not relevant'], 0, null, true, IncorrectParametrizationException::class, $m9],
-            [$key, [$key => 'not relevant'], 0, null, false, IncorrectParametrizationException::class, $m9],
-
-            [$key, [$key => 'not relevant'], null, 0, true, IncorrectParametrizationException::class, $ma],
-            [$key, [$key => 'not relevant'], null, 0, false, IncorrectParametrizationException::class, $ma],
-
-            // The rest are about actual payload validation
-
-            [$key, [$key => ''], 2, 3, false, EntryEmptyException::class, $m6],
-            [$key, [$key => ''], 2, 3, true, EntryEmptyException::class, $m6],
-
-            [$key, [$key => '    '], 2, 3, false, EntryEmptyException::class, $m6],
-            [$key, [$key => '    '], 2, 3, true, EntryEmptyException::class, $m6],
-            [$key, [$key => []], 2, 3, true, EntryEmptyException::class, $m6],
-
-            [$key, [$key => 6], 2, 3, true, ValueNotAStringException::class, $m7],
-            [$key, [$key => 6.66], 2, 3, true, ValueNotAStringException::class, $m7],
-            [$key, [$key => true], 2, 3, true, ValueNotAStringException::class, $m7],
-            [$key, [$key => false], 2, 3, true, ValueNotAStringException::class, $m7],
-
-            [$key, [$key => '1'], 2, 3, true, ValueStringTooSmallException::class, $m4],
-            [$key, [$key => '1'], 2, 3, false, ValueStringTooSmallException::class, $m4],
-            [$key, [$key => '1'], 2, null, false, ValueStringTooSmallException::class, $m4],
-            [$key, [$key => '1'], 2, null, true, ValueStringTooSmallException::class, $m4],
-
-            // Seems like a three char string, but the function will trim trailing and leading spaces
-            [$key, [$key => ' 1 '], 2, null, true, ValueStringTooSmallException::class, $m4],
-
-            [$key, [$key => '1111'], 2, 3, true, ValueStringTooBigException::class, $m5],
-            [$key, [$key => '1111'], 2, 3, false, ValueStringTooBigException::class, $m5],
-            [$key, [$key => '1111'], null, 3, false, ValueStringTooBigException::class, $m5],
-            [$key, [$key => '1111'], null, 3, true, ValueStringTooBigException::class, $m5],
-
-            [$key, [$key => '大'], null, 2, true, ValueStringTooBigException::class, $m8],
-            [$key, [$key => '大'], null, 2, false, ValueStringTooBigException::class, $m8],
-            [$key, [$key => '大'], 1, 2, true, ValueStringTooBigException::class, $m8],
-            [$key, [$key => '大'], 1, 2, false, ValueStringTooBigException::class, $m8],
         ];
+
+        $variableTests = [];
+
+        $variable = [true, false];
+
+        foreach ($variable as $v) {
+            $variableTests[] = [$key, [$key => 'not relevant'], 0, null, $v, IncorrectParametrizationException::class, $m9];
+            $variableTests[] = [$key, [$key => 'not relevant'], null, 0, $v, IncorrectParametrizationException::class, $ma];
+            $variableTests[] = [$key, [$key => ''], 2, 3, $v, EntryEmptyException::class, $m6];
+            $variableTests[] = [$key, [$key => '    '], 2, 3, $v, EntryEmptyException::class, $m6];
+            $variableTests[] = [$key, [$key => []], 2, 3, $v, EntryEmptyException::class, $m6];
+            $variableTests[] = [$key, [$key => 6], 2, 3, $v, ValueNotAStringException::class, $m7];
+            $variableTests[] = [$key, [$key => 6.66], 2, 3, $v, ValueNotAStringException::class, $m7];
+            $variableTests[] = [$key, [$key => true], 2, 3, $v, ValueNotAStringException::class, $m7];
+            $variableTests[] = [$key, [$key => false], 2, 3, $v, ValueNotAStringException::class, $m7];
+            $variableTests[] = [$key, [$key => '1'], 2, 3, $v, ValueStringTooSmallException::class, $m4];
+            $variableTests[] = [$key, [$key => '1'], 2, null, $v, ValueStringTooSmallException::class, $m4];
+
+            // Seems like a three char string, but the validator will trim the trailing and leading whitespaces before
+            // proceeding with the validation
+            $variableTests[] = [$key, [$key => ' 1 '], 2, null, $v, ValueStringTooSmallException::class, $m4];
+
+            $variableTests[] = [$key, [$key => '1111'], 2, 3, $v, ValueStringTooBigException::class, $m5];
+            $variableTests[] = [$key, [$key => '1111'], null, 3, $v, ValueStringTooBigException::class, $m5];
+
+            // Seems like a one char string, but we don't measure strings in chars, but in bytes, and this kanji is
+            // three bytes long
+            $variableTests[] = [$key, [$key => '大'], null, 2, $v, ValueStringTooBigException::class, $m8];
+            $variableTests[] = [$key, [$key => '大'], 1, 2, $v, ValueStringTooBigException::class, $m8];
+        }
+
+        return array_merge($fixedTests, $variableTests);
     }
 
     /**
