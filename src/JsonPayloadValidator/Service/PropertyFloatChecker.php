@@ -125,28 +125,4 @@ class PropertyFloatChecker implements CheckPropertyFloat
     {
         return $this;
     }
-
-
-
-//    /**
-//     * @inheritDoc
-//     */
-//    public function optionalGreaterThan(string $key, array $payload, float $compareTo): CheckPropertyFloat
-//    {
-//        $this->optional($key, $payload);
-//
-//        $value = $payload[$key] ?? null;
-//
-//        if ($value === null) {
-//            return $this;
-//        }
-//
-//        $castValue = (float)$value;
-//
-//        if (!($castValue > $compareTo)) {
-//            throw ValueNotGreaterThanException::constructForStandardFloatMessage($key, $compareTo, $castValue);
-//        }
-//
-//        return $this;
-//    }
 }

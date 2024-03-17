@@ -9,10 +9,8 @@ use Utils\JsonPayloadValidator\Exception\EntryMissingException;
 use Utils\JsonPayloadValidator\Exception\IncorrectParametrizationException;
 use Utils\JsonPayloadValidator\Exception\OptionalPropertyNotAFloatException;
 use Utils\JsonPayloadValidator\Exception\ValueNotAFloatException;
-use Utils\JsonPayloadValidator\Exception\ValueNotGreaterThanException;
 use Utils\JsonPayloadValidator\Exception\ValueTooBigException;
 use Utils\JsonPayloadValidator\Exception\ValueTooSmallException;
-use Utils\JsonPayloadValidator\Service\PropertyFloatChecker;
 
 interface CheckPropertyFloat
 {
