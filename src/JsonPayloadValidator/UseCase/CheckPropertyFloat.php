@@ -30,11 +30,13 @@ interface CheckPropertyFloat
      * @throws EntryEmptyException
      * @throws EntryMissingException
      */
-    public function greaterThan(string $key, array $payload, float $compareTo): self;
+    public function withinRange(
+        string $key,
+        array $payload,
+        ?float $minValue,
+        ?float $maxValue,
+        bool $required = true
+    ): self;
 
-    /**
-     * @throws OptionalPropertyNotAFloatException
-     * @throws ValueNotGreaterThanException
-     */
-    public function optionalGreaterThan(string $key, array $payload, float $compareTo): self;
+    public function equalsTo(string $key, array $payload, float $compareTo, bool $required = true): self;
 }

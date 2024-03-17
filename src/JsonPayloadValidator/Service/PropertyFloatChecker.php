@@ -11,14 +11,17 @@ use Utils\JsonPayloadValidator\Exception\ValueNotAFloatException;
 use Utils\JsonPayloadValidator\Exception\ValueNotGreaterThanException;
 use Utils\JsonPayloadValidator\UseCase\CheckPropertyFloat;
 use Utils\JsonPayloadValidator\UseCase\CheckPropertyPresence;
+use Utils\Math\Numbers\UseCase\EqualFloats;
 
 class PropertyFloatChecker implements CheckPropertyFloat
 {
     private CheckPropertyPresence $checkPropertyPresence;
+    private EqualFloats $equalFloats;
 
-    public function __construct(CheckPropertyPresence $checkPropertyPresence)
+    public function __construct(CheckPropertyPresence $checkPropertyPresence, EqualFloats $equalFloats)
     {
         $this->checkPropertyPresence = $checkPropertyPresence;
+        $this->equalFloats = $equalFloats;
     }
 
     /**
@@ -29,6 +32,18 @@ class PropertyFloatChecker implements CheckPropertyFloat
         $this->checkPropertyPresence->required($key, $payload);
 
         $originalValue = $payload[$key];
+
+        if (is_bool($originalValue)) {
+            throw ValueNotAFloatException::constructForStandardMessage($key, (string)$originalValue);
+        }
+
+        if (is_string($originalValue)) {
+            throw ValueNotAFloatException::constructForStringValue($key, $originalValue);
+        }
+
+        if (is_array($originalValue)) {
+            throw ValueNotAFloatException::constructForGenericMessage($key);
+        }
 
         $castValue = (float)$originalValue;
 
@@ -62,8 +77,13 @@ class PropertyFloatChecker implements CheckPropertyFloat
     /**
      * @inheritDoc
      */
-    public function greaterThan(string $key, array $payload, float $compareTo): CheckPropertyFloat
-    {
+    public function withinRange(
+        string $key,
+        array $payload,
+        ?float $minValue,
+        ?float $maxValue,
+        bool $required = true
+    ): self {
         $this->required($key, $payload);
 
         $value = $payload[$key];
@@ -75,25 +95,32 @@ class PropertyFloatChecker implements CheckPropertyFloat
         return $this;
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function optionalGreaterThan(string $key, array $payload, float $compareTo): CheckPropertyFloat
+    public function equalsTo(string $key, array $payload, float $compareTo, bool $required = true): CheckPropertyFloat
     {
-        $this->optional($key, $payload);
-
-        $value = $payload[$key] ?? null;
-
-        if ($value === null) {
-            return $this;
-        }
-
-        $castValue = (float)$value;
-
-        if (!($castValue > $compareTo)) {
-            throw ValueNotGreaterThanException::constructForStandardFloatMessage($key, $compareTo, $castValue);
-        }
-
         return $this;
     }
+
+
+
+//    /**
+//     * @inheritDoc
+//     */
+//    public function optionalGreaterThan(string $key, array $payload, float $compareTo): CheckPropertyFloat
+//    {
+//        $this->optional($key, $payload);
+//
+//        $value = $payload[$key] ?? null;
+//
+//        if ($value === null) {
+//            return $this;
+//        }
+//
+//        $castValue = (float)$value;
+//
+//        if (!($castValue > $compareTo)) {
+//            throw ValueNotGreaterThanException::constructForStandardFloatMessage($key, $compareTo, $castValue);
+//        }
+//
+//        return $this;
+//    }
 }
