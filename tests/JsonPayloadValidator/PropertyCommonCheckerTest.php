@@ -54,25 +54,32 @@ class PropertyCommonCheckerTest extends TestCase
     {
         $key = 'myKey';
         $validValues1 = [1, 2, 3];
-        return [
+
+        $m1 = "Entry 'myKey' missing";
+        $m2 = "The key 'myKey' can only be one of the following: [1 | 2 | 3], but it is '6'";
+        $m3 = "The key 'myKey' can only be one of the following: [1 | 2 | 3], but it is '3'";
+        $m4 = "Entry 'myKey' empty";
+        $m5 = "The key 'myKey' can only be one of the following: [1 | 2 | 3], but it is '[[]]'";
+        $m6 = "The key 'myKey' can only be one of the following: [1 | 2 | 3], but it is '2.25'";
+
+        $fixedTests = [
             // Required but missing
-            [$key, [], $validValues1, true, EntryMissingException::class, "Entry 'myKey' missing"],
-
-            // Not required, but once it is provided, it needs to pass validation
-            [$key, [$key => 6], $validValues1, false, ValueNotInListException::class, "The key 'myKey' can only be one of the following: [1 | 2 | 3], but it is '6'"],
-
-            // Should also be checking types. For example, "3" is not the same as 3, even though "3" represents an
-            // integer that is in the enum list
-            [$key, [$key => "3"], $validValues1, false, ValueNotInListException::class, "The key 'myKey' can only be one of the following: [1 | 2 | 3], but it is '3'"],
-
-            [$key, [$key => null], $validValues1, true, EntryEmptyException::class, "Entry 'myKey' empty"],
-
-            [$key, [$key => [[]]], $validValues1, true, ValueNotInListException::class, "The key 'myKey' can only be one of the following: [1 | 2 | 3], but it is '[[]]'"],
-            [$key, [$key => [[]]], $validValues1, false, ValueNotInListException::class, "The key 'myKey' can only be one of the following: [1 | 2 | 3], but it is '[[]]'"],
-
-            [$key, [$key => 2.25], $validValues1, true, ValueNotInListException::class, "The key 'myKey' can only be one of the following: [1 | 2 | 3], but it is '2.25'"],
-            [$key, [$key => 2.25], $validValues1, false, ValueNotInListException::class, "The key 'myKey' can only be one of the following: [1 | 2 | 3], but it is '2.25'"]
+            [$key, [], $validValues1, true, EntryMissingException::class, $m1],
+            [$key, [$key => null], $validValues1, true, EntryEmptyException::class, $m4]
         ];
+
+        $variableTests = [];
+
+        $variables = [true, false];
+
+        foreach ($variables as $v) {
+            $variableTests[] = [$key, [$key => 6], $validValues1, $v, ValueNotInListException::class, $m2];
+            $variableTests[] = [$key, [$key => "3"], $validValues1, $v, ValueNotInListException::class, $m3];
+            $variableTests[] = [$key, [$key => [[]]], $validValues1, $v, ValueNotInListException::class, $m5];
+            $variableTests[] = [$key, [$key => 2.25], $validValues1, $v, ValueNotInListException::class, $m6];
+        }
+
+        return array_merge($variableTests, $fixedTests);
     }
 
     /**
