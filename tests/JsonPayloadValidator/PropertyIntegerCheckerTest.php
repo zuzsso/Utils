@@ -8,6 +8,7 @@ use PHPUnit\Framework\TestCase;
 use Utils\JsonPayloadValidator\Exception\EntryEmptyException;
 use Utils\JsonPayloadValidator\Exception\EntryMissingException;
 use Utils\JsonPayloadValidator\Exception\InvalidIntegerValueException;
+use Utils\JsonPayloadValidator\Exception\OptionalPropertyNotAnIntegerException;
 use Utils\JsonPayloadValidator\Service\PropertyIntegerChecker;
 use Utils\JsonPayloadValidator\Service\PropertyPresenceChecker;
 
@@ -84,5 +85,44 @@ class PropertyIntegerCheckerTest extends TestCase
     ): void {
         $this->sut->required($key, $payload);
         $this->expectNotToPerformAssertions();
+    }
+
+    public function shouldFailOptionalDataProvider(): array
+    {
+        $key = 'myKey';
+
+        $m1 = "Entry 'myKey' missing";
+        $m2 = "Entry 'myKey' empty";
+
+        $m3 = "Entry 'myKey' does not hold a valid int value";
+
+        return [
+            [$key, [$key => null], EntryEmptyException::class, $m2],
+            [$key, [$key => []], EntryEmptyException::class, $m2],
+            [$key, [$key => ''], EntryEmptyException::class, $m2],
+            [$key, [$key => false], InvalidIntegerValueException::class, $m3],
+            [$key, [$key => true], InvalidIntegerValueException::class, $m3],
+            [$key, [$key => "0"], InvalidIntegerValueException::class, $m3],
+            [$key, [$key => "blah"], InvalidIntegerValueException::class, $m3],
+            [$key, [$key => 1.25], InvalidIntegerValueException::class, $m3],
+            [$key, [$key => [[]]], InvalidIntegerValueException::class, $m3],
+        ];
+    }
+
+    /**
+     * @dataProvider shouldFailOptionalDataProvider
+     * @throws InvalidIntegerValueException
+     * @throws OptionalPropertyNotAnIntegerException
+     */
+    public function testShouldFailOptional(
+        string $key,
+        array $payload,
+        string $expectedException,
+        string $expectedExceptionMessage
+    ): void {
+        $this->expectException($expectedException);
+        $this->expectExceptionMessage($expectedExceptionMessage);
+
+        $this->sut->optional($key, $payload);
     }
 }

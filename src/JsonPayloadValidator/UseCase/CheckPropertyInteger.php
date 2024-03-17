@@ -28,13 +28,10 @@ interface CheckPropertyInteger
      */
     public function optional(string $key, array $payload): self;
 
+
     /**
-     * @throws EntryEmptyException
-     * @throws EntryMissingException
-     * @throws IncorrectParametrizationException
      * @throws InvalidIntegerValueException
-     * @throws ValueNotGreaterThanException
-     * @throws ValueNotSmallerThanException
+     * @throws OptionalPropertyNotAnIntegerException
      */
     public function withinRange(
         string $key,
