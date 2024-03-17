@@ -389,7 +389,7 @@ class PropertyStringCheckerTest extends TestCase
             [$key, [$key => []], true, EntryEmptyException::class, $m3],
             [$key, [$key => []], false, EntryEmptyException::class, $m3],
 
-            [$key, [$key=>'abc'], true, StringIsNotAnUrlException::class, $m4]
+            [$key, [$key => 'abc'], true, StringIsNotAnUrlException::class, $m4]
 
         ];
     }
@@ -411,5 +411,35 @@ class PropertyStringCheckerTest extends TestCase
         $this->expectException($expectedException);
         $this->expectExceptionMessage($expectedExceptionMessage);
         $this->sut->urlFormat($key, $payload, $required);
+    }
+
+    public function shouldPassUrlFormatDataProvider(): array
+    {
+        $key = 'myKey';
+
+        return [
+            [$key, [], false],
+            [$key, [$key => null], false],
+            [$key, [$key => 'https://www.google.com'], false],
+            [$key, [$key => 'https://www.google.com'], true],
+            [$key, [$key => 'https://www.google.com/?a=1&b=2'], false],
+            [$key, [$key => 'https://www.google.com/?a=1&b=2'], true],
+        ];
+    }
+
+    /**
+     * @dataProvider shouldPassUrlFormatDataProvider
+     * @throws EntryEmptyException
+     * @throws EntryMissingException
+     * @throws StringIsNotAnUrlException
+     * @throws ValueNotAStringException
+     */
+    public function testShouldPassUrlFormat(
+        string $key,
+        array $payload,
+        bool $required
+    ): void {
+        $this->sut->urlFormat($key, $payload, $required);
+        $this->expectNotToPerformAssertions();
     }
 }
