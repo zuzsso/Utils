@@ -331,4 +331,37 @@ class PropertyFloatCheckerTest extends TestCase
 
         $this->sut->equalsTo($key, $payload, $compareTo, $required);
     }
+
+
+    public function shouldPassEqualsToDataProvider(): array
+    {
+        $key = 'myKey';
+
+        $fixedTests = [
+            [$key, [], 1.23, false]
+        ];
+
+        $variable = [true, false];
+
+        $variableTests = [];
+
+        foreach ($variable as $v) {
+            $fixedTests[] = [$key, [$key => 1.23], 1.23, $v];
+        }
+
+        return array_merge($fixedTests, $variableTests);
+    }
+
+    /**
+     * @dataProvider shouldPassEqualsToDataProvider
+     * @throws EntryEmptyException
+     * @throws EntryMissingException
+     * @throws ValueNotAFloatException
+     * @throws ValueNotEqualsToException
+     */
+    public function testShouldPassEqualsTo(string $key, array $payload, float $compareTo, bool $required): void
+    {
+        $this->sut->equalsTo($key, $payload, $compareTo, $required);
+        $this->expectNotToPerformAssertions();
+    }
 }
