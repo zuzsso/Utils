@@ -125,4 +125,25 @@ class PropertyIntegerCheckerTest extends TestCase
 
         $this->sut->optional($key, $payload);
     }
+
+    public function shouldPassOptionalDataProvider(): array
+    {
+        $key = 'myKey';
+
+        return [
+            [$key, []],
+            [$key, [$key => 123]]
+        ];
+    }
+
+    /**
+     * @dataProvider shouldPassOptionalDataProvider
+     * @throws InvalidIntegerValueException
+     * @throws OptionalPropertyNotAnIntegerException
+     */
+    public function testShouldPassOptional(string $key, array $payload): void
+    {
+        $this->sut->optional($key, $payload);
+        $this->expectNotToPerformAssertions();
+    }
 }
