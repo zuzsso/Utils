@@ -120,8 +120,16 @@ class PropertyIntegerChecker implements CheckPropertyInteger
     /**
      * @inheritDoc
      */
-    public function equalsTo(string $key, array $payload, int $compareTo): self
+    public function equalsTo(string $key, array $payload, int $compareTo, bool $required = true): self
     {
+        if (!$required) {
+            try {
+                $this->checkPropertyPresence->forbidden($key, $payload);
+                return $this;
+            } catch (EntryForbiddenException $e) {
+            }
+        }
+
         $this->checkPropertyPresence->required($key, $payload);
         $this->required($key, $payload);
 

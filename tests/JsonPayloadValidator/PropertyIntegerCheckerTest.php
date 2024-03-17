@@ -10,6 +10,7 @@ use Utils\JsonPayloadValidator\Exception\EntryMissingException;
 use Utils\JsonPayloadValidator\Exception\IncorrectParametrizationException;
 use Utils\JsonPayloadValidator\Exception\InvalidIntegerValueException;
 use Utils\JsonPayloadValidator\Exception\OptionalPropertyNotAnIntegerException;
+use Utils\JsonPayloadValidator\Exception\ValueNotEqualsToException;
 use Utils\JsonPayloadValidator\Exception\ValueNotGreaterThanException;
 use Utils\JsonPayloadValidator\Exception\ValueNotSmallerThanException;
 use Utils\JsonPayloadValidator\Service\PropertyIntegerChecker;
@@ -272,5 +273,57 @@ class PropertyIntegerCheckerTest extends TestCase
     ): void {
         $this->sut->withinRange($key, $payload, $minValue, $maxValue, $required);
         $this->expectNotToPerformAssertions();
+    }
+
+    public function shouldFailEqualsToDataProvider(): array
+    {
+        $key = 'myKey';
+
+        $m1 = "Entry 'myKey' missing";
+        $m2 = "Entry 'myKey' empty";
+        $m3 = "Entry 'myKey' does not hold a valid int value";
+        $m4 = "Entry 'myKey' is meant to be '6', but is '5'";
+
+        $required = [true, false];
+
+        $variableTests = [];
+
+        foreach ($required as $r) {
+            $variableTests[] = [$key, [$key => ''], 1, $r, EntryEmptyException::class, $m2];
+            $variableTests[] = [$key, [$key => []], 1, $r, EntryEmptyException::class, $m2];
+            $variableTests[] = [$key, [$key => "1"], 1, $r, InvalidIntegerValueException::class, $m3];
+            $variableTests[] = [$key, [$key => 1.1], 1, $r, InvalidIntegerValueException::class, $m3];
+            $variableTests[] = [$key, [$key => true], 1, $r, InvalidIntegerValueException::class, $m3];
+            $variableTests[] = [$key, [$key => false], 1, $r, InvalidIntegerValueException::class, $m3];
+            $variableTests[] = [$key, [$key => [[]]], 1, $r, InvalidIntegerValueException::class, $m3];
+            $variableTests[] = [$key, [$key => 5], 6, $r, ValueNotEqualsToException::class, $m4];
+        }
+
+        $fixedTests = [
+            [$key, [], 1, true, EntryMissingException::class, $m1],
+            [$key, [$key => null], 1, true, EntryEmptyException::class, $m2],
+        ];
+
+        return array_merge($variableTests, $fixedTests);
+    }
+
+    /**
+     * @dataProvider shouldFailEqualsToDataProvider
+     * @throws EntryEmptyException
+     * @throws EntryMissingException
+     * @throws InvalidIntegerValueException
+     * @throws ValueNotEqualsToException
+     */
+    public function testShouldFailEqualsTo(
+        string $key,
+        array $payload,
+        int $compareTo,
+        bool $required,
+        string $expectedException,
+        string $expectedExceptionMessage
+    ): void {
+        $this->expectException($expectedException);
+        $this->expectExceptionMessage($expectedExceptionMessage);
+        $this->sut->equalsTo($key, $payload, $compareTo, $required);
     }
 }
