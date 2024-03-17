@@ -8,14 +8,7 @@ class InvalidDateValueException extends AbstractMalformedRequestBody
 {
     public static function constructForStandardMessage(string $key, string $format, string $value): self
     {
-        return new self(
-            "Entry '%key%' does not hold a valid '%format%' date: '%value%'",
-            [
-                'key' => $key,
-                'format' => $format,
-                'value' => $value
-            ]
-        );
+        return new self("Entry '$key' does not hold a valid '$format' date: '$value'");
     }
 
     public function errorCode(): string

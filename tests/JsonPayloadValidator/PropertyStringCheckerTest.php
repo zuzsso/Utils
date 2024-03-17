@@ -8,6 +8,7 @@ use PHPUnit\Framework\TestCase;
 use Utils\JsonPayloadValidator\Exception\EntryEmptyException;
 use Utils\JsonPayloadValidator\Exception\EntryMissingException;
 use Utils\JsonPayloadValidator\Exception\IncorrectParametrizationException;
+use Utils\JsonPayloadValidator\Exception\InvalidDateValueException;
 use Utils\JsonPayloadValidator\Exception\OptionalPropertyNotAStringException;
 use Utils\JsonPayloadValidator\Exception\StringIsNotAnUrlException;
 use Utils\JsonPayloadValidator\Exception\ValueNotAStringException;
@@ -441,5 +442,63 @@ class PropertyStringCheckerTest extends TestCase
     ): void {
         $this->sut->urlFormat($key, $payload, $required);
         $this->expectNotToPerformAssertions();
+    }
+
+    public function shouldFailDateTimeFormatDataProvider(): array
+    {
+        $dateFormat001 = 'Y-m-d';
+        $date002 = '2024-03-25 23:00:59';
+
+        $key = 'myKey';
+
+        $m1 = "Entry 'myKey' empty";
+        $m2 = "The entry 'myKey' is not a string";
+        $m3 = "Entry 'myKey' does not hold a valid '$dateFormat001' date: '$date002'";
+
+        return [
+            [$key, [], $dateFormat001, true, EntryMissingException::class, "Entry 'myKey' missing"],
+
+            [$key, [$key => null], $dateFormat001, true, EntryEmptyException::class, $m1],
+            [$key, [$key => ''], $dateFormat001, true, EntryEmptyException::class, $m1],
+            [$key, [$key => []], $dateFormat001, true, EntryEmptyException::class, $m1],
+            [$key, [$key => ''], $dateFormat001, false, EntryEmptyException::class, $m1],
+            [$key, [$key => []], $dateFormat001, false, EntryEmptyException::class, $m1],
+
+            [$key, [$key => true], $dateFormat001, true, ValueNotAStringException::class, $m2],
+            [$key, [$key => false], $dateFormat001, true, ValueNotAStringException::class, $m2],
+            [$key, [$key => true], $dateFormat001, false, ValueNotAStringException::class, $m2],
+            [$key, [$key => false], $dateFormat001, false, ValueNotAStringException::class, $m2],
+
+            [$key, [$key => 1], $dateFormat001, true, ValueNotAStringException::class, $m2],
+            [$key, [$key => 1], $dateFormat001, false, ValueNotAStringException::class, $m2],
+
+            [$key, [$key => 1.1], $dateFormat001, true, ValueNotAStringException::class, $m2],
+            [$key, [$key => 1.1], $dateFormat001, false, ValueNotAStringException::class, $m2],
+
+            [$key, [$key => $date002], $dateFormat001, true, InvalidDateValueException::class, $m3],
+            [$key, [$key => $date002], $dateFormat001, false, InvalidDateValueException::class, $m3],
+        ];
+    }
+
+    /**
+     * @dataProvider shouldFailDateTimeFormatDataProvider
+     *
+     * @throws EntryEmptyException
+     * @throws EntryMissingException
+     * @throws InvalidDateValueException
+     * @throws ValueNotAStringException
+     */
+    public function testShouldFailDateTimeFormat(
+        string $key,
+        array $payload,
+        string $dateTimeFormat,
+        bool $required,
+        string $expectedException,
+        string $expectedExceptionMessage
+    ): void {
+        $this->expectException($expectedException);
+        $this->expectExceptionMessage($expectedExceptionMessage);
+
+        $this->sut->dateTimeFormat($key, $payload, $dateTimeFormat, $required);
     }
 }

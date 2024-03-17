@@ -196,9 +196,17 @@ class PropertyStringChecker implements CheckPropertyString
     /**
      * @inheritDoc
      */
-    public function dateTimeFormat(string $key, array $payload, string $dateFormat): self
+    public function dateTimeFormat(string $key, array $payload, string $dateFormat, bool $required = true): self
     {
-        $this->checkPropertyPresence->required($key, $payload);
+        if (!$required) {
+            try {
+                $this->checkPropertyPresence->forbidden($key, $payload);
+                return $this;
+            } catch (EntryForbiddenException $e) {
+            }
+        }
+
+        $this->required($key, $payload);
 
         $value = $payload[$key];
 

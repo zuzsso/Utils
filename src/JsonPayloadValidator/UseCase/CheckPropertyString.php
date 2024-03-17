@@ -46,7 +46,7 @@ interface CheckPropertyString
         bool $required = true
     ): self;
 
-    /**     
+    /**
      * @throws EntryEmptyException
      * @throws EntryMissingException
      * @throws StringIsNotAnUrlException
@@ -64,9 +64,10 @@ interface CheckPropertyString
     public function exactByteLength(string $key, array $payload, int $exactLength): self;
 
     /**
-     * @throws InvalidDateValueException
      * @throws EntryEmptyException
      * @throws EntryMissingException
+     * @throws InvalidDateValueException
+     * @throws ValueNotAStringException
      */
     public function dateTimeFormat(string $key, array $payload, string $dateFormat): self;
 }
