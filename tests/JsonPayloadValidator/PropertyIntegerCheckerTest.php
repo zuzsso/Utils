@@ -11,8 +11,6 @@ use Utils\JsonPayloadValidator\Exception\IncorrectParametrizationException;
 use Utils\JsonPayloadValidator\Exception\InvalidIntegerValueException;
 use Utils\JsonPayloadValidator\Exception\OptionalPropertyNotAnIntegerException;
 use Utils\JsonPayloadValidator\Exception\ValueNotEqualsToException;
-use Utils\JsonPayloadValidator\Exception\ValueNotGreaterThanException;
-use Utils\JsonPayloadValidator\Exception\ValueNotSmallerThanException;
 use Utils\JsonPayloadValidator\Exception\ValueTooBigException;
 use Utils\JsonPayloadValidator\Exception\ValueTooSmallException;
 use Utils\JsonPayloadValidator\Service\PropertyIntegerChecker;
@@ -96,8 +94,6 @@ class PropertyIntegerCheckerTest extends TestCase
     public function shouldFailOptionalDataProvider(): array
     {
         $key = 'myKey';
-        $m2 = "Entry 'myKey' empty";
-
         $m3 = "Entry 'myKey' does not hold a valid int value";
         $m4 = "The entry 'myKey' is optional, but if provided it should be an integer";
 
