@@ -93,8 +93,6 @@ class PropertyIntegerCheckerTest extends TestCase
     public function shouldFailOptionalDataProvider(): array
     {
         $key = 'myKey';
-
-        $m1 = "Entry 'myKey' missing";
         $m2 = "Entry 'myKey' empty";
 
         $m3 = "Entry 'myKey' does not hold a valid int value";
@@ -221,5 +219,58 @@ class PropertyIntegerCheckerTest extends TestCase
         $this->expectExceptionMessage($expectedExceptionMessage);
 
         $this->sut->withinRange($key, $payload, $minValue, $maxValue, $required);
+    }
+
+    public function shouldPassWithinRangeDataProvider(): array
+    {
+        $key = 'myKey';
+
+        return [
+            [$key, [], null, null, false],
+            [$key, [], 1, null, false],
+            [$key, [], null, 2, false],
+            [$key, [], 1, 2, false],
+
+            [$key, [$key => 1], null, null, true],
+            [$key, [$key => 1], 1, null, true],
+            [$key, [$key => 2], 1, null, true],
+
+            [$key, [$key => 2], null, 3, true],
+            [$key, [$key => 3], null, 3, true],
+            [$key, [$key => 2], 2, 4, true],
+            [$key, [$key => 3], 2, 4, true],
+            [$key, [$key => 4], 2, 4, true],
+
+            [$key, [$key => 1], null, null, false],
+            [$key, [$key => 1], 1, null, false],
+            [$key, [$key => 2], 1, null, false],
+
+            [$key, [$key => 2], null, 3, false],
+            [$key, [$key => 3], null, 3, false],
+            [$key, [$key => 2], 2, 4, false],
+            [$key, [$key => 3], 2, 4, false],
+            [$key, [$key => 4], 2, 4, false],
+
+        ];
+    }
+
+    /**
+     * @dataProvider shouldPassWithinRangeDataProvider
+     * @throws EntryEmptyException
+     * @throws EntryMissingException
+     * @throws IncorrectParametrizationException
+     * @throws InvalidIntegerValueException
+     * @throws ValueNotGreaterThanException
+     * @throws ValueNotSmallerThanException
+     */
+    public function testShouldPassWithinRange(
+        string $key,
+        array $payload,
+        ?int $minValue,
+        ?int $maxValue,
+        bool $required
+    ): void {
+        $this->sut->withinRange($key, $payload, $minValue, $maxValue, $required);
+        $this->expectNotToPerformAssertions();
     }
 }
