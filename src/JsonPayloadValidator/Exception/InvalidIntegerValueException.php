@@ -8,12 +8,7 @@ class InvalidIntegerValueException extends AbstractMalformedRequestBody
 {
     public static function constructForStandardMessage(string $key): self
     {
-        return new self(
-            "Entry '%key%' does not hold a valid int value",
-            [
-                'key' => $key
-            ]
-        );
+        return new self("Entry '$key' does not hold a valid int value");
     }
 
     public function errorCode(): string

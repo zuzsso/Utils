@@ -7,6 +7,7 @@ namespace Utils\JsonPayloadValidator\Service;
 use Utils\JsonPayloadValidator\Exception\EntryEmptyException;
 use Utils\JsonPayloadValidator\Exception\EntryForbiddenException;
 use Utils\JsonPayloadValidator\Exception\EntryMissingException;
+use Utils\JsonPayloadValidator\Exception\IncorrectParametrizationException;
 use Utils\JsonPayloadValidator\Exception\InvalidIntegerValueException;
 use Utils\JsonPayloadValidator\Exception\OptionalPropertyNotAnIntegerException;
 use Utils\JsonPayloadValidator\Exception\ValueNotEqualsToException;
@@ -32,6 +33,14 @@ class PropertyIntegerChecker implements CheckPropertyInteger
         $this->checkPropertyPresence->required($key, $payload);
 
         $originalValue = $payload[$key];
+
+        if (is_array($originalValue)) {
+            throw InvalidIntegerValueException::constructForStandardMessage($key);
+        }
+
+        if (is_bool($originalValue)) {
+            throw InvalidIntegerValueException::constructForStandardMessage($key);
+        }
 
         $parsed = (int)$originalValue;
 
@@ -63,17 +72,42 @@ class PropertyIntegerChecker implements CheckPropertyInteger
     }
 
     /**
-     * @inheritDoc
+     * @throws EntryEmptyException
+     * @throws EntryMissingException
+     * @throws IncorrectParametrizationException
+     * @throws InvalidIntegerValueException
+     * @throws ValueNotGreaterThanException
+     * @throws ValueNotSmallerThanException
      */
-    public function greaterThan(string $key, array $payload, int $compareTo): self
-    {
-        $this->checkPropertyPresence->required($key, $payload);
+    public function withinRange(
+        string $key,
+        array $payload,
+        ?int $minValue,
+        ?int $maxValue,
+        bool $required = true
+    ): self {
+        if (($minValue !== null) && ($maxValue !== null) && ($minValue >= $maxValue)) {
+            throw new IncorrectParametrizationException("Min value cannot be greater or equal than max value");
+        }
+
+        if (!$required) {
+            try {
+                $this->checkPropertyPresence->forbidden($key, $payload);
+                return $this;
+            } catch (EntryForbiddenException $e) {
+            }
+        }
+
         $this->required($key, $payload);
 
         $value = (int)$payload[$key];
 
-        if (!($value > $compareTo)) {
-            throw ValueNotGreaterThanException::constructForStandardIntegerMessage($key, $compareTo, $value);
+        if (($minValue !== null) && ($value < $minValue)) {
+            throw  ValueNotSmallerThanException::constructForStandardMessage($key, $minValue, $value);
+        }
+
+        if (($maxValue !== null) && ($value > $maxValue)) {
+            throw ValueNotGreaterThanException::constructForStandardIntegerMessage($key, $maxValue, $value);
         }
 
         return $this;

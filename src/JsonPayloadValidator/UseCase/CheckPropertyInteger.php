@@ -6,6 +6,7 @@ namespace Utils\JsonPayloadValidator\UseCase;
 
 use Utils\JsonPayloadValidator\Exception\EntryEmptyException;
 use Utils\JsonPayloadValidator\Exception\EntryMissingException;
+use Utils\JsonPayloadValidator\Exception\IncorrectParametrizationException;
 use Utils\JsonPayloadValidator\Exception\InvalidIntegerValueException;
 use Utils\JsonPayloadValidator\Exception\OptionalPropertyNotAnIntegerException;
 use Utils\JsonPayloadValidator\Exception\ValueNotEqualsToException;
@@ -28,12 +29,20 @@ interface CheckPropertyInteger
     public function optional(string $key, array $payload): self;
 
     /**
-     * @throws InvalidIntegerValueException
-     * @throws ValueNotGreaterThanException
      * @throws EntryEmptyException
      * @throws EntryMissingException
+     * @throws IncorrectParametrizationException
+     * @throws InvalidIntegerValueException
+     * @throws ValueNotGreaterThanException
+     * @throws ValueNotSmallerThanException
      */
-    public function greaterThan(string $key, array $payload, int $compareTo): self;
+    public function withinRange(
+        string $key,
+        array $payload,
+        ?int $minValue,
+        ?int $maxValue,
+        bool $required = true
+    ): self;
 
     /**
      * @throws InvalidIntegerValueException
