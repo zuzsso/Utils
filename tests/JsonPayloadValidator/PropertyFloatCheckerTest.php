@@ -68,4 +68,26 @@ class PropertyFloatCheckerTest extends TestCase
 
         $this->sut->required($key, $payload);
     }
+
+    public function shouldPassRequiredDataProvider(): array
+    {
+        $key = 'myKey';
+
+        return [
+            [$key, [$key => 1.3]],
+            [$key, [$key => 1]],
+        ];
+    }
+
+    /**
+     * @dataProvider shouldPassRequiredDataProvider
+     * @throws EntryEmptyException
+     * @throws EntryMissingException
+     * @throws ValueNotAFloatException
+     */
+    public function testShouldPassRequired(string $key, array $payload): void
+    {
+        $this->sut->required($key, $payload);
+        $this->expectNotToPerformAssertions();
+    }
 }
