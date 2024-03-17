@@ -208,7 +208,7 @@ class PropertyStringChecker implements CheckPropertyString
 
         $this->required($key, $payload);
 
-        $value = $payload[$key];
+        $value = trim((string)$payload[$key]);
 
         $parsed = DateTimeImmutable::createFromFormat($dateFormat, $value);
 

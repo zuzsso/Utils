@@ -501,4 +501,39 @@ class PropertyStringCheckerTest extends TestCase
 
         $this->sut->dateTimeFormat($key, $payload, $dateTimeFormat, $required);
     }
+
+    public function shouldPassDateTimeFormatDataProvider(): array
+    {
+        $key = 'myKey';
+
+        $dateFormat001 = 'Y-m-d H:i:s';
+        $date002 = '2024-03-25 23:00:59';
+
+        return [
+            [$key, [], $dateFormat001, false],
+            [$key, [$key => null], $dateFormat001, false],
+            [$key, [$key => $date002], $dateFormat001, false],
+            [$key, [$key => $date002], $dateFormat001, true],
+
+            [$key, [$key => "    " . $date002 . "    "], $dateFormat001, false],
+            [$key, [$key => "    " . $date002 . "    "], $dateFormat001, true],
+        ];
+    }
+
+    /**
+     * @dataProvider shouldPassDateTimeFormatDataProvider
+     * @throws EntryEmptyException
+     * @throws EntryMissingException
+     * @throws InvalidDateValueException
+     * @throws ValueNotAStringException
+     */
+    public function testShouldPassDateTimeFormat(
+        string $key,
+        array $payload,
+        string $dateTimeFormat,
+        bool $required
+    ): void {
+        $this->sut->dateTimeFormat($key, $payload, $dateTimeFormat, $required);
+        $this->expectNotToPerformAssertions();
+    }
 }
