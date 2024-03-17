@@ -270,25 +270,26 @@ class PropertyStringCheckerTest extends TestCase
         $m3 = "The entry 'myKey' is not a string";
         $m4 = "Entry 'myKey' empty";
 
-        return [
-            [$key, [], -1, true, IncorrectParametrizationException::class, $m1],
-            [$key, [], -1, false, IncorrectParametrizationException::class, $m1],
-            [$key, [], 0, true, IncorrectParametrizationException::class, $m2],
-            [$key, [], 0, false, IncorrectParametrizationException::class, $m2],
-
-            [$key, [$key => 1], 1, false, ValueNotAStringException::class, $m3],
-            [$key, [$key => 1], 1, true, ValueNotAStringException::class, $m3],
-            [$key, [$key => true], 1, false, ValueNotAStringException::class, $m3],
-            [$key, [$key => false], 1, true, ValueNotAStringException::class, $m3],
-            [$key, [$key => 1.1], 1, false, ValueNotAStringException::class, $m3],
-            [$key, [$key => 1.1], 1, true, ValueNotAStringException::class, $m3],
-
-            [$key, [$key => []], 1, false, EntryEmptyException::class, $m4],
-            [$key, [$key => []], 1, true, EntryEmptyException::class, $m4],
-            [$key, [$key => ""], 1, false, EntryEmptyException::class, $m4],
-            [$key, [$key => ""], 1, true, EntryEmptyException::class, $m4],
-            [$key, [$key => null], 1, true, EntryEmptyException::class, $m4],
+        $fixedTests = [
+            [$key, [$key => null], 1, true, EntryEmptyException::class, $m4]
         ];
+
+        $variable = [true, false];
+
+        $variableTests = [];
+
+        foreach ($variable as $v) {
+            $variableTests[] = [$key, [], -1, $v, IncorrectParametrizationException::class, $m1];
+            $variableTests[] = [$key, [], 0, $v, IncorrectParametrizationException::class, $m2];
+            $variableTests[] = [$key, [$key => 1], 1, $v, ValueNotAStringException::class, $m3];
+            $variableTests[] = [$key, [$key => true], 1, $v, ValueNotAStringException::class, $m3];
+            $variableTests[] = [$key, [$key => false], 1, $v, ValueNotAStringException::class, $m3];
+            $variableTests[] = [$key, [$key => 1.1], 1, $v, ValueNotAStringException::class, $m3];
+            $variableTests[] = [$key, [$key => []], 1, $v, EntryEmptyException::class, $m4];
+            $variableTests[] = [$key, [$key => ""], 1, $v, EntryEmptyException::class, $m4];
+        }
+
+        return array_merge($fixedTests, $variableTests);
     }
 
     /**
