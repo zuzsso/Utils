@@ -26,16 +26,23 @@ class PropertyCommonCheckerTest extends TestCase
         $key = 'myKey';
         $validValues1 = [1, 2, 3];
         $validValues2 = ['a', 'b', 'c'];
-        return [
+
+        $fixedTests = [
             // Not required, so it doesn't matter that the key isn't there
             [$key, [], $validValues1, false],
             [$key, [$key => null], $validValues1, false],
-
-            [$key, [$key => 3], $validValues1, false],
-            [$key, [$key => 3], $validValues1, true],
-            [$key, [$key => 'a'], $validValues2, false],
-            [$key, [$key => 'b'], $validValues2, true],
         ];
+
+        $variable = [true, false];
+
+        $variableTests = [];
+
+        foreach ($variable as $v) {
+            $variableTests[] = [$key, [$key => 3], $validValues1, $v];
+            $variableTests[] = [$key, [$key => 'a'], $validValues2, $v];
+        }
+
+        return array_merge($fixedTests, $variableTests);
     }
 
     /**
