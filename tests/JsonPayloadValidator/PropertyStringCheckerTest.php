@@ -368,29 +368,26 @@ class PropertyStringCheckerTest extends TestCase
         $m3 = "Entry 'myKey' empty";
         $m4 = "The string 'abc' doesn't resemble an actual URL";
 
-        return [
+        $fixedTests = [
             [$key, [], true, EntryMissingException::class, $m1],
             [$key, ['myOtherKey' => 'blah'], true, EntryMissingException::class, $m1],
-
-            [$key, [$key => 123], true, ValueNotAStringException::class, $m2],
-            [$key, [$key => 123], false, ValueNotAStringException::class, $m2],
-            [$key, [$key => 1.3], false, ValueNotAStringException::class, $m2],
-            [$key, [$key => 1.3], false, ValueNotAStringException::class, $m2],
-            [$key, [$key => true], true, ValueNotAStringException::class, $m2],
-            [$key, [$key => true], false, ValueNotAStringException::class, $m2],
-            [$key, [$key => false], true, ValueNotAStringException::class, $m2],
-            [$key, [$key => false], false, ValueNotAStringException::class, $m2],
-            [$key, [$key => [[]]], true, ValueNotAStringException::class, $m2],
-            [$key, [$key => [[]]], false, ValueNotAStringException::class, $m2],
-
-            [$key, [$key => ''], true, EntryEmptyException::class, $m3],
-            [$key, [$key => ''], false, EntryEmptyException::class, $m3],
-            [$key, [$key => []], true, EntryEmptyException::class, $m3],
-            [$key, [$key => []], false, EntryEmptyException::class, $m3],
-
             [$key, [$key => 'abc'], true, StringIsNotAnUrlException::class, $m4]
-
         ];
+
+        $variable = [true, false];
+        $variableTests = [];
+
+        foreach ($variable as $v) {
+            $variableTests[] = [$key, [$key => 123], $v, ValueNotAStringException::class, $m2];
+            $variableTests[] = [$key, [$key => 1.3], $v, ValueNotAStringException::class, $m2];
+            $variableTests[] = [$key, [$key => true], $v, ValueNotAStringException::class, $m2];
+            $variableTests[] = [$key, [$key => false], $v, ValueNotAStringException::class, $m2];
+            $variableTests[] = [$key, [$key => [[]]], $v, ValueNotAStringException::class, $m2];
+            $variableTests[] = [$key, [$key => ''], $v, EntryEmptyException::class, $m3];
+            $variableTests[] = [$key, [$key => []], $v, EntryEmptyException::class, $m3];
+        }
+
+        return array_merge($variableTests, $fixedTests);
     }
 
     /**
@@ -416,14 +413,21 @@ class PropertyStringCheckerTest extends TestCase
     {
         $key = 'myKey';
 
-        return [
+        $fixedTests = [
             [$key, [], false],
             [$key, [$key => null], false],
-            [$key, [$key => 'https://www.google.com'], false],
-            [$key, [$key => 'https://www.google.com'], true],
-            [$key, [$key => 'https://www.google.com/?a=1&b=2'], false],
-            [$key, [$key => 'https://www.google.com/?a=1&b=2'], true],
         ];
+
+        $variable = [false, true];
+
+        $variableTests = [];
+
+        foreach ($variable as $v) {
+            $variableTests[] = [$key, [$key => 'https://www.google.com'], $v];
+            $variableTests[] = [$key, [$key => 'https://www.google.com/?a=1&b=2'], $v];
+        }
+
+        return array_merge($fixedTests, $variableTests);
     }
 
     /**
