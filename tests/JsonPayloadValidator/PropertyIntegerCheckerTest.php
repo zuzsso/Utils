@@ -7,8 +7,11 @@ namespace Utils\Tests\JsonPayloadValidator;
 use PHPUnit\Framework\TestCase;
 use Utils\JsonPayloadValidator\Exception\EntryEmptyException;
 use Utils\JsonPayloadValidator\Exception\EntryMissingException;
+use Utils\JsonPayloadValidator\Exception\IncorrectParametrizationException;
 use Utils\JsonPayloadValidator\Exception\InvalidIntegerValueException;
 use Utils\JsonPayloadValidator\Exception\OptionalPropertyNotAnIntegerException;
+use Utils\JsonPayloadValidator\Exception\ValueNotGreaterThanException;
+use Utils\JsonPayloadValidator\Exception\ValueNotSmallerThanException;
 use Utils\JsonPayloadValidator\Service\PropertyIntegerChecker;
 use Utils\JsonPayloadValidator\Service\PropertyPresenceChecker;
 
@@ -145,5 +148,78 @@ class PropertyIntegerCheckerTest extends TestCase
     {
         $this->sut->optional($key, $payload);
         $this->expectNotToPerformAssertions();
+    }
+
+    public function shouldFailWithinRangeDataProvider(): array
+    {
+        $key = 'myKey';
+
+        $m1 = "Min value cannot be greater or equal than max value";
+        $m2 = "Entry 'myKey' missing";
+        $m3 = "Entry 'myKey' empty";
+        $m4 = "Entry 'myKey' is meant to be less than '3': '2'";
+        $m5 = "Entry 'myKey' does not hold a valid int value";
+        $m6 = "Entry 'myKey' is meant to be greater than '5': '6'";
+
+        return [
+            [$key, [$key => 123], 4, 4, true, IncorrectParametrizationException::class, $m1],
+            [$key, [$key => 123], 4, 4, false, IncorrectParametrizationException::class, $m1],
+            [$key, [$key => 123], 5, 4, true, IncorrectParametrizationException::class, $m1],
+            [$key, [$key => 123], 5, 4, false, IncorrectParametrizationException::class, $m1],
+
+            [$key, [], null, null, true, EntryMissingException::class, $m2],
+
+            [$key, [$key => null], null, null, true, EntryEmptyException::class, $m3],
+            [$key, [$key => ''], null, null, true, EntryEmptyException::class, $m3],
+            [$key, [$key => []], null, null, true, EntryEmptyException::class, $m3],
+
+            [$key, [$key => "blah"], null, null, true, InvalidIntegerValueException::class, $m5],
+            [$key, [$key => "1"], null, null, true, InvalidIntegerValueException::class, $m5],
+            [$key, [$key => true], null, null, true, InvalidIntegerValueException::class, $m5],
+            [$key, [$key => false], null, null, true, InvalidIntegerValueException::class, $m5],
+            [$key, [$key => [[]]], null, null, true, InvalidIntegerValueException::class, $m5],
+            [$key, [$key => 1.1], null, null, true, InvalidIntegerValueException::class, $m5],
+
+            [$key, [$key => "blah"], null, null, false, InvalidIntegerValueException::class, $m5],
+            [$key, [$key => "1"], null, null, false, InvalidIntegerValueException::class, $m5],
+            [$key, [$key => true], null, null, false, InvalidIntegerValueException::class, $m5],
+            [$key, [$key => false], null, null, false, InvalidIntegerValueException::class, $m5],
+            [$key, [$key => [[]]], null, null, false, InvalidIntegerValueException::class, $m5],
+            [$key, [$key => 1.1], null, null, false, InvalidIntegerValueException::class, $m5],
+
+            [$key, [$key => 2], 3, null, true, ValueNotSmallerThanException::class, $m4],
+            [$key, [$key => 2], 3, 5, true, ValueNotSmallerThanException::class, $m4],
+            [$key, [$key => 6], null, 5, true, ValueNotGreaterThanException::class, $m6],
+            [$key, [$key => 6], 3, 5, true, ValueNotGreaterThanException::class, $m6],
+
+            [$key, [$key => 2], 3, null, false, ValueNotSmallerThanException::class, $m4],
+            [$key, [$key => 2], 3, 5, false, ValueNotSmallerThanException::class, $m4],
+            [$key, [$key => 6], null, 5, false, ValueNotGreaterThanException::class, $m6],
+            [$key, [$key => 6], 3, 5, false, ValueNotGreaterThanException::class, $m6],
+        ];
+    }
+
+    /**
+     * @dataProvider shouldFailWithinRangeDataProvider
+     * @throws EntryEmptyException
+     * @throws EntryMissingException
+     * @throws InvalidIntegerValueException
+     * @throws IncorrectParametrizationException
+     * @throws ValueNotGreaterThanException
+     * @throws ValueNotSmallerThanException
+     */
+    public function testShouldFailWithinRange(
+        string $key,
+        array $payload,
+        ?int $minValue,
+        ?int $maxValue,
+        bool $required,
+        string $expectedException,
+        string $expectedExceptionMessage
+    ): void {
+        $this->expectException($expectedException);
+        $this->expectExceptionMessage($expectedExceptionMessage);
+
+        $this->sut->withinRange($key, $payload, $minValue, $maxValue, $required);
     }
 }
