@@ -151,6 +151,7 @@ class PropertyStringCheckerTest extends TestCase
         $m8 = "Entry 'myKey' is expected to be 2 bytes long maximum, but it is 3";
         $m9 = "Zero lengths would require the 'optional' validator. Please correct the minimum length";
         $ma = "Zero lengths would require the 'optional' validator. Please correct the maximum length";
+        $mb = "No range defined";
 
         $fixedTests = [
             // These errors are about failure to configure the validator. They are not related to failed validation
@@ -165,6 +166,7 @@ class PropertyStringCheckerTest extends TestCase
         $variable = [true, false];
 
         foreach ($variable as $v) {
+            $variableTests[] = [$key, [$key => 'not relevant'], null, null, $v, IncorrectParametrizationException::class, $mb];
             $variableTests[] = [$key, [$key => 'not relevant'], 0, null, $v, IncorrectParametrizationException::class, $m9];
             $variableTests[] = [$key, [$key => 'not relevant'], null, 0, $v, IncorrectParametrizationException::class, $ma];
             $variableTests[] = [$key, [$key => ''], 2, 3, $v, EntryEmptyException::class, $m6];

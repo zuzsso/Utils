@@ -73,6 +73,11 @@ class PropertyStringChecker implements CheckPropertyString
         ?int $maximumLength,
         bool $required = true
     ): CheckPropertyString {
+
+        if (($minimumLength === null) && ($maximumLength === null)) {
+            throw new IncorrectParametrizationException('No range defined');
+        }
+
         if ($minimumLength !== null) {
             if ($minimumLength < 0) {
                 throw new IncorrectParametrizationException(
