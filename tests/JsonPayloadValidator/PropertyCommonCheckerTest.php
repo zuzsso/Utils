@@ -27,6 +27,9 @@ class PropertyCommonCheckerTest extends TestCase
         $validValues1 = [1, 2, 3];
         $validValues2 = ['a', 'b', 'c'];
 
+        // Case sensitive, mixed types... not that I recommend using enums this way, but you can
+        $validValues3 = ["A", 3, "b", 3.33, true, false];
+
         $fixedTests = [
             // Not required, so it doesn't matter that the key isn't there
             [$key, [], $validValues1, false],
@@ -40,6 +43,12 @@ class PropertyCommonCheckerTest extends TestCase
         foreach ($variable as $v) {
             $variableTests[] = [$key, [$key => 3], $validValues1, $v];
             $variableTests[] = [$key, [$key => 'a'], $validValues2, $v];
+            $variableTests[] = [$key, [$key => 'A'], $validValues3, $v];
+            $variableTests[] = [$key, [$key => 3], $validValues3, $v];
+            $variableTests[] = [$key, [$key => "b"], $validValues3, $v];
+            $variableTests[] = [$key, [$key => 3.33], $validValues3, $v];
+            $variableTests[] = [$key, [$key => true], $validValues3, $v];
+            $variableTests[] = [$key, [$key => false], $validValues3, $v];
         }
 
         return array_merge($fixedTests, $variableTests);
@@ -61,6 +70,7 @@ class PropertyCommonCheckerTest extends TestCase
     {
         $key = 'myKey';
         $validValues1 = [1, 2, 3];
+        $validValues2 = ['a', 'b', 'c'];
 
         $m1 = "Entry 'myKey' missing";
         $m2 = "The key 'myKey' can only be one of the following: [1 | 2 | 3], but it is '6'";
@@ -68,6 +78,7 @@ class PropertyCommonCheckerTest extends TestCase
         $m4 = "Entry 'myKey' empty";
         $m5 = "The key 'myKey' can only be one of the following: [1 | 2 | 3], but it is '[[]]'";
         $m6 = "The key 'myKey' can only be one of the following: [1 | 2 | 3], but it is '2.25'";
+        $m7 = "The key 'myKey' can only be one of the following: [a | b | c], but it is 'A'";
 
         $fixedTests = [
             // Required but missing
@@ -84,6 +95,9 @@ class PropertyCommonCheckerTest extends TestCase
             $variableTests[] = [$key, [$key => "3"], $validValues1, $v, ValueNotInListException::class, $m3];
             $variableTests[] = [$key, [$key => [[]]], $validValues1, $v, ValueNotInListException::class, $m5];
             $variableTests[] = [$key, [$key => 2.25], $validValues1, $v, ValueNotInListException::class, $m6];
+
+            // Case sensitive
+            $variableTests[] = [$key, [$key => "A"], $validValues2, $v, ValueNotInListException::class, $m7];
         }
 
         return array_merge($variableTests, $fixedTests);
