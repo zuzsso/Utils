@@ -457,29 +457,26 @@ class PropertyStringCheckerTest extends TestCase
         $m2 = "The entry 'myKey' is not a string";
         $m3 = "Entry 'myKey' does not hold a valid '$dateFormat001' date: '$date002'";
 
-        return [
+        $fixedTests = [
             [$key, [], $dateFormat001, true, EntryMissingException::class, "Entry 'myKey' missing"],
-
             [$key, [$key => null], $dateFormat001, true, EntryEmptyException::class, $m1],
-            [$key, [$key => ''], $dateFormat001, true, EntryEmptyException::class, $m1],
-            [$key, [$key => []], $dateFormat001, true, EntryEmptyException::class, $m1],
-            [$key, [$key => ''], $dateFormat001, false, EntryEmptyException::class, $m1],
-            [$key, [$key => []], $dateFormat001, false, EntryEmptyException::class, $m1],
-
-            [$key, [$key => true], $dateFormat001, true, ValueNotAStringException::class, $m2],
-            [$key, [$key => false], $dateFormat001, true, ValueNotAStringException::class, $m2],
-            [$key, [$key => true], $dateFormat001, false, ValueNotAStringException::class, $m2],
-            [$key, [$key => false], $dateFormat001, false, ValueNotAStringException::class, $m2],
-
-            [$key, [$key => 1], $dateFormat001, true, ValueNotAStringException::class, $m2],
-            [$key, [$key => 1], $dateFormat001, false, ValueNotAStringException::class, $m2],
-
-            [$key, [$key => 1.1], $dateFormat001, true, ValueNotAStringException::class, $m2],
-            [$key, [$key => 1.1], $dateFormat001, false, ValueNotAStringException::class, $m2],
-
-            [$key, [$key => $date002], $dateFormat001, true, InvalidDateValueException::class, $m3],
-            [$key, [$key => $date002], $dateFormat001, false, InvalidDateValueException::class, $m3],
         ];
+
+        $variable = [true, false];
+
+        $variableTests = [];
+
+        foreach ($variable as $v) {
+            $variableTests[] = [$key, [$key => ''], $dateFormat001, $v, EntryEmptyException::class, $m1];
+            $variableTests[] = [$key, [$key => []], $dateFormat001, $v, EntryEmptyException::class, $m1];
+            $variableTests[] = [$key, [$key => true], $dateFormat001, $v, ValueNotAStringException::class, $m2];
+            $variableTests[] = [$key, [$key => false], $dateFormat001, $v, ValueNotAStringException::class, $m2];
+            $variableTests[] = [$key, [$key => 1], $dateFormat001, $v, ValueNotAStringException::class, $m2];
+            $variableTests[] = [$key, [$key => 1.1], $dateFormat001, $v, ValueNotAStringException::class, $m2];
+            $variableTests[] = [$key, [$key => $date002], $dateFormat001, $v, InvalidDateValueException::class, $m3];
+        }
+
+        return array_merge($variableTests, $fixedTests);
     }
 
     /**
