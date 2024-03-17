@@ -10,6 +10,7 @@ use Utils\JsonPayloadValidator\Exception\EntryMissingException;
 use Utils\JsonPayloadValidator\Exception\IncorrectParametrizationException;
 use Utils\JsonPayloadValidator\Exception\OptionalPropertyNotAFloatException;
 use Utils\JsonPayloadValidator\Exception\ValueNotAFloatException;
+use Utils\JsonPayloadValidator\Exception\ValueNotEqualsToException;
 use Utils\JsonPayloadValidator\Exception\ValueTooBigException;
 use Utils\JsonPayloadValidator\Exception\ValueTooSmallException;
 use Utils\JsonPayloadValidator\Service\PropertyFloatChecker;
@@ -222,5 +223,112 @@ class PropertyFloatCheckerTest extends TestCase
         $this->expectExceptionMessage($expectedExceptionMessage);
 
         $this->sut->withinRange($key, $payload, $minValue, $maxValue, $required);
+    }
+
+    public function shouldPassWithinRangeDataProvider(): array
+    {
+        $key = 'myKey';
+
+        $fixedTests = [
+            [$key, [], 1.23, null, false],
+            [$key, [$key => null], 1.23, null, false],
+        ];
+
+        $variableTests = [];
+        $variable = [true, false];
+
+        foreach ($variable as $v) {
+            $variableTests[] = [$key, [$key => 3.25], 3.25, null, $v];
+            $variableTests[] = [$key, [$key => 3.26], 3.25, null, $v];
+            $variableTests[] = [$key, [$key => 3.27], 3.25, null, $v];
+
+            $variableTests[] = [$key, [$key => 3.25], null, 3.27, $v];
+            $variableTests[] = [$key, [$key => 3.26], null, 3.27, $v];
+            $variableTests[] = [$key, [$key => 3.27], null, 3.27, $v];
+
+            $variableTests[] = [$key, [$key => 3.25], 3.25, 3.27, $v];
+            $variableTests[] = [$key, [$key => 3.26], 3.25, 3.27, $v];
+            $variableTests[] = [$key, [$key => 3.27], 3.25, 3.27, $v];
+        }
+
+        return array_merge($fixedTests, $variableTests);
+    }
+
+    /**
+     * @dataProvider shouldPassWithinRangeDataProvider
+     * @throws EntryEmptyException
+     * @throws EntryMissingException
+     * @throws IncorrectParametrizationException
+     * @throws ValueNotAFloatException
+     * @throws ValueTooBigException
+     * @throws ValueTooSmallException
+     */
+    public function testShouldPassWithinRange(
+        string $key,
+        array $payload,
+        ?float $minVal,
+        ?float $maxVal,
+        bool $required
+    ): void {
+        $this->sut->withinRange($key, $payload, $minVal, $maxVal, $required);
+        $this->expectNotToPerformAssertions();
+    }
+
+    public function shouldFailEqualsToDataProvider(): array
+    {
+        $key = 'myKey';
+
+        $m1 = "Entry 'myKey' empty";
+        $m2 = "Entry 'myKey' missing";
+        $m3 = "The entry 'myKey' is required to be a float type";
+        $m4 = "Entry 'myKey' is meant to be '3.25', but is '3.26'";
+        $m5 = "Entry 'myKey' is meant to be '3.25', but is '3.249999999'";
+        $m6 = "Entry 'myKey' is meant to be '3.25', but is '-3.25'";
+        $m7 = "Entry 'myKey' is meant to be '-3.25', but is '3.25'";
+
+        $fixedTests = [
+            [$key, [$key => null], 1.23, true, EntryEmptyException::class, $m1],
+            [$key, [], 1.23, true, EntryMissingException::class, $m2]
+        ];
+
+        $variable = [true, false];
+
+        $variableTests = [];
+
+        foreach ($variable as $v) {
+            $variableTests[] = [$key, [$key => ''], 1.23, $v, EntryEmptyException::class, $m1];
+            $variableTests[] = [$key, [$key => [[]]], 1.23, $v, ValueNotAFloatException::class, $m3];
+            $variableTests[] = [$key, [$key => "blah"], 1.23, $v, ValueNotAFloatException::class, $m3];
+            $variableTests[] = [$key, [$key => true], 1.23, $v, ValueNotAFloatException::class, $m3];
+            $variableTests[] = [$key, [$key => false], 1.23, $v, ValueNotAFloatException::class, $m3];
+            $variableTests[] = [$key, [$key => 3.26], 3.25, $v, ValueNotEqualsToException::class, $m4];
+            $variableTests[] = [$key, [$key => 3.249999999], 3.25, $v, ValueNotEqualsToException::class, $m5];
+            $variableTests[] = [$key, [$key => -3.25], 3.25, $v, ValueNotEqualsToException::class, $m6];
+            $variableTests[] = [$key, [$key => 3.25], -3.25, $v, ValueNotEqualsToException::class, $m7];
+        }
+
+        return array_merge($fixedTests, $variableTests);
+    }
+
+    /**
+     * @dataProvider shouldFailEqualsToDataProvider
+     *
+     * @throws EntryEmptyException
+     * @throws EntryMissingException
+     * @throws ValueNotAFloatException
+     * @throws ValueNotEqualsToException
+     */
+    public function testShouldFailEqualsTo(
+        string $key,
+        array $payload,
+        float $compareTo,
+        bool $required,
+        string $expectedException,
+        string $expectedExceptionMessage
+    ): void {
+        $this->expectException($expectedException);
+        $this->expectExceptionMessage($expectedExceptionMessage);
+
+        $this->sut->equalsTo($key, $payload, $compareTo, $required);
     }
 }

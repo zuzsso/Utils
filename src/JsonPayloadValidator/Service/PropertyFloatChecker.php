@@ -9,6 +9,7 @@ use Utils\JsonPayloadValidator\Exception\EntryForbiddenException;
 use Utils\JsonPayloadValidator\Exception\IncorrectParametrizationException;
 use Utils\JsonPayloadValidator\Exception\OptionalPropertyNotAFloatException;
 use Utils\JsonPayloadValidator\Exception\ValueNotAFloatException;
+use Utils\JsonPayloadValidator\Exception\ValueNotEqualsToException;
 use Utils\JsonPayloadValidator\Exception\ValueTooBigException;
 use Utils\JsonPayloadValidator\Exception\ValueTooSmallException;
 use Utils\JsonPayloadValidator\UseCase\CheckPropertyFloat;
@@ -100,6 +101,14 @@ class PropertyFloatChecker implements CheckPropertyFloat
             }
         }
 
+        if (!$required) {
+            try {
+                $this->checkPropertyPresence->forbidden($key, $payload);
+                return $this;
+            } catch (EntryForbiddenException $e) {
+            }
+        }
+
         $this->required($key, $payload);
 
         $value = (float)$payload[$key];
@@ -113,7 +122,7 @@ class PropertyFloatChecker implements CheckPropertyFloat
 
         if ($maxValue !== null) {
             $equals = $this->equalFloats->equalFloats($maxValue, $value);
-            if ((!$equals) && ($value > $minValue)) {
+            if ((!$equals) && ($value > $maxValue)) {
                 throw ValueTooBigException::constructForStandardFloatMessage($key, $maxValue, $value);
             }
         }
@@ -121,8 +130,29 @@ class PropertyFloatChecker implements CheckPropertyFloat
         return $this;
     }
 
-    public function equalsTo(string $key, array $payload, float $compareTo, bool $required = true): CheckPropertyFloat
+    /**
+     * @inheritDoc
+     */
+    public function equalsTo(string $key, array $payload, float $compareTo, bool $required = true): self
     {
+        if (!$required) {
+            try {
+                $this->checkPropertyPresence->forbidden($key, $payload);
+                return $this;
+            } catch (EntryForbiddenException $e) {
+            }
+        }
+
+        $this->required($key, $payload);
+
+        $value = (float)$payload[$key];
+
+        $equals = $this->equalFloats->equalFloats($value, $compareTo);
+
+        if (!$equals) {
+            throw ValueNotEqualsToException::constructForFloat($key, $compareTo, $value);
+        }
+
         return $this;
     }
 }

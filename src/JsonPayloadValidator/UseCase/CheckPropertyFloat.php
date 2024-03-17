@@ -9,8 +9,10 @@ use Utils\JsonPayloadValidator\Exception\EntryMissingException;
 use Utils\JsonPayloadValidator\Exception\IncorrectParametrizationException;
 use Utils\JsonPayloadValidator\Exception\OptionalPropertyNotAFloatException;
 use Utils\JsonPayloadValidator\Exception\ValueNotAFloatException;
+use Utils\JsonPayloadValidator\Exception\ValueNotEqualsToException;
 use Utils\JsonPayloadValidator\Exception\ValueTooBigException;
 use Utils\JsonPayloadValidator\Exception\ValueTooSmallException;
+use Utils\JsonPayloadValidator\Service\PropertyFloatChecker;
 
 interface CheckPropertyFloat
 {
@@ -42,5 +44,11 @@ interface CheckPropertyFloat
         bool $required = true
     ): self;
 
+    /**
+     * @throws ValueNotAFloatException
+     * @throws ValueNotEqualsToException
+     * @throws EntryEmptyException
+     * @throws EntryMissingException
+     */
     public function equalsTo(string $key, array $payload, float $compareTo, bool $required = true): self;
 }

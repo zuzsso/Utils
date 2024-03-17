@@ -136,7 +136,7 @@ class PropertyIntegerChecker implements CheckPropertyInteger
         $value = (int)$payload[$key];
 
         if ($value !== $compareTo) {
-            throw ValueNotEqualsToException::constructForStandardMessageInteger($key, $compareTo, $value);
+            throw ValueNotEqualsToException::constructForInteger($key, $compareTo, $value);
         }
 
         return $this;
