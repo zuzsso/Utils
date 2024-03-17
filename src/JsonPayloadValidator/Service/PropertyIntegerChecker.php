@@ -107,7 +107,7 @@ class PropertyIntegerChecker implements CheckPropertyInteger
         $value = (int)$payload[$key];
 
         if (($minValue !== null) && ($value < $minValue)) {
-            throw  ValueNotSmallerThanException::constructForStandardMessage($key, $minValue, $value);
+            throw  ValueNotSmallerThanException::constructForStandardMessageInteger($key, $minValue, $value);
         }
 
         if (($maxValue !== null) && ($value > $maxValue)) {
@@ -136,7 +136,7 @@ class PropertyIntegerChecker implements CheckPropertyInteger
         $value = (int)$payload[$key];
 
         if ($value !== $compareTo) {
-            throw ValueNotEqualsToException::constructForStandardMessage($key, $compareTo, $value);
+            throw ValueNotEqualsToException::constructForStandardMessageInteger($key, $compareTo, $value);
         }
 
         return $this;

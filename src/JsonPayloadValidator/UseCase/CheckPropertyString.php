@@ -12,8 +12,8 @@ use Utils\JsonPayloadValidator\Exception\OptionalPropertyNotAStringException;
 use Utils\JsonPayloadValidator\Exception\StringIsNotAnUrlException;
 use Utils\JsonPayloadValidator\Exception\ValueNotAStringException;
 use Utils\JsonPayloadValidator\Exception\ValueStringNotExactLengthException;
-use Utils\JsonPayloadValidator\Exception\ValueStringTooBigException;
-use Utils\JsonPayloadValidator\Exception\ValueStringTooSmallException;
+use Utils\JsonPayloadValidator\Exception\ValueTooBigException;
+use Utils\JsonPayloadValidator\Exception\ValueTooSmallException;
 use Utils\JsonPayloadValidator\Service\PropertyStringChecker;
 
 interface CheckPropertyString
@@ -35,8 +35,8 @@ interface CheckPropertyString
      * @throws EntryMissingException
      * @throws IncorrectParametrizationException
      * @throws ValueNotAStringException
-     * @throws ValueStringTooBigException
-     * @throws ValueStringTooSmallException
+     * @throws ValueTooBigException
+     * @throws ValueTooSmallException
      */
     public function byteLengthRange(
         string $key,

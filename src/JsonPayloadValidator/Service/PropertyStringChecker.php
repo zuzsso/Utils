@@ -14,8 +14,8 @@ use Utils\JsonPayloadValidator\Exception\OptionalPropertyNotAStringException;
 use Utils\JsonPayloadValidator\Exception\StringIsNotAnUrlException;
 use Utils\JsonPayloadValidator\Exception\ValueNotAStringException;
 use Utils\JsonPayloadValidator\Exception\ValueStringNotExactLengthException;
-use Utils\JsonPayloadValidator\Exception\ValueStringTooBigException;
-use Utils\JsonPayloadValidator\Exception\ValueStringTooSmallException;
+use Utils\JsonPayloadValidator\Exception\ValueTooBigException;
+use Utils\JsonPayloadValidator\Exception\ValueTooSmallException;
 use Utils\JsonPayloadValidator\UseCase\CheckPropertyPresence;
 use Utils\JsonPayloadValidator\UseCase\CheckPropertyString;
 
@@ -123,11 +123,11 @@ class PropertyStringChecker implements CheckPropertyString
         $length = strlen($trim);
 
         if (($minimumLength !== null) && ($length < $minimumLength)) {
-            throw ValueStringTooSmallException::constructForStandardMessage($key, $minimumLength, $length);
+            throw ValueTooSmallException::constructForStringMessage($key, $minimumLength, $length);
         }
 
         if ($maximumLength !== null && ($length > $maximumLength)) {
-            throw ValueStringTooBigException::constructForStandardMessage($key, $maximumLength, $length);
+            throw ValueTooBigException::constructForStandardMessage($key, $maximumLength, $length);
         }
 
         return $this;

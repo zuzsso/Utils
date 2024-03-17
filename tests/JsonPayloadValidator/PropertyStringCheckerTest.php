@@ -13,8 +13,8 @@ use Utils\JsonPayloadValidator\Exception\OptionalPropertyNotAStringException;
 use Utils\JsonPayloadValidator\Exception\StringIsNotAnUrlException;
 use Utils\JsonPayloadValidator\Exception\ValueNotAStringException;
 use Utils\JsonPayloadValidator\Exception\ValueStringNotExactLengthException;
-use Utils\JsonPayloadValidator\Exception\ValueStringTooBigException;
-use Utils\JsonPayloadValidator\Exception\ValueStringTooSmallException;
+use Utils\JsonPayloadValidator\Exception\ValueTooBigException;
+use Utils\JsonPayloadValidator\Exception\ValueTooSmallException;
 use Utils\JsonPayloadValidator\Service\PropertyPresenceChecker;
 use Utils\JsonPayloadValidator\Service\PropertyStringChecker;
 
@@ -174,20 +174,20 @@ class PropertyStringCheckerTest extends TestCase
             $variableTests[] = [$key, [$key => 6.66], 2, 3, $v, ValueNotAStringException::class, $m7];
             $variableTests[] = [$key, [$key => true], 2, 3, $v, ValueNotAStringException::class, $m7];
             $variableTests[] = [$key, [$key => false], 2, 3, $v, ValueNotAStringException::class, $m7];
-            $variableTests[] = [$key, [$key => '1'], 2, 3, $v, ValueStringTooSmallException::class, $m4];
-            $variableTests[] = [$key, [$key => '1'], 2, null, $v, ValueStringTooSmallException::class, $m4];
+            $variableTests[] = [$key, [$key => '1'], 2, 3, $v, ValueTooSmallException::class, $m4];
+            $variableTests[] = [$key, [$key => '1'], 2, null, $v, ValueTooSmallException::class, $m4];
 
             // Seems like a three char string, but the validator will trim the trailing and leading whitespaces before
             // proceeding with the validation
-            $variableTests[] = [$key, [$key => ' 1 '], 2, null, $v, ValueStringTooSmallException::class, $m4];
+            $variableTests[] = [$key, [$key => ' 1 '], 2, null, $v, ValueTooSmallException::class, $m4];
 
-            $variableTests[] = [$key, [$key => '1111'], 2, 3, $v, ValueStringTooBigException::class, $m5];
-            $variableTests[] = [$key, [$key => '1111'], null, 3, $v, ValueStringTooBigException::class, $m5];
+            $variableTests[] = [$key, [$key => '1111'], 2, 3, $v, ValueTooBigException::class, $m5];
+            $variableTests[] = [$key, [$key => '1111'], null, 3, $v, ValueTooBigException::class, $m5];
 
             // Seems like a one char string, but we don't measure strings in chars, but in bytes, and this kanji is
             // three bytes long
-            $variableTests[] = [$key, [$key => '大'], null, 2, $v, ValueStringTooBigException::class, $m8];
-            $variableTests[] = [$key, [$key => '大'], 1, 2, $v, ValueStringTooBigException::class, $m8];
+            $variableTests[] = [$key, [$key => '大'], null, 2, $v, ValueTooBigException::class, $m8];
+            $variableTests[] = [$key, [$key => '大'], 1, 2, $v, ValueTooBigException::class, $m8];
         }
 
         return array_merge($fixedTests, $variableTests);
@@ -199,8 +199,8 @@ class PropertyStringCheckerTest extends TestCase
      * @throws EntryMissingException
      * @throws ValueNotAStringException
      * @throws IncorrectParametrizationException
-     * @throws ValueStringTooBigException
-     * @throws ValueStringTooSmallException
+     * @throws ValueTooBigException
+     * @throws ValueTooSmallException
      */
     public function testByteLengthRangeShouldFailValidation(
         string $key,
@@ -247,8 +247,8 @@ class PropertyStringCheckerTest extends TestCase
      * @throws EntryMissingException
      * @throws IncorrectParametrizationException
      * @throws ValueNotAStringException
-     * @throws ValueStringTooBigException
-     * @throws ValueStringTooSmallException
+     * @throws ValueTooBigException
+     * @throws ValueTooSmallException
      */
     public function testShouldPassByteLengthRange(
         string $key,

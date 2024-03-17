@@ -5,10 +5,15 @@ declare(strict_types=1);
 namespace Utils\Tests\JsonPayloadValidator;
 
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\Console\Exception\MissingInputException;
 use Utils\JsonPayloadValidator\Exception\EntryEmptyException;
 use Utils\JsonPayloadValidator\Exception\EntryMissingException;
+use Utils\JsonPayloadValidator\Exception\IncorrectParametrizationException;
 use Utils\JsonPayloadValidator\Exception\OptionalPropertyNotAFloatException;
 use Utils\JsonPayloadValidator\Exception\ValueNotAFloatException;
+use Utils\JsonPayloadValidator\Exception\ValueNotGreaterThanException;
+use Utils\JsonPayloadValidator\Exception\ValueTooBigException;
+use Utils\JsonPayloadValidator\Exception\ValueTooSmallException;
 use Utils\JsonPayloadValidator\Service\PropertyFloatChecker;
 use Utils\JsonPayloadValidator\Service\PropertyPresenceChecker;
 use Utils\Math\Numbers\Service\FloatsService;
@@ -144,5 +149,80 @@ class PropertyFloatCheckerTest extends TestCase
     {
         $this->sut->optional($key, $payload);
         $this->expectNotToPerformAssertions();
+    }
+
+    public function shouldFailWithinRangeDataProvider(): array
+    {
+        $key = 'myKey';
+
+        $m1 = "Entry 'myKey' empty";
+        $m2 = "Entry 'myKey' missing";
+        $m3 = "The entry 'myKey' is required to be a float type, but got an string: '1'";
+        $m4 = "The entry 'myKey' is required to be a float type, but got an string: 'abc'";
+        $m5 = "The entry 'myKey' is required to be a float type";
+        $m6 = "The entry 'myKey' is required to be a float type, but could not be parsed as such: '1'";
+        $m7 = "The entry 'myKey' is required to be a float type, but could not be parsed as such: ''";
+        $m8 = "Min value cannot be equal or greater than max value";
+        $m9 = "No range defined. You may want to use the 'required' function";
+        $ma = "Entry 'myKey' is meant to be equals or greater than '3.65': '3.64'";
+        $mb = "Entry 'myKey' is meant to be equals or greater than '3.65': '3.64901'";
+        $mc = "Entry 'myKey' is meant to be equals or less than '3.65': '3.65001'";
+        $md = "Entry 'myKey' is meant to be equals or less than '3.65': '3.66'";
+
+        $fixedTests = [
+            [$key, [], 1, 2, true, EntryMissingException::class, $m2],
+            [$key, [$key => null], 1, 2, true, EntryEmptyException::class, $m1],
+        ];
+
+        $variable = [true, false];
+
+        $variableTests = [];
+
+        foreach ($variable as $v) {
+            $variableTests[] = [$key, [$key => 3.25], null, null, $v, IncorrectParametrizationException::class, $m9];
+            $variableTests[] = [$key, [$key => 3], 3.65, 3.65, $v, IncorrectParametrizationException::class, $m8];
+            $variableTests[] = [$key, [$key => 3], 3.66, 3.65, $v, IncorrectParametrizationException::class, $m8];
+            $variableTests[] = [$key, [$key => ''], 1, null, $v, EntryEmptyException::class, $m1];
+            $variableTests[] = [$key, [$key => "1"], 1, null, $v, ValueNotAFloatException::class, $m3];
+            $variableTests[] = [$key, [$key => "abc"], 1, null, $v, ValueNotAFloatException::class, $m4];
+            $variableTests[] = [$key, [$key => [[]]], 1, null, $v, ValueNotAFloatException::class, $m5];
+            $variableTests[] = [$key, [$key => true], 1, null, $v, ValueNotAFloatException::class, $m6];
+            $variableTests[] = [$key, [$key => false], 1, null, $v, ValueNotAFloatException::class, $m7];
+            $variableTests[] = [$key, [$key => 3.64], 3.65, null, $v, ValueTooSmallException::class, $ma];
+            $variableTests[] = [$key, [$key => 3.64], 3.65, 3.66, $v, ValueTooSmallException::class, $ma];
+            $variableTests[] = [$key, [$key => 3.64901], 3.65, null, $v, ValueTooSmallException::class, $mb];
+            $variableTests[] = [$key, [$key => 3.64901], 3.65, 3.66, $v, ValueTooSmallException::class, $mb];
+            $variableTests[] = [$key, [$key => 3.65001], null, 3.65, $v, ValueTooBigException::class, $mc];
+            $variableTests[] = [$key, [$key => 3.65001], 3.64, 3.65, $v, ValueTooBigException::class, $mc];
+            $variableTests[] = [$key, [$key => 3.66], null, 3.65, $v, ValueTooBigException::class, $md];
+            $variableTests[] = [$key, [$key => 3.66], 3.64, 3.65, $v, ValueTooBigException::class, $md];
+        }
+
+        return array_merge($fixedTests, $variableTests);
+    }
+
+    /**
+     * @dataProvider shouldFailWithinRangeDataProvider
+     *
+     * @throws EntryEmptyException
+     * @throws EntryMissingException
+     * @throws IncorrectParametrizationException
+     * @throws ValueNotAFloatException
+     * @throws ValueTooSmallException
+     * @throws ValueTooBigException
+     */
+    public function testShouldFailWithinRange(
+        string $key,
+        array $payload,
+        ?float $minValue,
+        ?float $maxValue,
+        bool $required,
+        string $expectedException,
+        string $expectedExceptionMessage
+    ): void {
+        $this->expectException($expectedException);
+        $this->expectExceptionMessage($expectedExceptionMessage);
+
+        $this->sut->withinRange($key, $payload, $minValue, $maxValue, $required);
     }
 }

@@ -6,9 +6,11 @@ namespace Utils\JsonPayloadValidator\Service;
 
 use Throwable;
 use Utils\JsonPayloadValidator\Exception\EntryForbiddenException;
+use Utils\JsonPayloadValidator\Exception\IncorrectParametrizationException;
 use Utils\JsonPayloadValidator\Exception\OptionalPropertyNotAFloatException;
 use Utils\JsonPayloadValidator\Exception\ValueNotAFloatException;
-use Utils\JsonPayloadValidator\Exception\ValueNotGreaterThanException;
+use Utils\JsonPayloadValidator\Exception\ValueTooBigException;
+use Utils\JsonPayloadValidator\Exception\ValueTooSmallException;
 use Utils\JsonPayloadValidator\UseCase\CheckPropertyFloat;
 use Utils\JsonPayloadValidator\UseCase\CheckPropertyPresence;
 use Utils\Math\Numbers\UseCase\EqualFloats;
@@ -84,12 +86,36 @@ class PropertyFloatChecker implements CheckPropertyFloat
         ?float $maxValue,
         bool $required = true
     ): self {
+        if (($minValue === null) && ($maxValue === null)) {
+            throw new IncorrectParametrizationException(
+                "No range defined. You may want to use the 'required' function"
+            );
+        }
+
+        if (($minValue !== null) && ($maxValue !== null)) {
+            $equals = $this->equalFloats->equalFloats($minValue, $maxValue);
+            $greaterThan = $minValue > $maxValue;
+            if ($equals || $greaterThan) {
+                throw new IncorrectParametrizationException("Min value cannot be equal or greater than max value");
+            }
+        }
+
         $this->required($key, $payload);
 
-        $value = $payload[$key];
+        $value = (float)$payload[$key];
 
-        if (!($value > $compareTo)) {
-            throw ValueNotGreaterThanException::constructForStandardFloatMessage($key, $compareTo, $value);
+        if ($minValue !== null) {
+            $equals = $this->equalFloats->equalFloats($minValue, $value);
+            if ((!$equals) && ($value < $minValue)) {
+                throw ValueTooSmallException::constructForStandardFloatMessage($key, $minValue, $value);
+            }
+        }
+
+        if ($maxValue !== null) {
+            $equals = $this->equalFloats->equalFloats($maxValue, $value);
+            if ((!$equals) && ($value > $minValue)) {
+                throw ValueTooBigException::constructForStandardFloatMessage($key, $maxValue, $value);
+            }
         }
 
         return $this;

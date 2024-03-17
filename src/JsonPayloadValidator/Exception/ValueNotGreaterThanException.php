@@ -4,6 +4,12 @@ declare(strict_types=1);
 
 namespace Utils\JsonPayloadValidator\Exception;
 
+
+/**
+ * @deprecated
+ * @see ValueTooBigException
+ * @see ValueTooSmallException
+ */
 class ValueNotGreaterThanException extends AbstractMalformedRequestBody
 {
     public static function constructForStandardIntegerMessage(string $key, int $compareTo, int $value): self
