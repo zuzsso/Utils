@@ -314,25 +314,30 @@ class PropertyStringCheckerTest extends TestCase
         $this->sut->exactByteLength($key, $payload, $exactLength, $required);
     }
 
-
     public function shouldPassExactByteLengthDataProvider(): array
     {
         $key = 'myKey';
 
-        return [
+        $fixedTests = [
             [$key, [], 1, false],
             [$key, [$key => null], 1, false],
-            [$key, [$key => 'a'], 1, false],
-            [$key, [$key => 'a'], 1, true],
+        ];
+
+        $variable = [true, false];
+
+        $variableTests = [];
+
+        foreach ($variable as $v) {
+            $variableTests[] = [$key, [$key => 'a'], 1, $v];
 
             // Trailing and leading whitespaces are trimmed
-            [$key, [$key => '     a     '], 1, true],
-            [$key, [$key => '     a     '], 1, false],
+            $variableTests[] = [$key, [$key => '     a     '], 1, $v];
 
             // Looks like a one char string, but we don't measure the length in chars, but in bytes
-            [$key, [$key => '漢'], 3, false],
-            [$key, [$key => '漢'], 3, true],
-        ];
+            $variableTests[] = [$key, [$key => '漢'], 3, $v];
+        }
+
+        return array_merge($variableTests, $fixedTests);
     }
 
     /**
