@@ -221,26 +221,24 @@ class PropertyStringCheckerTest extends TestCase
     {
         $key = 'myKey';
 
-        return [
-            [$key, [$key => null], 1, 2, false],
-            [$key, [$key => 'a'], 1, 2, false],
-            [$key, [$key => 'a'], 1, 2, true],
-
-            [$key, [$key => 'a'], 1, null, false],
-            [$key, [$key => 'a'], 1, null, true],
-
-            [$key, [$key => 'a'], null, 1, false],
-            [$key, [$key => 'a'], null, 1, true],
-
-            [$key, [$key => 'aa'], 2, 3, false],
-            [$key, [$key => 'aaa'], 2, 3, false],
-            [$key, [$key => 'aa'], 2, 3, true],
-            [$key, [$key => 'aaa'], 2, 3, true],
-
-            [$key, [$key => '    aaa        '], 2, 3, false],
-            [$key, [$key => '    aaa        '], 2, 3, true],
-
+        $fixedTests = [
+            [$key, [$key => null], 1, 2, false]
         ];
+
+        $variable = [false, true];
+
+        $variableTests = [];
+
+        foreach ($variable as $v) {
+            $variableTests[] = [$key, [$key => 'a'], 1, 2, $v];
+            $variableTests[] = [$key, [$key => 'a'], 1, null, $v];
+            $variableTests[] = [$key, [$key => 'a'], null, 1, $v];
+            $variableTests[] = [$key, [$key => 'aa'], 2, 3, $v];
+            $variableTests[] = [$key, [$key => 'aaa'], 2, 3, $v];
+            $variableTests[] = [$key, [$key => '    aaa        '], 2, 3, $v];
+        }
+
+        return array_merge($fixedTests, $variableTests);
     }
 
     /**
