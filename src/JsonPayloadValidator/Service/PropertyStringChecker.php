@@ -136,9 +136,18 @@ class PropertyStringChecker implements CheckPropertyString
     /**
      * @inheritDoc
      */
-    public function urlFormat(string $key, array $payload): self
+    public function urlFormat(string $key, array $payload, bool $required = true): self
     {
-        $this->checkPropertyPresence->required($key, $payload);
+        if (!$required) {
+            try {
+                $this->checkPropertyPresence->forbidden($key, $payload);
+                return $this;
+            } catch (EntryForbiddenException $e) {
+                // Continue validation as if it was required
+            }
+        }
+
+        $this->required($key, $payload);
 
         $val = $payload[$key];
         if (!filter_var($val, FILTER_VALIDATE_URL)) {

@@ -14,6 +14,7 @@ use Utils\JsonPayloadValidator\Exception\ValueNotAStringException;
 use Utils\JsonPayloadValidator\Exception\ValueStringNotExactLengthException;
 use Utils\JsonPayloadValidator\Exception\ValueStringTooBigException;
 use Utils\JsonPayloadValidator\Exception\ValueStringTooSmallException;
+use Utils\JsonPayloadValidator\Service\PropertyStringChecker;
 
 interface CheckPropertyString
 {
@@ -45,10 +46,11 @@ interface CheckPropertyString
         bool $required = true
     ): self;
 
-    /**
-     * @throws StringIsNotAnUrlException
+    /**     
      * @throws EntryEmptyException
      * @throws EntryMissingException
+     * @throws StringIsNotAnUrlException
+     * @throws ValueNotAStringException
      */
     public function urlFormat(string $key, array $payload): self;
 

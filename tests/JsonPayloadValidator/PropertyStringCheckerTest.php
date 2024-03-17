@@ -9,6 +9,7 @@ use Utils\JsonPayloadValidator\Exception\EntryEmptyException;
 use Utils\JsonPayloadValidator\Exception\EntryMissingException;
 use Utils\JsonPayloadValidator\Exception\IncorrectParametrizationException;
 use Utils\JsonPayloadValidator\Exception\OptionalPropertyNotAStringException;
+use Utils\JsonPayloadValidator\Exception\StringIsNotAnUrlException;
 use Utils\JsonPayloadValidator\Exception\ValueNotAStringException;
 use Utils\JsonPayloadValidator\Exception\ValueStringNotExactLengthException;
 use Utils\JsonPayloadValidator\Exception\ValueStringTooBigException;
@@ -356,5 +357,59 @@ class PropertyStringCheckerTest extends TestCase
     ): void {
         $this->sut->exactByteLength($key, $payload, $exactLength, $required);
         $this->expectNotToPerformAssertions();
+    }
+
+
+    public function shouldFailUrlFormatDataProvider(): array
+    {
+        $key = 'myKey';
+
+        $m1 = "Entry 'myKey' missing";
+        $m2 = "The entry 'myKey' is not a string";
+        $m3 = "Entry 'myKey' empty";
+        $m4 = "The string 'abc' doesn't resemble an actual URL";
+
+        return [
+            [$key, [], true, EntryMissingException::class, $m1],
+            [$key, ['myOtherKey' => 'blah'], true, EntryMissingException::class, $m1],
+
+            [$key, [$key => 123], true, ValueNotAStringException::class, $m2],
+            [$key, [$key => 123], false, ValueNotAStringException::class, $m2],
+            [$key, [$key => 1.3], false, ValueNotAStringException::class, $m2],
+            [$key, [$key => 1.3], false, ValueNotAStringException::class, $m2],
+            [$key, [$key => true], true, ValueNotAStringException::class, $m2],
+            [$key, [$key => true], false, ValueNotAStringException::class, $m2],
+            [$key, [$key => false], true, ValueNotAStringException::class, $m2],
+            [$key, [$key => false], false, ValueNotAStringException::class, $m2],
+            [$key, [$key => [[]]], true, ValueNotAStringException::class, $m2],
+            [$key, [$key => [[]]], false, ValueNotAStringException::class, $m2],
+
+            [$key, [$key => ''], true, EntryEmptyException::class, $m3],
+            [$key, [$key => ''], false, EntryEmptyException::class, $m3],
+            [$key, [$key => []], true, EntryEmptyException::class, $m3],
+            [$key, [$key => []], false, EntryEmptyException::class, $m3],
+
+            [$key, [$key=>'abc'], true, StringIsNotAnUrlException::class, $m4]
+
+        ];
+    }
+
+    /**
+     * @dataProvider shouldFailUrlFormatDataProvider
+     * @throws EntryEmptyException
+     * @throws EntryMissingException
+     * @throws StringIsNotAnUrlException
+     * @throws ValueNotAStringException
+     */
+    public function testShouldFailUrlFormat(
+        string $key,
+        array $payload,
+        bool $required,
+        string $expectedException,
+        string $expectedExceptionMessage
+    ): void {
+        $this->expectException($expectedException);
+        $this->expectExceptionMessage($expectedExceptionMessage);
+        $this->sut->urlFormat($key, $payload, $required);
     }
 }
