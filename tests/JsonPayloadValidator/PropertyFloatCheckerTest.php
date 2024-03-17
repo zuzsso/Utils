@@ -124,4 +124,25 @@ class PropertyFloatCheckerTest extends TestCase
         $this->expectExceptionMessage($expectedExceptionmessage);
         $this->sut->optional($key, $payload);
     }
+
+    public function shouldPassOptionalDataProvider(): array
+    {
+        $key = 'myKey';
+
+        return [
+            [$key, [$key => null]],
+            [$key, [$key => 3]],
+            [$key, [$key => 3.25]],
+        ];
+    }
+
+    /**
+     * @dataProvider shouldPassOptionalDataProvider
+     * @throws OptionalPropertyNotAFloatException
+     */
+    public function testShouldPassOptional(string $key, array $payload): void
+    {
+        $this->sut->optional($key, $payload);
+        $this->expectNotToPerformAssertions();
+    }
 }
