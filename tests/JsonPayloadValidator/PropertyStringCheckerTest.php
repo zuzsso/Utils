@@ -508,15 +508,21 @@ class PropertyStringCheckerTest extends TestCase
         $dateFormat001 = 'Y-m-d H:i:s';
         $date002 = '2024-03-25 23:00:59';
 
-        return [
+        $fixedTests = [
             [$key, [], $dateFormat001, false],
             [$key, [$key => null], $dateFormat001, false],
-            [$key, [$key => $date002], $dateFormat001, false],
-            [$key, [$key => $date002], $dateFormat001, true],
-
-            [$key, [$key => "    " . $date002 . "    "], $dateFormat001, false],
-            [$key, [$key => "    " . $date002 . "    "], $dateFormat001, true],
         ];
+
+        $variable = [true, false];
+
+        $variableTests = [];
+
+        foreach ($variable as $v) {
+            $variableTests[] = [$key, [$key => $date002], $dateFormat001, $v];
+            $variableTests[] = [$key, [$key => "    " . $date002 . "    "], $dateFormat001, $v];
+        }
+
+        return array_merge($fixedTests, $variableTests);
     }
 
     /**
