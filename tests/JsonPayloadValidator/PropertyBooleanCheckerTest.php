@@ -83,4 +83,39 @@ class PropertyBooleanCheckerTest extends TestCase
         $this->sut->required($key, $payload);
         $this->expectNotToPerformAssertions();
     }
+
+    public function shouldFailOptionalDataProvider(): array
+    {
+        $key = 'myKey';
+        $m2 = "Entry 'myKey' empty";
+        $m3 = "The entry 'myKey' does not hold a valid boolean value";
+        return [
+            [$key, [$key => ''], EntryEmptyException::class, $m2],
+            [$key, [$key => '   '], EntryEmptyException::class, $m2],
+            [$key, [$key => []], EntryEmptyException::class, $m2],
+            [$key, [$key => 0], InvalidBoolValueException::class, $m3],
+            [$key, [$key => "blah"], InvalidBoolValueException::class, $m3],
+            [$key, [$key => 1], InvalidBoolValueException::class, $m3],
+            [$key, [$key => "0"], InvalidBoolValueException::class, $m3],
+            [$key, [$key => "1"], InvalidBoolValueException::class, $m3],
+            [$key, [$key => [[]]], InvalidBoolValueException::class, $m3],
+        ];
+    }
+
+    /**
+     * @dataProvider shouldFailOptionalDataProvider
+     * @throws EntryEmptyException
+     * @throws EntryMissingException
+     * @throws InvalidBoolValueException
+     */
+    public function testShouldFailOptional(
+        string $key,
+        array $payload,
+        string $expectedException,
+        string $expectedExceptionMessage
+    ): void {
+        $this->expectException($expectedException);
+        $this->expectExceptionMessage($expectedExceptionMessage);
+        $this->sut->optional($key, $payload);
+    }
 }
