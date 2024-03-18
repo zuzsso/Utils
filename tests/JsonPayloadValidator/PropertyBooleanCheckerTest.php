@@ -60,7 +60,27 @@ class PropertyBooleanCheckerTest extends TestCase
         $this->expectExceptionMessage($expectedExceptionMessage);
 
         $this->sut->required($key, $payload);
+    }
 
+    public function shouldPassRequiredDataProvider(): array
+    {
+        $key = 'myKey';
+
+        return [
+            [$key, [$key => true]],
+            [$key, [$key => false]]
+        ];
+    }
+
+    /**
+     * @dataProvider shouldPassRequiredDataProvider
+     * @throws EntryEmptyException
+     * @throws EntryMissingException
+     * @throws InvalidBoolValueException
+     */
+    public function testShouldPassRequired(string $key, array $payload): void
+    {
+        $this->sut->required($key, $payload);
         $this->expectNotToPerformAssertions();
     }
 }
