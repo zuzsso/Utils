@@ -95,11 +95,11 @@ class PropertyIntegerCheckerTest extends TestCase
     {
         $key = 'myKey';
         $m3 = "Entry 'myKey' does not hold a valid int value";
-        $m4 = "The entry 'myKey' is optional, but if provided it should be an integer";
+        $m4 = "Entry 'myKey' empty";
 
         return [
-            [$key, [$key => []], OptionalPropertyNotAnIntegerException::class, $m4],
-            [$key, [$key => ''], OptionalPropertyNotAnIntegerException::class, $m4],
+            [$key, [$key => []], EntryEmptyException::class, $m4],
+            [$key, [$key => ''], EntryEmptyException::class, $m4],
             [$key, [$key => false], InvalidIntegerValueException::class, $m3],
             [$key, [$key => true], InvalidIntegerValueException::class, $m3],
             [$key, [$key => "0"], InvalidIntegerValueException::class, $m3],
@@ -111,8 +111,10 @@ class PropertyIntegerCheckerTest extends TestCase
 
     /**
      * @dataProvider shouldFailOptionalDataProvider
+     *
+     * @throws EntryEmptyException
+     * @throws EntryMissingException
      * @throws InvalidIntegerValueException
-     * @throws OptionalPropertyNotAnIntegerException
      */
     public function testShouldFailOptional(
         string $key,

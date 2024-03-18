@@ -62,15 +62,11 @@ class PropertyIntegerChecker implements CheckPropertyInteger
     {
         try {
             $this->checkPropertyPresence->forbidden($key, $payload);
+            return $this;
         } catch (EntryForbiddenException $e) {
-            // Property present, so, make it sure it is an integer
-            try {
-                $this->required($key, $payload);
-            } catch (EntryEmptyException | EntryMissingException $e) {
-                // Not an integer
-                throw OptionalPropertyNotAnIntegerException::constructForStandardMessage($key);
-            }
         }
+
+        $this->required($key, $payload);
 
         return $this;
     }

@@ -8,7 +8,6 @@ use Utils\JsonPayloadValidator\Exception\EntryEmptyException;
 use Utils\JsonPayloadValidator\Exception\EntryMissingException;
 use Utils\JsonPayloadValidator\Exception\IncorrectParametrizationException;
 use Utils\JsonPayloadValidator\Exception\InvalidIntegerValueException;
-use Utils\JsonPayloadValidator\Exception\OptionalPropertyNotAnIntegerException;
 use Utils\JsonPayloadValidator\Exception\ValueNotEqualsToException;
 use Utils\JsonPayloadValidator\Exception\ValueTooBigException;
 use Utils\JsonPayloadValidator\Exception\ValueTooSmallException;
@@ -23,11 +22,11 @@ interface CheckPropertyInteger
     public function required(string $key, array $payload): self;
 
     /**
+     * @throws EntryEmptyException
+     * @throws EntryMissingException
      * @throws InvalidIntegerValueException
-     * @throws OptionalPropertyNotAnIntegerException
      */
     public function optional(string $key, array $payload): self;
-
 
     /**
      * @throws EntryEmptyException
