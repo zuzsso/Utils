@@ -6,12 +6,14 @@ namespace Utils\JsonPayloadValidator;
 
 use Utils\AbstractDependencyInjection;
 use Utils\JsonPayloadValidator\Service\PropertyArrayChecker;
+use Utils\JsonPayloadValidator\Service\PropertyBooleanChecker;
 use Utils\JsonPayloadValidator\Service\PropertyCommonChecker;
 use Utils\JsonPayloadValidator\Service\PropertyFloatChecker;
 use Utils\JsonPayloadValidator\Service\PropertyIntegerChecker;
 use Utils\JsonPayloadValidator\Service\PropertyPresenceChecker;
 use Utils\JsonPayloadValidator\Service\PropertyStringChecker;
 use Utils\JsonPayloadValidator\UseCase\CheckPropertyArray;
+use Utils\JsonPayloadValidator\UseCase\CheckPropertyBoolean;
 use Utils\JsonPayloadValidator\UseCase\CheckPropertyCommon;
 use Utils\JsonPayloadValidator\UseCase\CheckPropertyFloat;
 use Utils\JsonPayloadValidator\UseCase\CheckPropertyInteger;
@@ -30,7 +32,8 @@ class JsonPayloadValidatorDependencyInjection extends AbstractDependencyInjectio
             CheckPropertyFloat::class => autowire(PropertyFloatChecker::class),
             CheckPropertyInteger::class => autowire(PropertyIntegerChecker::class),
             CheckPropertyPresence::class => autowire(PropertyPresenceChecker::class),
-            CheckPropertyString::class => autowire(PropertyStringChecker::class)
+            CheckPropertyString::class => autowire(PropertyStringChecker::class),
+            CheckPropertyBoolean::class => autowire(PropertyBooleanChecker::class)
         ];
     }
 }
