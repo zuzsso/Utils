@@ -8,12 +8,16 @@ use Utils\JsonPayloadValidator\Exception\ArrayDoesNotHaveMinimumElementCountExce
 use Utils\JsonPayloadValidator\Exception\ArrayExceedsMaximumnAllowedNumberOfElementsException;
 use Utils\JsonPayloadValidator\Exception\ArrayWithCustomIndexNumeration;
 use Utils\JsonPayloadValidator\Exception\AssociatedValueToArrayKeyNotJsonObjectException;
+use Utils\JsonPayloadValidator\Exception\EntryEmptyException;
+use Utils\JsonPayloadValidator\Exception\EntryMissingException;
 use Utils\JsonPayloadValidator\Exception\NotNumericArrayIndexException;
 use Utils\JsonPayloadValidator\Exception\ValueNotAnArrayException;
 
 interface CheckPropertyArray
 {
     /**
+     * @throws EntryEmptyException
+     * @throws EntryMissingException
      * @throws ValueNotAnArrayException
      */
     public function required(string $key, array $payload): self;

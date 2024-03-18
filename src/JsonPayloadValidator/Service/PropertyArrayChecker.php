@@ -12,17 +12,31 @@ use Utils\JsonPayloadValidator\Exception\AssociatedValueToArrayKeyNotJsonObjectE
 use Utils\JsonPayloadValidator\Exception\NotNumericArrayIndexException;
 use Utils\JsonPayloadValidator\Exception\ValueNotAnArrayException;
 use Utils\JsonPayloadValidator\UseCase\CheckPropertyArray;
+use Utils\JsonPayloadValidator\UseCase\CheckPropertyPresence;
 
 class PropertyArrayChecker implements CheckPropertyArray
 {
+    private CheckPropertyPresence $checkPropertyPresence;
+
+    public function __construct(CheckPropertyPresence $checkPropertyPresence)
+    {
+        $this->checkPropertyPresence = $checkPropertyPresence;
+    }
+
     /**
      * @inheritDoc
      */
     public function required(string $key, array $payload): self
     {
-        if (!isset($payload[$key]) || !is_array($payload[$key])) {
+        $this->checkPropertyPresence->required($key, $payload);
+
+        $value = $payload[$key];
+
+        if (!is_array($value)) {
             throw ValueNotAnArrayException::constructForStandardMessage($key);
         }
+
+        $this->checkAllKeysAreNumericAndNoGaps($value);
 
         return $this;
     }
@@ -31,7 +45,6 @@ class PropertyArrayChecker implements CheckPropertyArray
     {
         // TODO: Implement optional() method.
     }
-
 
     /**
      * @inheritDoc
@@ -127,5 +140,50 @@ class PropertyArrayChecker implements CheckPropertyArray
         }
 
         return $this;
+    }
+
+    /**
+     * @throws ValueNotAnArrayException
+     */
+    private function checkAllKeysAreNumericAndNoGaps(array $array): void
+    {
+        $count = count($array);
+
+        if ($count === 0) {
+            return;
+        }
+
+        $keys = array_keys($array);
+
+        $min = null;
+        $max = null;
+
+        foreach ($keys as $k) {
+            if (!is_int($k)) {
+                throw ValueNotAnArrayException::associativeArraysNotSupported();
+            }
+
+            if ($min === null) {
+                $min = $k;
+            } elseif ($k < $min) {
+                $min = $k;
+            }
+
+            if ($max === null) {
+                $max = $k;
+            } elseif ($k > $max) {
+                $max = $k;
+            }
+        }
+
+        if ($min !== 0) {
+            throw ValueNotAnArrayException::firstArrayKeyNotZero();
+        }
+
+        $expectedMaxKey = $count - 1;
+
+        if ($max !== $expectedMaxKey) {
+            throw ValueNotAnArrayException::expectedLastKeyToBe($expectedMaxKey, $max);
+        }
     }
 }
