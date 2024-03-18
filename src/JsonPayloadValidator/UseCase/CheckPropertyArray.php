@@ -16,7 +16,9 @@ interface CheckPropertyArray
     /**
      * @throws ValueNotAnArrayException
      */
-    public function requiredArray(string $key, array $payload): self;
+    public function required(string $key, array $payload): self;
+
+    public function optional(string $key, array $payload): self;
 
     /**
      * @throws ArrayWithCustomIndexNumeration
@@ -31,11 +33,12 @@ interface CheckPropertyArray
      * @throws ArrayExceedsMaximumnAllowedNumberOfElementsException
      * @throws ValueNotAnArrayException
      */
-    public function requiredArrayOfLength(
+    public function arrayOfLengthRange(
         string $key,
         array $payload,
-        ?int $minCountIncluding,
-        ?int $maxCountIncluding
+        ?int $minCount,
+        ?int $maxCount,
+        bool $required = true
     ): self;
 
     /**

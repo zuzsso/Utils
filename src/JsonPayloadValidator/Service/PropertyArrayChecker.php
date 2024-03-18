@@ -18,7 +18,7 @@ class PropertyArrayChecker implements CheckPropertyArray
     /**
      * @inheritDoc
      */
-    public function requiredArray(string $key, array $payload): self
+    public function required(string $key, array $payload): self
     {
         if (!isset($payload[$key]) || !is_array($payload[$key])) {
             throw ValueNotAnArrayException::constructForStandardMessage($key);
@@ -26,6 +26,12 @@ class PropertyArrayChecker implements CheckPropertyArray
 
         return $this;
     }
+
+    public function optional(string $key, array $payload): CheckPropertyArray
+    {
+        // TODO: Implement optional() method.
+    }
+
 
     /**
      * @inheritDoc
@@ -67,7 +73,7 @@ class PropertyArrayChecker implements CheckPropertyArray
      */
     public function requiredArrayOfJsonObjects(string $key, array $payload): self
     {
-        $this->requiredArray($key, $payload);
+        $this->required($key, $payload);
 
         $arrayElements = $payload[$key];
 
@@ -79,41 +85,42 @@ class PropertyArrayChecker implements CheckPropertyArray
     /**
      * @inheritDoc
      */
-    public function requiredArrayOfLength(
+    public function arrayOfLengthRange(
         string $key,
         array $payload,
-        ?int $minCountIncluding,
-        ?int $maxCountIncluding
+        ?int $minCount,
+        ?int $maxCount,
+        bool $required = true
     ): self {
-        $this->requiredArray($key, $payload);
+        $this->required($key, $payload);
 
         $count = count($payload[$key]);
 
-        if ($minCountIncluding !== null) {
-            if ($minCountIncluding < 0) {
+        if ($minCount !== null) {
+            if ($minCount < 0) {
                 // Not translatable, you are invoking this function with incorrect parameters
-                throw new InvalidArgumentException("minCountIncluding cannot be negative: $minCountIncluding");
+                throw new InvalidArgumentException("minCountIncluding cannot be negative: $minCount");
             }
 
-            if ($count < $minCountIncluding) {
+            if ($count < $minCount) {
                 throw ArrayDoesNotHaveMinimumElementCountException::constructForStandardMessage(
-                    $minCountIncluding,
+                    $minCount,
                     $count
                 );
             }
         }
 
-        if ($maxCountIncluding !== null) {
-            if (($minCountIncluding !== null) && ($maxCountIncluding < $minCountIncluding)) {
+        if ($maxCount !== null) {
+            if (($minCount !== null) && ($maxCount < $minCount)) {
                 // Not translatable, you are invoking this function with incorrect parameters
                 throw new InvalidArgumentException(
-                    "Both minCountIncluding and maxCountIncluded provided, but $maxCountIncluding < $minCountIncluding"
+                    "Both minCountIncluding and maxCountIncluded provided, but $maxCount < $minCount"
                 );
             }
 
-            if ($count > $maxCountIncluding) {
+            if ($count > $maxCount) {
                 throw ArrayExceedsMaximumnAllowedNumberOfElementsException::constructForStandardMessage(
-                    $maxCountIncluding,
+                    $maxCount,
                     $count
                 );
             }
