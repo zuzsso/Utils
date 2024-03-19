@@ -96,7 +96,6 @@ class PropertyArrayCheckerTest extends TestCase
     public function shouldFailOptionalKeyDataProvider(): array
     {
         $key = 'myKey';
-        $m1 = "Entry '$key' missing";
         $m2 = "Entry '$key' empty";
         $m3 = "Entry '$key' is expected to be an array";
         $m4 = "Associative arrays not supported";
@@ -136,5 +135,32 @@ class PropertyArrayCheckerTest extends TestCase
         $this->expectExceptionMessage($expectedExceptionMessage);
 
         $this->sut->optionalKey($key, $payload);
+    }
+
+    public function shouldPassOptionalKeyDataProvider(): array
+    {
+        $key = 'myKey';
+
+        return [
+            [$key, []],
+            [$key, [$key => null]],
+            [$key, [$key => []]],
+            [$key, [$key => [[]]]],
+
+        ];
+    }
+
+    /**
+     * @dataProvider shouldPassOptionalKeyDataProvider
+     * @dataProvider shouldPassRequiredDataProvider
+     *
+     * @throws EntryEmptyException
+     * @throws EntryMissingException
+     * @throws ValueNotAnArrayException
+     */
+    public function testShouldPassOptionalKey(string $key, array $payload): void
+    {
+        $this->sut->optionalKey($key, $payload);
+        $this->expectNotToPerformAssertions();
     }
 }

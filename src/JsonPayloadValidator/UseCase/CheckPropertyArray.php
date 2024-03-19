@@ -12,6 +12,7 @@ use Utils\JsonPayloadValidator\Exception\EntryEmptyException;
 use Utils\JsonPayloadValidator\Exception\EntryMissingException;
 use Utils\JsonPayloadValidator\Exception\NotNumericArrayIndexException;
 use Utils\JsonPayloadValidator\Exception\ValueNotAnArrayException;
+use Utils\JsonPayloadValidator\Service\PropertyArrayChecker;
 
 interface CheckPropertyArray
 {
@@ -46,9 +47,8 @@ interface CheckPropertyArray
     ): self;
 
     /**
-     * @throws ArrayWithCustomIndexNumeration
      * @throws AssociatedValueToArrayKeyNotJsonObjectException
-     * @throws NotNumericArrayIndexException
+     * @throws ValueNotAnArrayException
      */
     public function arrayOfJsonObjects(array $arrayElements): self;
 }

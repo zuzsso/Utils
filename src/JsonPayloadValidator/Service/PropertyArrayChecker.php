@@ -72,33 +72,20 @@ class PropertyArrayChecker implements CheckPropertyArray
     /**
      * @inheritDoc
      */
-    public function arrayOfJsonObjects(array $arrayElements): self
+    public function arrayOfJsonObjects(array $arrayElements, bool $required = true): self
     {
-        $minKey = null;
-        $maxKey = null;
+        $count = count($arrayElements);
 
-        foreach ($arrayElements as $subkey => $value) {
-            $castSubkey = (int)$subkey;
-
-            if (((string)$castSubkey) !== ((string)$subkey)) {
-                throw NotNumericArrayIndexException::constructForStandardMessage((string)$subkey);
-            }
-
-            if (($minKey === null) || ($subkey < $minKey)) {
-                $minKey = $subkey;
-            }
-
-            if (($maxKey === null) || ($maxKey < $subkey)) {
-                $maxKey = $subkey;
-            }
-
-            if (!is_array($value)) {
-                throw AssociatedValueToArrayKeyNotJsonObjectException::constructForStandardMessage((string)$subkey);
-            }
+        if (($count === 0) && ($required === false)) {
+            return $this;
         }
 
-        if (($minKey !== 0) || ($maxKey !== count($arrayElements) - 1)) {
-            throw ArrayWithCustomIndexNumeration::constructForCustomNumeration();
+        $this->checkAllKeysAreNumericAndNoGaps($arrayElements);
+
+        foreach ($arrayElements as $i => $r) {
+            if (!is_array($r)) {
+                throw AssociatedValueToArrayKeyNotJsonObjectException::constructForStandardMessage((string)$i);
+            }
         }
 
         return $this;
