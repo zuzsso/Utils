@@ -239,11 +239,28 @@ class PropertyArrayCheckerTest extends TestCase
 
         $m1 = "Entry 'myKey' missing";
         $m2 = "Entry 'myKey' empty";
+        $m3 = "Entry 'myKey' is expected to be an array";
+        $m4 = "Item index '0' is not a JSON object";
+        $m5 = "Item index '1' is not a JSON object";
 
-        return [
+        $fixedTests = [
             [$key, [], true, EntryMissingException::class, $m1],
-            [$key, [$key => null], true, EntryEmptyException::class, $m2],
+            [$key, [$key => null], true, EntryEmptyException::class, $m2]
         ];
+
+        $variable = [true, false];
+
+        $variableTests = [];
+
+        foreach ($variable as $v) {
+            $variableTests[] = [$key, [$key => 'a'], $v, ValueNotAnArrayException::class, $m3];
+            $variableTests[] = [$key, [$key => '  '], $v, EntryEmptyException::class, $m2];
+            $variableTests[] = [$key, [$key => 1], $v, ValueNotAnArrayException::class, $m3];
+            $variableTests[] = [$key, [$key => [1, 2, 3]], $v, ValueNotAJsonObjectException::class, $m4];
+            $variableTests[] = [$key, [$key => [[], 2, 3]], $v, ValueNotAJsonObjectException::class, $m5];
+        }
+
+        return array_merge($fixedTests, $variableTests);
     }
 
     /**
