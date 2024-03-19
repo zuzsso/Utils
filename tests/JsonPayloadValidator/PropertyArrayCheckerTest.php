@@ -181,6 +181,8 @@ class PropertyArrayCheckerTest extends TestCase
         $variableTests = [];
 
         foreach ($variable as $v) {
+            $variableTests[] = [["blah"], $v, ValueNotAJsonObjectException::class, $m2];
+
             $variableTests[] = [[1, 2, 3], $v, ValueNotAJsonObjectException::class, $m2];
             $variableTests[] = [['', 2, 3], $v, ValueNotAJsonObjectException::class, $m2];
             $variableTests[] = [['  ', 2, 3], $v, ValueNotAJsonObjectException::class, $m2];
@@ -208,5 +210,26 @@ class PropertyArrayCheckerTest extends TestCase
         $this->expectExceptionMessage($expectedExceptionMessage);
 
         $this->sut->arrayOfJsonObjects($payload, $required);
+    }
+
+    public function shouldPassArrayOfJsonObjectsDataProvider(): array
+    {
+        return [
+            [[], false],
+            [[[]], false],
+            [[[]], true],
+        ];
+    }
+
+    /**
+     * @dataProvider shouldPassArrayOfJsonObjectsDataProvider
+     * @throws RequiredArrayIsEmptyException
+     * @throws ValueNotAJsonObjectException
+     * @throws ValueNotAnArrayException
+     */
+    public function testShouldPassArrayOfJsonObjects(array $payload, bool $required): void
+    {
+        $this->sut->arrayOfJsonObjects($payload, $required);
+        $this->expectNotToPerformAssertions();
     }
 }
