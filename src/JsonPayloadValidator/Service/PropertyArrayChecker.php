@@ -9,6 +9,9 @@ use Utils\JsonPayloadValidator\Exception\ArrayDoesNotHaveMinimumElementCountExce
 use Utils\JsonPayloadValidator\Exception\ArrayExceedsMaximumnAllowedNumberOfElementsException;
 use Utils\JsonPayloadValidator\Exception\ArrayWithCustomIndexNumeration;
 use Utils\JsonPayloadValidator\Exception\AssociatedValueToArrayKeyNotJsonObjectException;
+use Utils\JsonPayloadValidator\Exception\EntryEmptyException;
+use Utils\JsonPayloadValidator\Exception\EntryForbiddenException;
+use Utils\JsonPayloadValidator\Exception\EntryMissingException;
 use Utils\JsonPayloadValidator\Exception\NotNumericArrayIndexException;
 use Utils\JsonPayloadValidator\Exception\ValueNotAnArrayException;
 use Utils\JsonPayloadValidator\UseCase\CheckPropertyArray;
@@ -41,9 +44,29 @@ class PropertyArrayChecker implements CheckPropertyArray
         return $this;
     }
 
+    /**
+     * @throws ValueNotAnArrayException
+     * @throws EntryEmptyException
+     * @throws EntryMissingException
+     */
     public function optionalKey(string $key, array $payload): CheckPropertyArray
     {
-        // TODO: Implement optional() method.
+        try {
+            $this->checkPropertyPresence->forbidden($key, $payload);
+            return $this;
+        } catch (EntryForbiddenException $e) {
+        }
+
+        $value = $payload[$key];
+
+        if (is_array($value) && count($value) === 0) {
+            return $this;
+        }
+
+        $this->requiredKey($key, $payload);
+
+
+        return $this;
     }
 
     /**
