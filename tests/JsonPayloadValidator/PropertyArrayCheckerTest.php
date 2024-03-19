@@ -172,15 +172,24 @@ class PropertyArrayCheckerTest extends TestCase
         $m2 = "Item index '0' is not a JSON object";
         $m3 = "Item index '1' is not a JSON object";
 
-        return [
-            [[], true, RequiredArrayIsEmptyException::class, $m1],
-            [[1, 2, 3], true, ValueNotAJsonObjectException::class, $m2],
-            [['', 2, 3], true, ValueNotAJsonObjectException::class, $m2],
-            [['  ', 2, 3], true, ValueNotAJsonObjectException::class, $m2],
-            [[1.3, 2, 3], true, ValueNotAJsonObjectException::class, $m2],
-            [[null, 2, 3], true, ValueNotAJsonObjectException::class, $m2],
-            [[[], 2, 3], true, ValueNotAJsonObjectException::class, $m3],
+        $fixedTests = [
+            [[], true, RequiredArrayIsEmptyException::class, $m1]
         ];
+
+        $variable = [true, false];
+
+        $variableTests = [];
+
+        foreach ($variable as $v) {
+            $variableTests[] = [[1, 2, 3], $v, ValueNotAJsonObjectException::class, $m2];
+            $variableTests[] = [['', 2, 3], $v, ValueNotAJsonObjectException::class, $m2];
+            $variableTests[] = [['  ', 2, 3], $v, ValueNotAJsonObjectException::class, $m2];
+            $variableTests[] = [[1.3, 2, 3], $v, ValueNotAJsonObjectException::class, $m2];
+            $variableTests[] = [[null, 2, 3], $v, ValueNotAJsonObjectException::class, $m2];
+            $variableTests[] = [[[], 2, 3], $v, ValueNotAJsonObjectException::class, $m3];
+        }
+
+        return array_merge($fixedTests, $variableTests);
     }
 
     /**
