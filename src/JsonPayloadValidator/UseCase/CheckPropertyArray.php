@@ -7,10 +7,11 @@ namespace Utils\JsonPayloadValidator\UseCase;
 use Utils\JsonPayloadValidator\Exception\ArrayDoesNotHaveMinimumElementCountException;
 use Utils\JsonPayloadValidator\Exception\ArrayExceedsMaximumnAllowedNumberOfElementsException;
 use Utils\JsonPayloadValidator\Exception\ArrayWithCustomIndexNumeration;
-use Utils\JsonPayloadValidator\Exception\AssociatedValueToArrayKeyNotJsonObjectException;
+use Utils\JsonPayloadValidator\Exception\ValueNotAJsonObjectException;
 use Utils\JsonPayloadValidator\Exception\EntryEmptyException;
 use Utils\JsonPayloadValidator\Exception\EntryMissingException;
 use Utils\JsonPayloadValidator\Exception\NotNumericArrayIndexException;
+use Utils\JsonPayloadValidator\Exception\RequiredArrayIsEmptyException;
 use Utils\JsonPayloadValidator\Exception\ValueNotAnArrayException;
 use Utils\JsonPayloadValidator\Service\PropertyArrayChecker;
 
@@ -27,7 +28,7 @@ interface CheckPropertyArray
 
     /**
      * @throws ArrayWithCustomIndexNumeration
-     * @throws AssociatedValueToArrayKeyNotJsonObjectException
+     * @throws ValueNotAJsonObjectException
      * @throws NotNumericArrayIndexException
      * @throws ValueNotAnArrayException
      */
@@ -47,8 +48,9 @@ interface CheckPropertyArray
     ): self;
 
     /**
-     * @throws AssociatedValueToArrayKeyNotJsonObjectException
+     * @throws ValueNotAJsonObjectException
      * @throws ValueNotAnArrayException
+     * @throws RequiredArrayIsEmptyException
      */
     public function arrayOfJsonObjects(array $arrayElements): self;
 }

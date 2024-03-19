@@ -5,8 +5,10 @@ declare(strict_types=1);
 namespace Utils\Tests\JsonPayloadValidator;
 
 use PHPUnit\Framework\TestCase;
+use Utils\JsonPayloadValidator\Exception\ValueNotAJsonObjectException;
 use Utils\JsonPayloadValidator\Exception\EntryEmptyException;
 use Utils\JsonPayloadValidator\Exception\EntryMissingException;
+use Utils\JsonPayloadValidator\Exception\RequiredArrayIsEmptyException;
 use Utils\JsonPayloadValidator\Exception\ValueNotAnArrayException;
 use Utils\JsonPayloadValidator\Service\PropertyArrayChecker;
 use Utils\JsonPayloadValidator\Service\PropertyPresenceChecker;
@@ -162,5 +164,40 @@ class PropertyArrayCheckerTest extends TestCase
     {
         $this->sut->optionalKey($key, $payload);
         $this->expectNotToPerformAssertions();
+    }
+
+    public function shouldFailArrayOfJsonObjectsDataProvider(): array
+    {
+        $m1 = "The array is required not to be empty";
+        $m2 = "Item index '0' is not a JSON object";
+        $m3 = "Item index '1' is not a JSON object";
+
+        return [
+            [[], true, RequiredArrayIsEmptyException::class, $m1],
+            [[1, 2, 3], true, ValueNotAJsonObjectException::class, $m2],
+            [['', 2, 3], true, ValueNotAJsonObjectException::class, $m2],
+            [['  ', 2, 3], true, ValueNotAJsonObjectException::class, $m2],
+            [[1.3, 2, 3], true, ValueNotAJsonObjectException::class, $m2],
+            [[null, 2, 3], true, ValueNotAJsonObjectException::class, $m2],
+            [[[], 2, 3], true, ValueNotAJsonObjectException::class, $m3],
+        ];
+    }
+
+    /**
+     * @dataProvider shouldFailArrayOfJsonObjectsDataProvider
+     * @throws ValueNotAnArrayException
+     * @throws ValueNotAJsonObjectException
+     * @throws RequiredArrayIsEmptyException
+     */
+    public function testShouldFailArrayOfJsonObjects(
+        array $payload,
+        bool $required,
+        string $expectedException,
+        string $expectedExceptionMessage
+    ): void {
+        $this->expectException($expectedException);
+        $this->expectExceptionMessage($expectedExceptionMessage);
+
+        $this->sut->arrayOfJsonObjects($payload, $required);
     }
 }

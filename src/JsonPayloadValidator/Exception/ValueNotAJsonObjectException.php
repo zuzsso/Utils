@@ -4,16 +4,11 @@ declare(strict_types=1);
 
 namespace Utils\JsonPayloadValidator\Exception;
 
-class AssociatedValueToArrayKeyNotJsonObjectException extends AbstractMalformedRequestBody
+class ValueNotAJsonObjectException extends AbstractMalformedRequestBody
 {
     public static function constructForStandardMessage(string $subKey): self
     {
-        return new self(
-            "Item index '%subKey%' is not a JSON object",
-            [
-                'subKey' => $subKey
-            ]
-        );
+        return new self("Item index '$subKey' is not a JSON object");
     }
 
     public function errorCode(): string

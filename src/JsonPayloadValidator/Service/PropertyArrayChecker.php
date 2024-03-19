@@ -8,11 +8,12 @@ use InvalidArgumentException;
 use Utils\JsonPayloadValidator\Exception\ArrayDoesNotHaveMinimumElementCountException;
 use Utils\JsonPayloadValidator\Exception\ArrayExceedsMaximumnAllowedNumberOfElementsException;
 use Utils\JsonPayloadValidator\Exception\ArrayWithCustomIndexNumeration;
-use Utils\JsonPayloadValidator\Exception\AssociatedValueToArrayKeyNotJsonObjectException;
+use Utils\JsonPayloadValidator\Exception\ValueNotAJsonObjectException;
 use Utils\JsonPayloadValidator\Exception\EntryEmptyException;
 use Utils\JsonPayloadValidator\Exception\EntryForbiddenException;
 use Utils\JsonPayloadValidator\Exception\EntryMissingException;
 use Utils\JsonPayloadValidator\Exception\NotNumericArrayIndexException;
+use Utils\JsonPayloadValidator\Exception\RequiredArrayIsEmptyException;
 use Utils\JsonPayloadValidator\Exception\ValueNotAnArrayException;
 use Utils\JsonPayloadValidator\UseCase\CheckPropertyArray;
 use Utils\JsonPayloadValidator\UseCase\CheckPropertyPresence;
@@ -76,15 +77,19 @@ class PropertyArrayChecker implements CheckPropertyArray
     {
         $count = count($arrayElements);
 
-        if (($count === 0) && ($required === false)) {
-            return $this;
+        if (($count === 0)) {
+            if ($required === false) {
+                return $this;
+            }
+
+            throw RequiredArrayIsEmptyException::constructForStandardMessage();
         }
 
         $this->checkAllKeysAreNumericAndNoGaps($arrayElements);
 
         foreach ($arrayElements as $i => $r) {
             if (!is_array($r)) {
-                throw AssociatedValueToArrayKeyNotJsonObjectException::constructForStandardMessage((string)$i);
+                throw ValueNotAJsonObjectException::constructForStandardMessage((string)$i);
             }
         }
 
