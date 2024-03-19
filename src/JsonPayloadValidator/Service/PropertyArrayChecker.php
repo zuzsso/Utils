@@ -12,7 +12,6 @@ use Utils\JsonPayloadValidator\Exception\ValueNotAJsonObjectException;
 use Utils\JsonPayloadValidator\Exception\EntryEmptyException;
 use Utils\JsonPayloadValidator\Exception\EntryForbiddenException;
 use Utils\JsonPayloadValidator\Exception\EntryMissingException;
-use Utils\JsonPayloadValidator\Exception\NotNumericArrayIndexException;
 use Utils\JsonPayloadValidator\Exception\RequiredArrayIsEmptyException;
 use Utils\JsonPayloadValidator\Exception\ValueNotAnArrayException;
 use Utils\JsonPayloadValidator\UseCase\CheckPropertyArray;
@@ -99,8 +98,16 @@ class PropertyArrayChecker implements CheckPropertyArray
     /**
      * @inheritDoc
      */
-    public function requiredArrayOfJsonObjects(string $key, array $payload): self
+    public function keyOfJsonObjects(string $key, array $payload, bool $required = true): self
     {
+        if ($required === false) {
+            try {
+                $this->checkPropertyPresence->forbidden($key, $payload);
+                return $this;
+            } catch (EntryForbiddenException $e) {
+            }
+        }
+
         $this->requiredKey($key, $payload);
 
         $arrayElements = $payload[$key];

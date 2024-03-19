@@ -32,7 +32,7 @@ interface CheckPropertyArray
      * @throws NotNumericArrayIndexException
      * @throws ValueNotAnArrayException
      */
-    public function requiredArrayOfJsonObjects(string $key, array $payload): self;
+    public function keyOfJsonObjects(string $key, array $payload, bool $required = true): self;
 
     /**
      * @throws ArrayDoesNotHaveMinimumElementCountException
