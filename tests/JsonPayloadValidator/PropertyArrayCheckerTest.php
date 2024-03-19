@@ -25,9 +25,9 @@ class PropertyArrayCheckerTest extends TestCase
     public function shouldFailRequiredDataProvider(): array
     {
         $key = 'myKey';
-        $m1 = "Entry 'myKey' missing";
-        $m2 = "Entry 'myKey' empty";
-        $m3 = "Entry 'myKey' is expected to be an array";
+        $m1 = "Entry '$key' missing";
+        $m2 = "Entry '$key' empty";
+        $m3 = "Entry '$key' is expected to be an array";
         $m4 = "Associative arrays not supported";
         $m5 = "The first key of this array is not 0";
         $m6 = "The last key is expected to be 1, but it is 2";
@@ -69,5 +69,28 @@ class PropertyArrayCheckerTest extends TestCase
         $this->expectExceptionMessage($expectedExceptionMessage);
 
         $this->sut->required($key, $payload);
+    }
+
+    public function shouldPassRequiredDataProvider(): array
+    {
+        $key = 'myKey';
+
+        return [
+            [$key, [$key => [[]]]],
+            [$key, [$key => ["a", "b"]]],
+            [$key, [$key => ["a", 1, true, 1.3, false]]],
+        ];
+    }
+
+    /**
+     * @dataProvider shouldPassRequiredDataProvider
+     * @throws EntryEmptyException
+     * @throws EntryMissingException
+     * @throws ValueNotAnArrayException
+     */
+    public function testShouldPassRequired(string $key, array $payload): void
+    {
+        $this->sut->required($key, $payload);
+        $this->expectNotToPerformAssertions();
     }
 }
