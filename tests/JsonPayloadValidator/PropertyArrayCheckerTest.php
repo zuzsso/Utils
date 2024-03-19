@@ -232,4 +232,37 @@ class PropertyArrayCheckerTest extends TestCase
         $this->sut->arrayOfJsonObjects($payload, $required);
         $this->expectNotToPerformAssertions();
     }
+
+    public function shouldFailKeyOfJsonObjectsDataProvider(): array
+    {
+        $key = 'myKey';
+
+        $m1 = "Entry 'myKey' missing";
+        $m2 = "Entry 'myKey' empty";
+
+        return [
+            [$key, [], true, EntryMissingException::class, $m1],
+            [$key, [$key => null], true, EntryEmptyException::class, $m2],
+        ];
+    }
+
+    /**
+     * @dataProvider shouldFailKeyOfJsonObjectsDataProvider
+     * @throws EntryEmptyException
+     * @throws EntryMissingException
+     * @throws RequiredArrayIsEmptyException
+     * @throws ValueNotAJsonObjectException
+     * @throws ValueNotAnArrayException
+     */
+    public function testShouldFailKeyOfJsonObjects(
+        string $key,
+        array $payload,
+        bool $required,
+        string $expectedException,
+        string $expectedExceptionmessage
+    ): void {
+        $this->expectException($expectedException);
+        $this->expectExceptionMessage($expectedExceptionmessage);
+        $this->sut->keyOfJsonObjects($key, $payload, $required);
+    }
 }

@@ -7,7 +7,6 @@ namespace Utils\JsonPayloadValidator\Service;
 use InvalidArgumentException;
 use Utils\JsonPayloadValidator\Exception\ArrayDoesNotHaveMinimumElementCountException;
 use Utils\JsonPayloadValidator\Exception\ArrayExceedsMaximumnAllowedNumberOfElementsException;
-use Utils\JsonPayloadValidator\Exception\ArrayWithCustomIndexNumeration;
 use Utils\JsonPayloadValidator\Exception\ValueNotAJsonObjectException;
 use Utils\JsonPayloadValidator\Exception\EntryEmptyException;
 use Utils\JsonPayloadValidator\Exception\EntryForbiddenException;
