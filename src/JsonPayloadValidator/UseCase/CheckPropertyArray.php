@@ -20,9 +20,9 @@ interface CheckPropertyArray
      * @throws EntryMissingException
      * @throws ValueNotAnArrayException
      */
-    public function required(string $key, array $payload): self;
+    public function requiredKey(string $key, array $payload): self;
 
-    public function optional(string $key, array $payload): self;
+    public function optionalKey(string $key, array $payload): self;
 
     /**
      * @throws ArrayWithCustomIndexNumeration

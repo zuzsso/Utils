@@ -59,7 +59,7 @@ class PropertyArrayCheckerTest extends TestCase
      * @throws EntryMissingException
      * @throws ValueNotAnArrayException
      */
-    public function testShouldFailRequired(
+    public function testShouldFailRequiredKey(
         string $key,
         array $payload,
         string $expectedException,
@@ -68,7 +68,7 @@ class PropertyArrayCheckerTest extends TestCase
         $this->expectException($expectedException);
         $this->expectExceptionMessage($expectedExceptionMessage);
 
-        $this->sut->required($key, $payload);
+        $this->sut->requiredKey($key, $payload);
     }
 
     public function shouldPassRequiredDataProvider(): array
@@ -88,9 +88,9 @@ class PropertyArrayCheckerTest extends TestCase
      * @throws EntryMissingException
      * @throws ValueNotAnArrayException
      */
-    public function testShouldPassRequired(string $key, array $payload): void
+    public function testShouldPassRequiredKey(string $key, array $payload): void
     {
-        $this->sut->required($key, $payload);
+        $this->sut->requiredKey($key, $payload);
         $this->expectNotToPerformAssertions();
     }
 }

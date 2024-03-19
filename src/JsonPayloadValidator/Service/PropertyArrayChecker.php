@@ -26,7 +26,7 @@ class PropertyArrayChecker implements CheckPropertyArray
     /**
      * @inheritDoc
      */
-    public function required(string $key, array $payload): self
+    public function requiredKey(string $key, array $payload): self
     {
         $this->checkPropertyPresence->required($key, $payload);
 
@@ -41,7 +41,7 @@ class PropertyArrayChecker implements CheckPropertyArray
         return $this;
     }
 
-    public function optional(string $key, array $payload): CheckPropertyArray
+    public function optionalKey(string $key, array $payload): CheckPropertyArray
     {
         // TODO: Implement optional() method.
     }
@@ -86,7 +86,7 @@ class PropertyArrayChecker implements CheckPropertyArray
      */
     public function requiredArrayOfJsonObjects(string $key, array $payload): self
     {
-        $this->required($key, $payload);
+        $this->requiredKey($key, $payload);
 
         $arrayElements = $payload[$key];
 
@@ -105,7 +105,7 @@ class PropertyArrayChecker implements CheckPropertyArray
         ?int $maxCount,
         bool $required = true
     ): self {
-        $this->required($key, $payload);
+        $this->requiredKey($key, $payload);
 
         $count = count($payload[$key]);
 
