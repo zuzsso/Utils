@@ -253,6 +253,7 @@ class PropertyArrayCheckerTest extends TestCase
         $variableTests = [];
 
         foreach ($variable as $v) {
+            $variableTests[] = [$key, [$key => []], $v, EntryEmptyException::class, $m2];
             $variableTests[] = [$key, [$key => 'a'], $v, ValueNotAnArrayException::class, $m3];
             $variableTests[] = [$key, [$key => '  '], $v, EntryEmptyException::class, $m2];
             $variableTests[] = [$key, [$key => 1], $v, ValueNotAnArrayException::class, $m3];
@@ -281,5 +282,34 @@ class PropertyArrayCheckerTest extends TestCase
         $this->expectException($expectedException);
         $this->expectExceptionMessage($expectedExceptionmessage);
         $this->sut->keyOfJsonObjects($key, $payload, $required);
+    }
+
+
+    public function shouldPassKeyOfJsonObjectsDataProvider(): array
+    {
+        $key = 'myKey';
+
+        return [
+            [$key, [], false],
+            [$key, [$key => null], false],
+            [$key, [$key => [[]]], true]
+        ];
+    }
+
+    /**
+     * @dataProvider shouldPassKeyOfJsonObjectsDataProvider
+     * @throws EntryEmptyException
+     * @throws EntryMissingException
+     * @throws RequiredArrayIsEmptyException
+     * @throws ValueNotAJsonObjectException
+     * @throws ValueNotAnArrayException
+     */
+    public function testShouldPassKeyOfJsonObjects(
+        string $key,
+        array $payload,
+        bool $required = true
+    ): void {
+        $this->sut->keyOfJsonObjects($key, $payload, $required);
+        $this->expectNotToPerformAssertions();
     }
 }

@@ -107,7 +107,13 @@ class PropertyArrayChecker implements CheckPropertyArray
             }
         }
 
+
+
         $this->requiredKey($key, $payload);
+
+        $value = $payload[$key];
+
+
 
         $arrayElements = $payload[$key];
 
