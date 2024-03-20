@@ -6,21 +6,26 @@ namespace Utils\JsonPayloadValidator\Exception;
 
 class ValueTooBigException extends AbstractMalformedRequestBody
 {
-    public static function constructForStandardMessage(string $key, int $maximumLength, int $actualLength): self
+    public static function constructForStringLength(string $key, int $expectedLength, int $actualLength): self
     {
         return new self(
-            "Entry '$key' is expected to be $maximumLength bytes long maximum, but it is $actualLength"
+            "Entry '$key' is expected to be $expectedLength bytes long maximum, but it is $actualLength"
         );
     }
 
-    public static function constructForInteger(string $key, int $compareTo, int $value): self
+    public static function constructForInteger(string $key, int $expected, int $actual): self
     {
-        return new self("Entry '$key' is meant to be equals or less than '$compareTo': '$value'");
+        return new self("Entry '$key' is meant to be equals or less than '$expected': '$actual'");
     }
 
-    public static function constructForStandardFloatMessage(string $key, float $compareTo, float $value): self
+    public static function constructForFloat(string $key, float $expected, float $actual): self
     {
-        return new self("Entry '$key' is meant to be equals or less than '$compareTo': '$value'");
+        return new self("Entry '$key' is meant to be equals or less than '$expected': '$actual'");
+    }
+
+    public static function constructForKeyArrayLength(string $key, int $expectedLength, int $actualLength): self
+    {
+        return new self("Entry '$key' is meant to be an array of maximum length of $expectedLength, but it is $actualLength");
     }
 
     public function errorCode(): string

@@ -128,11 +128,11 @@ class PropertyStringChecker implements CheckPropertyString
         $length = strlen($trim);
 
         if (($minimumLength !== null) && ($length < $minimumLength)) {
-            throw ValueTooSmallException::constructForStringMessage($key, $minimumLength, $length);
+            throw ValueTooSmallException::constructForStringLength($key, $minimumLength, $length);
         }
 
         if ($maximumLength !== null && ($length > $maximumLength)) {
-            throw ValueTooBigException::constructForStandardMessage($key, $maximumLength, $length);
+            throw ValueTooBigException::constructForStringLength($key, $maximumLength, $length);
         }
 
         return $this;

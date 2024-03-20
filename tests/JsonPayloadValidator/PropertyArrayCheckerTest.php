@@ -5,6 +5,9 @@ declare(strict_types=1);
 namespace Utils\Tests\JsonPayloadValidator;
 
 use PHPUnit\Framework\TestCase;
+use Utils\JsonPayloadValidator\Exception\ArrayDoesNotHaveMinimumElementCountException;
+use Utils\JsonPayloadValidator\Exception\ArrayExceedsMaximumnAllowedNumberOfElementsException;
+use Utils\JsonPayloadValidator\Exception\IncorrectParametrizationException;
 use Utils\JsonPayloadValidator\Exception\ValueNotAJsonObjectException;
 use Utils\JsonPayloadValidator\Exception\EntryEmptyException;
 use Utils\JsonPayloadValidator\Exception\EntryMissingException;
@@ -281,7 +284,7 @@ class PropertyArrayCheckerTest extends TestCase
     ): void {
         $this->expectException($expectedException);
         $this->expectExceptionMessage($expectedExceptionmessage);
-        $this->sut->keyOfJsonObjects($key, $payload, $required);
+        $this->sut->keyArrayOfJsonObjects($key, $payload, $required);
     }
 
 
@@ -309,7 +312,59 @@ class PropertyArrayCheckerTest extends TestCase
         array $payload,
         bool $required = true
     ): void {
-        $this->sut->keyOfJsonObjects($key, $payload, $required);
+        $this->sut->keyArrayOfJsonObjects($key, $payload, $required);
         $this->expectNotToPerformAssertions();
+    }
+
+    public function shouldFailKeyArrayOfLengthRangeDataProvider(): array
+    {
+        $key = 'myKey';
+
+        $m1 = "No range given";
+        $m2 = "Range not correctly defined. minCount should be < than max count, strictly";
+        $m3 = "Zero or negative range is not allowed as min count.";
+        $m4 = "Values < 1 are not allowed as max count.";
+        $m5 = "Entry 'myKey' missing";
+        $m6 = "Entry 'myKey' empty";
+
+        return [
+            [$key, [], null, null, true, IncorrectParametrizationException::class, $m1],
+
+            [$key, [], 2, 1, true, IncorrectParametrizationException::class, $m2],
+            [$key, [], 2, 2, true, IncorrectParametrizationException::class, $m2],
+
+            [$key, [], -1, 2, true, IncorrectParametrizationException::class, $m3],
+            [$key, [], 0, 2, true, IncorrectParametrizationException::class, $m3],
+
+            [$key, [], null, 0, true, IncorrectParametrizationException::class, $m4],
+
+            [$key, [], 1, null, true, EntryMissingException::class, $m5],
+            [$key, [$key => null], 1, null, true, EntryEmptyException::class, $m6]
+        ];
+    }
+
+    /**
+     * @dataProvider shouldFailKeyArrayOfLengthRangeDataProvider
+     *
+     * @throws ArrayDoesNotHaveMinimumElementCountException
+     * @throws ArrayExceedsMaximumnAllowedNumberOfElementsException
+     * @throws EntryEmptyException
+     * @throws EntryMissingException
+     * @throws IncorrectParametrizationException
+     * @throws ValueNotAnArrayException
+     */
+    public function testShouldFailKeyArrayOfLengthRange(
+        string $key,
+        array $payload,
+        ?int $minCount,
+        ?int $maxCount,
+        bool $required,
+        string $expectedException,
+        string $expectedExceptionMessage
+    ): void {
+        $this->expectException($expectedException);
+        $this->expectExceptionMessage($expectedExceptionMessage);
+
+        $this->sut->keyArrayOfLengthRange($key, $payload, $minCount, $maxCount, $required);
     }
 }

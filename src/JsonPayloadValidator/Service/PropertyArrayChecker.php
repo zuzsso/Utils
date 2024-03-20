@@ -7,12 +7,15 @@ namespace Utils\JsonPayloadValidator\Service;
 use InvalidArgumentException;
 use Utils\JsonPayloadValidator\Exception\ArrayDoesNotHaveMinimumElementCountException;
 use Utils\JsonPayloadValidator\Exception\ArrayExceedsMaximumnAllowedNumberOfElementsException;
+use Utils\JsonPayloadValidator\Exception\IncorrectParametrizationException;
 use Utils\JsonPayloadValidator\Exception\ValueNotAJsonObjectException;
 use Utils\JsonPayloadValidator\Exception\EntryEmptyException;
 use Utils\JsonPayloadValidator\Exception\EntryForbiddenException;
 use Utils\JsonPayloadValidator\Exception\EntryMissingException;
 use Utils\JsonPayloadValidator\Exception\RequiredArrayIsEmptyException;
 use Utils\JsonPayloadValidator\Exception\ValueNotAnArrayException;
+use Utils\JsonPayloadValidator\Exception\ValueTooBigException;
+use Utils\JsonPayloadValidator\Exception\ValueTooSmallException;
 use Utils\JsonPayloadValidator\UseCase\CheckPropertyArray;
 use Utils\JsonPayloadValidator\UseCase\CheckPropertyPresence;
 
@@ -97,7 +100,7 @@ class PropertyArrayChecker implements CheckPropertyArray
     /**
      * @inheritDoc
      */
-    public function keyOfJsonObjects(string $key, array $payload, bool $required = true): self
+    public function keyArrayOfJsonObjects(string $key, array $payload, bool $required = true): self
     {
         if ($required === false) {
             try {
@@ -108,11 +111,9 @@ class PropertyArrayChecker implements CheckPropertyArray
         }
 
 
-
         $this->requiredKey($key, $payload);
 
         $value = $payload[$key];
-
 
 
         $arrayElements = $payload[$key];
@@ -125,45 +126,59 @@ class PropertyArrayChecker implements CheckPropertyArray
     /**
      * @inheritDoc
      */
-    public function arrayOfLengthRange(
+    public function keyArrayOfLengthRange(
         string $key,
         array $payload,
         ?int $minCount,
         ?int $maxCount,
         bool $required = true
     ): self {
+        if (($minCount === null) && ($maxCount === null)) {
+            throw new IncorrectParametrizationException('No range given');
+        }
+
+        if (($minCount !== null) && ($maxCount !== null) && ($minCount >= $maxCount)) {
+            throw new IncorrectParametrizationException(
+                'Range not correctly defined. minCount should be < than max count, strictly'
+            );
+        }
+
+        if ($minCount !== null && $minCount < 1) {
+            // Because of the same reason we reject empty strings ('', '     '), we also reject empty arrays. They
+            // should be replaced by NULLS in any case.
+            //
+            // Negative ranges are out of the question, but 0 ranges appear to be legit. However, allowing a min count
+            // of 0 will result on an empty array, so the min count should be at least 1.
+            //
+            // So, if your array is between 0 and 3 elements, then you should pass a range of 1-3 to this function,
+            // with the required flag set to true. And make sure you pass an array of at least one element, or null if
+            // no elements
+            throw new IncorrectParametrizationException("Zero or negative range is not allowed as min count.");
+        }
+
+        if (($maxCount !== null) && ($maxCount < 1)) {
+            // Similar reasoning as before.
+            throw new IncorrectParametrizationException("Values < 1 are not allowed as max count.");
+        }
+
+        if ($required === false) {
+            try {
+                $this->checkPropertyPresence->forbidden($key, $payload);
+                return $this;
+            } catch (EntryForbiddenException $e) {
+            }
+        }
+
         $this->requiredKey($key, $payload);
 
         $count = count($payload[$key]);
 
-        if ($minCount !== null) {
-            if ($minCount < 0) {
-                // Not translatable, you are invoking this function with incorrect parameters
-                throw new InvalidArgumentException("minCountIncluding cannot be negative: $minCount");
-            }
-
-            if ($count < $minCount) {
-                throw ArrayDoesNotHaveMinimumElementCountException::constructForStandardMessage(
-                    $minCount,
-                    $count
-                );
-            }
+        if (($minCount !== null) && ($minCount < $count)) {
+            throw ValueTooSmallException::constructForKeyArray($key, $minCount, $count);
         }
 
-        if ($maxCount !== null) {
-            if (($minCount !== null) && ($maxCount < $minCount)) {
-                // Not translatable, you are invoking this function with incorrect parameters
-                throw new InvalidArgumentException(
-                    "Both minCountIncluding and maxCountIncluded provided, but $maxCount < $minCount"
-                );
-            }
-
-            if ($count > $maxCount) {
-                throw ArrayExceedsMaximumnAllowedNumberOfElementsException::constructForStandardMessage(
-                    $maxCount,
-                    $count
-                );
-            }
+        if (($maxCount !== null) && ($count > $maxCount)) {
+            throw ValueTooBigException::constructForKeyArrayLength($key, $maxCount, $count);
         }
 
         return $this;

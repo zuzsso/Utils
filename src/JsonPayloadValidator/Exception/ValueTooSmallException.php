@@ -6,21 +6,26 @@ namespace Utils\JsonPayloadValidator\Exception;
 
 class ValueTooSmallException extends AbstractMalformedRequestBody
 {
-    public static function constructForStringMessage(string $key, int $minimumLength, int $actualLength): self
+    public static function constructForStringLength(string $key, int $expectedLength, int $actualLength): self
     {
         return new self(
-            "Entry '$key' is expected to be at least $minimumLength bytes long, but it is $actualLength"
+            "Entry '$key' is expected to be at least $expectedLength bytes long, but it is $actualLength"
         );
     }
 
-    public static function constructForInteger(string $key, int $compareTo, int $value): self
+    public static function constructForInteger(string $key, int $expectedValue, int $actualValue): self
     {
-        return new self("Entry '$key' is meant to be equals or greater than '$compareTo': '$value'");
+        return new self("Entry '$key' is meant to be equals or greater than '$expectedValue': '$actualValue'");
     }
 
-    public static function constructForStandardFloatMessage(string $key, float $compareTo, float $value): self
+    public static function constructForStandardFloat(string $key, float $expectedValue, float $actualValue): self
     {
-        return new self("Entry '$key' is meant to be equals or greater than '$compareTo': '$value'");
+        return new self("Entry '$key' is meant to be equals or greater than '$expectedValue': '$actualValue'");
+    }
+
+    public static function constructForKeyArray(string $key, int $expectedLength, int $actualLength): self
+    {
+        return new self("Entry '$key' is meant to be an array of minimum length of $expectedLength, but it is $actualLength");
     }
 
     public function errorCode(): string

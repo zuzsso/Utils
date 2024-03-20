@@ -6,6 +6,7 @@ namespace Utils\JsonPayloadValidator\UseCase;
 
 use Utils\JsonPayloadValidator\Exception\ArrayDoesNotHaveMinimumElementCountException;
 use Utils\JsonPayloadValidator\Exception\ArrayExceedsMaximumnAllowedNumberOfElementsException;
+use Utils\JsonPayloadValidator\Exception\IncorrectParametrizationException;
 use Utils\JsonPayloadValidator\Exception\ValueNotAJsonObjectException;
 use Utils\JsonPayloadValidator\Exception\EntryEmptyException;
 use Utils\JsonPayloadValidator\Exception\EntryMissingException;
@@ -30,14 +31,17 @@ interface CheckPropertyArray
      * @throws ValueNotAJsonObjectException
      * @throws ValueNotAnArrayException
      */
-    public function keyOfJsonObjects(string $key, array $payload, bool $required = true): self;
+    public function keyArrayOfJsonObjects(string $key, array $payload, bool $required = true): self;
 
     /**
      * @throws ArrayDoesNotHaveMinimumElementCountException
      * @throws ArrayExceedsMaximumnAllowedNumberOfElementsException
+     * @throws EntryEmptyException
+     * @throws EntryMissingException
+     * @throws IncorrectParametrizationException
      * @throws ValueNotAnArrayException
      */
-    public function arrayOfLengthRange(
+    public function keyArrayOfLengthRange(
         string $key,
         array $payload,
         ?int $minCount,

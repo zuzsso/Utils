@@ -116,14 +116,14 @@ class PropertyFloatChecker implements CheckPropertyFloat
         if ($minValue !== null) {
             $equals = $this->equalFloats->equalFloats($minValue, $value);
             if ((!$equals) && ($value < $minValue)) {
-                throw ValueTooSmallException::constructForStandardFloatMessage($key, $minValue, $value);
+                throw ValueTooSmallException::constructForStandardFloat($key, $minValue, $value);
             }
         }
 
         if ($maxValue !== null) {
             $equals = $this->equalFloats->equalFloats($maxValue, $value);
             if ((!$equals) && ($value > $maxValue)) {
-                throw ValueTooBigException::constructForStandardFloatMessage($key, $maxValue, $value);
+                throw ValueTooBigException::constructForFloat($key, $maxValue, $value);
             }
         }
 
