@@ -158,33 +158,7 @@ class PropertyArrayChecker implements CheckPropertyArray
         ?int $maxLength,
         bool $required = true
     ): self {
-        if (($minLength === null) && ($maxLength === null)) {
-            throw new IncorrectParametrizationException('No range given');
-        }
-
-        if (($minLength !== null) && ($maxLength !== null) && ($minLength >= $maxLength)) {
-            throw new IncorrectParametrizationException(
-                'Range not correctly defined. minCount should be < than max count, strictly'
-            );
-        }
-
-        if ($minLength !== null && $minLength < 1) {
-            // Because of the same reason we reject empty strings ('', '     '), we also reject empty arrays. They
-            // should be replaced by NULLS in any case.
-            //
-            // Negative ranges are out of the question, but 0 ranges appear to be legit. However, allowing a min count
-            // of 0 will result on an empty array, so the min count should be at least 1.
-            //
-            // So, if your array is between 0 and 3 elements, then you should pass a range of 1-3 to this function,
-            // with the required flag set to true. And make sure you pass an array of at least one element, or null if
-            // no elements
-            throw new IncorrectParametrizationException("Zero or negative range is not allowed as min count.");
-        }
-
-        if (($maxLength !== null) && ($maxLength < 1)) {
-            // Similar reasoning as before.
-            throw new IncorrectParametrizationException("Values < 1 are not allowed as max count.");
-        }
+        $this->checkRanges($minLength, $maxLength);
 
         if ($required === false) {
             try {
@@ -251,6 +225,40 @@ class PropertyArrayChecker implements CheckPropertyArray
 
         if ($max !== $expectedMaxKey) {
             throw ValueNotAnArrayException::expectedLastKeyToBe($expectedMaxKey, $max);
+        }
+    }
+
+    /**
+     * @throws IncorrectParametrizationException
+     */
+    private function checkRanges(?int $minLength, ?int $maxLength): void
+    {
+        if (($minLength === null) && ($maxLength === null)) {
+            throw new IncorrectParametrizationException('No range given');
+        }
+
+        if (($minLength !== null) && ($maxLength !== null) && ($minLength >= $maxLength)) {
+            throw new IncorrectParametrizationException(
+                'Range not correctly defined. minCount should be < than max count, strictly'
+            );
+        }
+
+        if ($minLength !== null && $minLength < 1) {
+            // Because of the same reason we reject empty strings ('', '     '), we also reject empty arrays. They
+            // should be replaced by NULLS in any case.
+            //
+            // Negative ranges are out of the question, but 0 ranges appear to be legit. However, allowing a min count
+            // of 0 will result on an empty array, so the min count should be at least 1.
+            //
+            // So, if your array is between 0 and 3 elements, then you should pass a range of 1-3 to this function,
+            // with the required flag set to true. And make sure you pass an array of at least one element, or null if
+            // no elements
+            throw new IncorrectParametrizationException("Zero or negative range is not allowed as min count.");
+        }
+
+        if (($maxLength !== null) && ($maxLength < 1)) {
+            // Similar reasoning as before.
+            throw new IncorrectParametrizationException("Values < 1 are not allowed as max count.");
         }
     }
 }
