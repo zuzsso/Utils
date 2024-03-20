@@ -4,9 +4,6 @@ declare(strict_types=1);
 
 namespace Utils\JsonPayloadValidator\Service;
 
-use InvalidArgumentException;
-use Utils\JsonPayloadValidator\Exception\ArrayDoesNotHaveMinimumElementCountException;
-use Utils\JsonPayloadValidator\Exception\ArrayExceedsMaximumnAllowedNumberOfElementsException;
 use Utils\JsonPayloadValidator\Exception\IncorrectParametrizationException;
 use Utils\JsonPayloadValidator\Exception\ValueNotAJsonObjectException;
 use Utils\JsonPayloadValidator\Exception\EntryEmptyException;
@@ -113,9 +110,6 @@ class PropertyArrayChecker implements CheckPropertyArray
 
         $this->requiredKey($key, $payload);
 
-        $value = $payload[$key];
-
-
         $arrayElements = $payload[$key];
 
         $this->arrayOfJsonObjects($arrayElements);
@@ -173,7 +167,7 @@ class PropertyArrayChecker implements CheckPropertyArray
 
         $count = count($payload[$key]);
 
-        if (($minCount !== null) && ($minCount < $count)) {
+        if (($minCount !== null) && ($count < $minCount)) {
             throw ValueTooSmallException::constructForKeyArray($key, $minCount, $count);
         }
 

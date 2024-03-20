@@ -5,14 +5,14 @@ declare(strict_types=1);
 namespace Utils\Tests\JsonPayloadValidator;
 
 use PHPUnit\Framework\TestCase;
-use Utils\JsonPayloadValidator\Exception\ArrayDoesNotHaveMinimumElementCountException;
-use Utils\JsonPayloadValidator\Exception\ArrayExceedsMaximumnAllowedNumberOfElementsException;
 use Utils\JsonPayloadValidator\Exception\IncorrectParametrizationException;
 use Utils\JsonPayloadValidator\Exception\ValueNotAJsonObjectException;
 use Utils\JsonPayloadValidator\Exception\EntryEmptyException;
 use Utils\JsonPayloadValidator\Exception\EntryMissingException;
 use Utils\JsonPayloadValidator\Exception\RequiredArrayIsEmptyException;
 use Utils\JsonPayloadValidator\Exception\ValueNotAnArrayException;
+use Utils\JsonPayloadValidator\Exception\ValueTooBigException;
+use Utils\JsonPayloadValidator\Exception\ValueTooSmallException;
 use Utils\JsonPayloadValidator\Service\PropertyArrayChecker;
 use Utils\JsonPayloadValidator\Service\PropertyPresenceChecker;
 
@@ -326,32 +326,49 @@ class PropertyArrayCheckerTest extends TestCase
         $m4 = "Values < 1 are not allowed as max count.";
         $m5 = "Entry 'myKey' missing";
         $m6 = "Entry 'myKey' empty";
+        $m7 = "Entry 'myKey' is expected to be an array";
+        $m8 = "Entry 'myKey' is meant to be an array of minimum length of 3, but it is 2";
+        $m9 = "Entry 'myKey' is meant to be an array of maximum length of 2, but it is 3";
 
-        return [
-            [$key, [], null, null, true, IncorrectParametrizationException::class, $m1],
+        $fixtedTests = [
 
-            [$key, [], 2, 1, true, IncorrectParametrizationException::class, $m2],
-            [$key, [], 2, 2, true, IncorrectParametrizationException::class, $m2],
+        ];
 
-            [$key, [], -1, 2, true, IncorrectParametrizationException::class, $m3],
-            [$key, [], 0, 2, true, IncorrectParametrizationException::class, $m3],
-
-            [$key, [], null, 0, true, IncorrectParametrizationException::class, $m4],
-
+        $variableTests = [
             [$key, [], 1, null, true, EntryMissingException::class, $m5],
             [$key, [$key => null], 1, null, true, EntryEmptyException::class, $m6]
         ];
+
+        $variables = [true, false];
+
+        foreach ($variables as $v) {
+            $variableTests[] = [$key, [], null, null, $v, IncorrectParametrizationException::class, $m1];
+            $variableTests[] = [$key, [], 2, 1, $v, IncorrectParametrizationException::class, $m2];
+            $variableTests[] = [$key, [], 2, 2, $v, IncorrectParametrizationException::class, $m2];
+            $variableTests[] = [$key, [], -1, 2, $v, IncorrectParametrizationException::class, $m3];
+            $variableTests[] = [$key, [], 0, 2, $v, IncorrectParametrizationException::class, $m3];
+            $variableTests[] = [$key, [], null, 0, $v, IncorrectParametrizationException::class, $m4];
+            $variableTests[] = [$key, [$key => ''], 1, 3, $v, EntryEmptyException::class, $m6];
+            $variableTests[] = [$key, [$key => 'blah'], 1, 3, $v, ValueNotAnArrayException::class, $m7];
+            $variableTests[] = [$key, [$key => 1], 1, 3, $v, ValueNotAnArrayException::class, $m7];
+            $variableTests[] = [$key, [$key => 1.1], 1, 3, $v, ValueNotAnArrayException::class, $m7];
+            $variableTests[] = [$key, [$key => true], 1, 3, $v, ValueNotAnArrayException::class, $m7];
+            $variableTests[] = [$key, [$key => false], 1, 3, $v, ValueNotAnArrayException::class, $m7];
+            $variableTests[] = [$key, [$key => [1, 'blah']], 3, null, $v, ValueTooSmallException::class, $m8];
+            $variableTests[] = [$key, [$key => [1, 'blah', 1.23]], null, 2, $v, ValueTooBigException::class, $m9];
+        }
+
+        return array_merge($fixtedTests, $variableTests);
     }
 
     /**
      * @dataProvider shouldFailKeyArrayOfLengthRangeDataProvider
-     *
-     * @throws ArrayDoesNotHaveMinimumElementCountException
-     * @throws ArrayExceedsMaximumnAllowedNumberOfElementsException
      * @throws EntryEmptyException
      * @throws EntryMissingException
      * @throws IncorrectParametrizationException
      * @throws ValueNotAnArrayException
+     * @throws ValueTooBigException
+     * @throws ValueTooSmallException
      */
     public function testShouldFailKeyArrayOfLengthRange(
         string $key,
@@ -364,7 +381,6 @@ class PropertyArrayCheckerTest extends TestCase
     ): void {
         $this->expectException($expectedException);
         $this->expectExceptionMessage($expectedExceptionMessage);
-
         $this->sut->keyArrayOfLengthRange($key, $payload, $minCount, $maxCount, $required);
     }
 }
