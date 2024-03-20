@@ -331,13 +331,11 @@ class PropertyArrayCheckerTest extends TestCase
         $m9 = "Entry 'myKey' is meant to be an array of maximum length of 2, but it is 3";
 
         $fixtedTests = [
-
-        ];
-
-        $variableTests = [
             [$key, [], 1, null, true, EntryMissingException::class, $m5],
             [$key, [$key => null], 1, null, true, EntryEmptyException::class, $m6]
         ];
+
+        $variableTests = [];
 
         $variables = [true, false];
 
