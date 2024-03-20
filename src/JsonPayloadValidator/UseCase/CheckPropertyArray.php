@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Utils\JsonPayloadValidator\UseCase;
 
 use Utils\JsonPayloadValidator\Exception\IncorrectParametrizationException;
+use Utils\JsonPayloadValidator\Exception\ValueArrayNotExactLengthException;
 use Utils\JsonPayloadValidator\Exception\ValueNotAJsonObjectException;
 use Utils\JsonPayloadValidator\Exception\EntryEmptyException;
 use Utils\JsonPayloadValidator\Exception\EntryMissingException;
@@ -44,8 +45,8 @@ interface CheckPropertyArray
     public function keyArrayOfLengthRange(
         string $key,
         array $payload,
-        ?int $minCount,
-        ?int $maxCount,
+        ?int $minLength,
+        ?int $maxLength,
         bool $required = true
     ): self;
 
@@ -55,4 +56,13 @@ interface CheckPropertyArray
      * @throws RequiredArrayIsEmptyException
      */
     public function arrayOfJsonObjects(array $arrayElements): self;
+
+    /**
+     * @throws EntryEmptyException
+     * @throws EntryMissingException
+     * @throws IncorrectParametrizationException
+     * @throws ValueArrayNotExactLengthException
+     * @throws ValueNotAnArrayException
+     */
+    public function keyArrayOfLength(string $key, array $payload, int $length, bool $required = true): self;
 }

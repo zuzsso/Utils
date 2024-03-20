@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Utils\JsonPayloadValidator\Service;
 
 use Utils\JsonPayloadValidator\Exception\IncorrectParametrizationException;
+use Utils\JsonPayloadValidator\Exception\ValueArrayNotExactLengthException;
 use Utils\JsonPayloadValidator\Exception\ValueNotAJsonObjectException;
 use Utils\JsonPayloadValidator\Exception\EntryEmptyException;
 use Utils\JsonPayloadValidator\Exception\EntryForbiddenException;
@@ -120,24 +121,54 @@ class PropertyArrayChecker implements CheckPropertyArray
     /**
      * @inheritDoc
      */
+    public function keyArrayOfLength(string $key, array $payload, int $length, bool $required = true): self
+    {
+        if ($length <= 0) {
+            throw new IncorrectParametrizationException('Min required length is 1');
+        }
+
+        if (!$required) {
+            try {
+                $this->checkPropertyPresence->forbidden($key, $payload);
+                return $this;
+            } catch (EntryForbiddenException $e) {
+            }
+        }
+
+        $this->requiredKey($key, $payload);
+
+        $value = $payload[$key];
+
+        $count = count($value);
+
+        if ($count !== $length) {
+            throw ValueArrayNotExactLengthException::constructForKeyArray($key, $length, $count);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @inheritDoc
+     */
     public function keyArrayOfLengthRange(
         string $key,
         array $payload,
-        ?int $minCount,
-        ?int $maxCount,
+        ?int $minLength,
+        ?int $maxLength,
         bool $required = true
     ): self {
-        if (($minCount === null) && ($maxCount === null)) {
+        if (($minLength === null) && ($maxLength === null)) {
             throw new IncorrectParametrizationException('No range given');
         }
 
-        if (($minCount !== null) && ($maxCount !== null) && ($minCount >= $maxCount)) {
+        if (($minLength !== null) && ($maxLength !== null) && ($minLength >= $maxLength)) {
             throw new IncorrectParametrizationException(
                 'Range not correctly defined. minCount should be < than max count, strictly'
             );
         }
 
-        if ($minCount !== null && $minCount < 1) {
+        if ($minLength !== null && $minLength < 1) {
             // Because of the same reason we reject empty strings ('', '     '), we also reject empty arrays. They
             // should be replaced by NULLS in any case.
             //
@@ -150,7 +181,7 @@ class PropertyArrayChecker implements CheckPropertyArray
             throw new IncorrectParametrizationException("Zero or negative range is not allowed as min count.");
         }
 
-        if (($maxCount !== null) && ($maxCount < 1)) {
+        if (($maxLength !== null) && ($maxLength < 1)) {
             // Similar reasoning as before.
             throw new IncorrectParametrizationException("Values < 1 are not allowed as max count.");
         }
@@ -167,12 +198,12 @@ class PropertyArrayChecker implements CheckPropertyArray
 
         $count = count($payload[$key]);
 
-        if (($minCount !== null) && ($count < $minCount)) {
-            throw ValueTooSmallException::constructForKeyArray($key, $minCount, $count);
+        if (($minLength !== null) && ($count < $minLength)) {
+            throw ValueTooSmallException::constructForKeyArray($key, $minLength, $count);
         }
 
-        if (($maxCount !== null) && ($count > $maxCount)) {
-            throw ValueTooBigException::constructForKeyArrayLength($key, $maxCount, $count);
+        if (($maxLength !== null) && ($count > $maxLength)) {
+            throw ValueTooBigException::constructForKeyArrayLength($key, $maxLength, $count);
         }
 
         return $this;
