@@ -65,7 +65,13 @@ class KeyArrayChecker implements CheckKeyArray
 
         $value = $payload[$key];
 
-        if (is_array($value) && count($value) === 0) {
+        if (!is_array($value)) {
+            throw OptionalPropertyNotAnArrayException::constructForKey($key);
+        }
+
+
+
+        if (count($value) === 0) {
             return $this;
         }
 
