@@ -105,8 +105,6 @@ class KeyArrayCheckerTest extends TestCase
     public function shouldFailOptionalKeyDataProvider(): array
     {
         $key = 'myKey';
-        $m2 = "Entry '$key' empty";
-        $m3 = "Entry '$key' is expected to be an array";
         $m4 = "Associative arrays not supported";
         $m5 = "The first key of this array is not 0";
         $m6 = "The last key is expected to be 1, but it is 2";
