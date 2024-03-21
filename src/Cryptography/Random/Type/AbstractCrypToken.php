@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Utils\Cryptography\Random\Object;
+namespace Utils\Cryptography\Random\Type;
 
 use Exception;
 use InvalidArgumentException;
 use Utils\Cryptography\Random\Exception\InadequateTokenLengthException;
 use Utils\Cryptography\Random\Exception\TokenNotCompatibleWithCharacterPoolException;
 use Utils\Cryptography\Random\Exception\UnableToGenerateRandomTokenUnmanagedException;
-use Utils\Cryptography\Random\Object\CharacterPool\AbstractCharacterPool;
+use Utils\Cryptography\Random\Type\CharacterPool\AbstractCharacterPool;
 
 abstract class AbstractCrypToken
 {

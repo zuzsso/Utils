@@ -16,6 +16,7 @@ use Utils\JsonPayloadValidator\Exception\ValueTooBigException;
 use Utils\JsonPayloadValidator\Exception\ValueTooSmallException;
 use Utils\JsonPayloadValidator\Service\KeyArrayChecker;
 use Utils\JsonPayloadValidator\Service\KeyPresenceChecker;
+use Utils\JsonPayloadValidator\Service\ValueArrayChecker;
 
 class KeyArrayCheckerTest extends TestCase
 {
@@ -25,7 +26,7 @@ class KeyArrayCheckerTest extends TestCase
     {
         parent::setUp();
 
-        $this->sut = new KeyArrayChecker(new KeyPresenceChecker());
+        $this->sut = new KeyArrayChecker(new KeyPresenceChecker(), new ValueArrayChecker());
     }
 
     public function shouldFailRequiredDataProvider(): array

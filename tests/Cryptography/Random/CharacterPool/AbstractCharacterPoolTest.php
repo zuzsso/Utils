@@ -10,7 +10,7 @@ use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use ReflectionClass;
 use ReflectionException;
-use Utils\Cryptography\Random\Object\CharacterPool\AbstractCharacterPool;
+use Utils\Cryptography\Random\Type\CharacterPool\AbstractCharacterPool;
 use Utils\Tests\Cryptography\Random\Mocks\GenericCharacterPoolMock;
 
 class AbstractCharacterPoolTest extends TestCase

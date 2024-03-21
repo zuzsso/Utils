@@ -6,7 +6,7 @@ namespace Utils\Tests\Networking\Object;
 
 use LogicException;
 use PHPUnit\Framework\TestCase;
-use Utils\Networking\Object\IpV4;
+use Utils\Networking\Type\IpV4;
 
 class IpV4Test extends TestCase
 {

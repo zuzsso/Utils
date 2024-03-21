@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Utils\Tests\Cryptography\Random\CharacterPool;
 
 use PHPUnit\Framework\TestCase;
-use Utils\Cryptography\Random\Object\CharacterPool\AbstractCharacterPool;
-use Utils\Cryptography\Random\Object\CharacterPool\MfaRecoveryCodeCharacterPool;
+use Utils\Cryptography\Random\Type\CharacterPool\AbstractCharacterPool;
+use Utils\Cryptography\Random\Type\CharacterPool\MfaRecoveryCodeCharacterPool;
 
 class MfaRecoveryCodeCharacterPoolTest extends TestCase
 {

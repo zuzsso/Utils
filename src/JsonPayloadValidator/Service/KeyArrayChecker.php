@@ -7,7 +7,6 @@ namespace Utils\JsonPayloadValidator\Service;
 use Utils\JsonPayloadValidator\Exception\IncorrectParametrizationException;
 use Utils\JsonPayloadValidator\Exception\OptionalPropertyNotAnArrayException;
 use Utils\JsonPayloadValidator\Exception\ValueArrayNotExactLengthException;
-use Utils\JsonPayloadValidator\Exception\ValueNotAJsonObjectException;
 use Utils\JsonPayloadValidator\Exception\EntryEmptyException;
 use Utils\JsonPayloadValidator\Exception\EntryForbiddenException;
 use Utils\JsonPayloadValidator\Exception\EntryMissingException;
@@ -17,14 +16,17 @@ use Utils\JsonPayloadValidator\Exception\ValueTooBigException;
 use Utils\JsonPayloadValidator\Exception\ValueTooSmallException;
 use Utils\JsonPayloadValidator\UseCase\CheckKeyArray;
 use Utils\JsonPayloadValidator\UseCase\CheckKeyPresence;
+use Utils\JsonPayloadValidator\UseCase\CheckValueArray;
 
 class KeyArrayChecker extends AbstractJsonChecker implements CheckKeyArray
 {
     private CheckKeyPresence $checkPropertyPresence;
+    private CheckValueArray $checkValueArray;
 
-    public function __construct(CheckKeyPresence $checkPropertyPresence)
+    public function __construct(CheckKeyPresence $checkPropertyPresence, CheckValueArray $checkValueArray)
     {
         $this->checkPropertyPresence = $checkPropertyPresence;
+        $this->checkValueArray = $checkValueArray;
     }
 
     /**
@@ -90,32 +92,6 @@ class KeyArrayChecker extends AbstractJsonChecker implements CheckKeyArray
     /**
      * @inheritDoc
      */
-    public function arrayOfJsonObjects(array $arrayElements, bool $required = true): self
-    {
-        $count = count($arrayElements);
-
-        if (($count === 0)) {
-            if ($required === false) {
-                return $this;
-            }
-
-            throw RequiredArrayIsEmptyException::constructForStandardMessage();
-        }
-
-        $this->checkAllKeysAreNumericAndNoGaps($arrayElements);
-
-        foreach ($arrayElements as $i => $r) {
-            if (!is_array($r)) {
-                throw ValueNotAJsonObjectException::constructForStandardMessage((string)$i);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @inheritDoc
-     */
     public function keyArrayOfJsonObjects(string $key, array $payload, bool $required = true): self
     {
         if ($required === false) {
@@ -131,7 +107,7 @@ class KeyArrayChecker extends AbstractJsonChecker implements CheckKeyArray
 
         $arrayElements = $payload[$key];
 
-        $this->arrayOfJsonObjects($arrayElements);
+        $this->checkValueArray->arrayOfJsonObjects($arrayElements);
 
         return $this;
     }

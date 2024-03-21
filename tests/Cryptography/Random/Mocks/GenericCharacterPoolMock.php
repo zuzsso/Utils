@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Utils\Tests\Cryptography\Random\Mocks;
 
-use Utils\Cryptography\Random\Object\CharacterPool\AbstractCharacterPool;
+use Utils\Cryptography\Random\Type\CharacterPool\AbstractCharacterPool;
 
 class GenericCharacterPoolMock extends AbstractCharacterPool
 {

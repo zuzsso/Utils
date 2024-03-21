@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Utils\Networking\Service;
 
+use Utils\Networking\Type\IpV4;
 use Utils\Networking\UseCase\GetLocalHostIpV4;
-use Utils\Networking\Object\IpV4;
 
 class LocalHostIpV4Getter implements GetLocalHostIpV4
 {

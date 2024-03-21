@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Utils\Networking\Object;
+namespace Utils\Networking\Type;
 
 use LogicException;
 

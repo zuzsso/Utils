@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Utils\Networking\UseCase;
 
-use Utils\Networking\Object\IpV4;
+use Utils\Networking\Type\IpV4;
 
 interface GetLocalHostIpV4
 {

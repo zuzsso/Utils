@@ -8,11 +8,11 @@ use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use Utils\Cryptography\Random\Exception\InadequateTokenLengthException;
 use Utils\Cryptography\Random\Exception\TokenNotCompatibleWithCharacterPoolException;
-use Utils\Cryptography\Random\Object\AbstractCrypToken;
-use Utils\Cryptography\Random\Object\CharacterPool\AbstractCharacterPool;
-use Utils\Cryptography\Random\Object\CharacterPool\AlphanumericCaseSensitive;
-use Utils\Cryptography\Random\Object\CharacterPool\HexadecimalLowerCaseCharacterPool;
-use Utils\Cryptography\Random\Object\CharacterPool\HexadecimalUpperCaseCharacterPool;
+use Utils\Cryptography\Random\Type\AbstractCrypToken;
+use Utils\Cryptography\Random\Type\CharacterPool\AbstractCharacterPool;
+use Utils\Cryptography\Random\Type\CharacterPool\AlphanumericCaseSensitive;
+use Utils\Cryptography\Random\Type\CharacterPool\HexadecimalLowerCaseCharacterPool;
+use Utils\Cryptography\Random\Type\CharacterPool\HexadecimalUpperCaseCharacterPool;
 
 class AbstractCrypTokenTest extends TestCase
 {

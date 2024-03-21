@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Utils\Cryptography\Random\Object\CharacterPool;
+namespace Utils\Cryptography\Random\Type\CharacterPool;
 
 class AlphanumericCaseSensitive extends AbstractCharacterPool
 {

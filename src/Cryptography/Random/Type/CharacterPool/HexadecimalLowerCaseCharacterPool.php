@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Utils\Cryptography\Random\Object\CharacterPool;
+namespace Utils\Cryptography\Random\Type\CharacterPool;
 
-class HexadecimalUpperCaseCharacterPool extends AbstractCharacterPool
+class HexadecimalLowerCaseCharacterPool extends AbstractCharacterPool
 {
     /** @noinspection DuplicatedCode */
     public function __construct()
@@ -19,11 +19,11 @@ class HexadecimalUpperCaseCharacterPool extends AbstractCharacterPool
         $this->addCharacterToPool("7");
         $this->addCharacterToPool("8");
         $this->addCharacterToPool("9");
-        $this->addCharacterToPool("A");
-        $this->addCharacterToPool("B");
-        $this->addCharacterToPool("C");
-        $this->addCharacterToPool("D");
-        $this->addCharacterToPool("E");
-        $this->addCharacterToPool("F");
+        $this->addCharacterToPool("a");
+        $this->addCharacterToPool("b");
+        $this->addCharacterToPool("c");
+        $this->addCharacterToPool("d");
+        $this->addCharacterToPool("e");
+        $this->addCharacterToPool("f");
     }
 }

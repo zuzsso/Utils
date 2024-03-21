@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Utils\Files\Type;
 
-use Utils\Cryptography\Random\Object\AbstractCrypToken;
-use Utils\Cryptography\Random\Object\CharacterPool\AbstractCharacterPool;
-use Utils\Cryptography\Random\Object\CharacterPool\AlphanumericCaseSensitive;
+use Utils\Cryptography\Random\Type\AbstractCrypToken;
+use Utils\Cryptography\Random\Type\CharacterPool\AbstractCharacterPool;
+use Utils\Cryptography\Random\Type\CharacterPool\AlphanumericCaseSensitive;
 
 class TemporaryFileName extends AbstractCrypToken
 {

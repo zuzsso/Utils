@@ -39,6 +39,7 @@ interface CheckKeyArray
      * @throws EntryEmptyException
      * @throws EntryMissingException
      * @throws IncorrectParametrizationException
+     * @throws RequiredArrayIsEmptyException
      * @throws ValueNotAnArrayException
      * @throws ValueTooBigException
      * @throws ValueTooSmallException
@@ -52,16 +53,10 @@ interface CheckKeyArray
     ): self;
 
     /**
-     * @throws ValueNotAJsonObjectException
-     * @throws ValueNotAnArrayException
-     * @throws RequiredArrayIsEmptyException
-     */
-    public function arrayOfJsonObjects(array $arrayElements): self;
-
-    /**
      * @throws EntryEmptyException
      * @throws EntryMissingException
      * @throws IncorrectParametrizationException
+     * @throws RequiredArrayIsEmptyException
      * @throws ValueArrayNotExactLengthException
      * @throws ValueNotAnArrayException
      */
