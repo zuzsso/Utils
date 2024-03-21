@@ -6,10 +6,10 @@ namespace Utils\JsonPayloadValidator\Service;
 
 use Utils\JsonPayloadValidator\Exception\EntryForbiddenException;
 use Utils\JsonPayloadValidator\Exception\ValueNotInListException;
-use Utils\JsonPayloadValidator\UseCase\CheckKeyCommon;
+use Utils\JsonPayloadValidator\UseCase\CheckKeyEnum;
 use Utils\JsonPayloadValidator\UseCase\CheckKeyPresence;
 
-class KeyCommonChecker extends AbstractJsonChecker implements CheckKeyCommon
+class KeyEnumChecker extends AbstractJsonChecker implements CheckKeyEnum
 {
     private CheckKeyPresence $checkPropertyPresence;
 

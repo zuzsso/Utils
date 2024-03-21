@@ -8,17 +8,17 @@ use PHPUnit\Framework\TestCase;
 use Utils\JsonPayloadValidator\Exception\EntryEmptyException;
 use Utils\JsonPayloadValidator\Exception\EntryMissingException;
 use Utils\JsonPayloadValidator\Exception\ValueNotInListException;
-use Utils\JsonPayloadValidator\Service\KeyCommonChecker;
+use Utils\JsonPayloadValidator\Service\KeyEnumChecker;
 use Utils\JsonPayloadValidator\Service\KeyPresenceChecker;
 
-class KeyCommonCheckerTest extends TestCase
+class KeyEnumCheckerTest extends TestCase
 {
-    private KeyCommonChecker $sut;
+    private KeyEnumChecker $sut;
 
     public function setUp(): void
     {
         parent::setUp();
-        $this->sut = new KeyCommonChecker(new KeyPresenceChecker());
+        $this->sut = new KeyEnumChecker(new KeyPresenceChecker());
     }
 
     public function shouldPassValidationDataProvider(): array

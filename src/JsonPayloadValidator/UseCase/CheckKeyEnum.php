@@ -8,7 +8,7 @@ use Utils\JsonPayloadValidator\Exception\EntryEmptyException;
 use Utils\JsonPayloadValidator\Exception\EntryMissingException;
 use Utils\JsonPayloadValidator\Exception\ValueNotInListException;
 
-interface CheckKeyCommon
+interface CheckKeyEnum
 {
     /**
      * @throws ValueNotInListException

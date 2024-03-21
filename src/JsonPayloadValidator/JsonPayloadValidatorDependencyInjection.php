@@ -7,7 +7,7 @@ namespace Utils\JsonPayloadValidator;
 use Utils\AbstractDependencyInjection;
 use Utils\JsonPayloadValidator\Service\KeyArrayChecker;
 use Utils\JsonPayloadValidator\Service\KeyBooleanChecker;
-use Utils\JsonPayloadValidator\Service\KeyCommonChecker;
+use Utils\JsonPayloadValidator\Service\KeyEnumChecker;
 use Utils\JsonPayloadValidator\Service\KeyFloatChecker;
 use Utils\JsonPayloadValidator\Service\KeyIntegerChecker;
 use Utils\JsonPayloadValidator\Service\KeyPresenceChecker;
@@ -15,7 +15,7 @@ use Utils\JsonPayloadValidator\Service\KeyStringChecker;
 use Utils\JsonPayloadValidator\Service\ValueArrayChecker;
 use Utils\JsonPayloadValidator\UseCase\CheckKeyArray;
 use Utils\JsonPayloadValidator\UseCase\CheckKeyBoolean;
-use Utils\JsonPayloadValidator\UseCase\CheckKeyCommon;
+use Utils\JsonPayloadValidator\UseCase\CheckKeyEnum;
 use Utils\JsonPayloadValidator\UseCase\CheckKeyFloat;
 use Utils\JsonPayloadValidator\UseCase\CheckKeyInteger;
 use Utils\JsonPayloadValidator\UseCase\CheckKeyPresence;
@@ -31,7 +31,7 @@ class JsonPayloadValidatorDependencyInjection extends AbstractDependencyInjectio
     {
         return [
             CheckKeyArray::class => autowire(KeyArrayChecker::class),
-            CheckKeyCommon::class => autowire(KeyCommonChecker::class),
+            CheckKeyEnum::class => autowire(KeyEnumChecker::class),
             CheckKeyFloat::class => autowire(KeyFloatChecker::class),
             CheckKeyInteger::class => autowire(KeyIntegerChecker::class),
             CheckKeyPresence::class => autowire(KeyPresenceChecker::class),
