@@ -54,8 +54,7 @@ class KeyArrayChecker extends AbstractJsonChecker implements CheckKeyArray
     }
 
     /**
-     * @throws OptionalPropertyNotAnArrayException
-     * @throws ValueNotAnArrayException
+     * @inheritDoc
      */
     public function optionalKey(string $key, array $payload): CheckKeyArray
     {
