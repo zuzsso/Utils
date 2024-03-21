@@ -400,6 +400,9 @@ class PropertyArrayCheckerTest extends TestCase
             $variableTests[] = [$key, [$key => [[], []]], null, 2, $v];
             $variableTests[] = [$key, [$key => [[]]], 1, null, $v];
             $variableTests[] = [$key, [$key => [[], []]], 1, null, $v];
+            $variableTests[] = [$key, [$key => [[]]], 1, 3, $v];
+            $variableTests[] = [$key, [$key => [[], []]], 1, 3, $v];
+            $variableTests[] = [$key, [$key => [[], [], []]], 1, 3, $v];
         }
 
         return array_merge($fixedTests, $variableTests);
