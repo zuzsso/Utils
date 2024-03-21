@@ -381,4 +381,47 @@ class PropertyArrayCheckerTest extends TestCase
         $this->expectExceptionMessage($expectedExceptionMessage);
         $this->sut->keyArrayOfLengthRange($key, $payload, $minCount, $maxCount, $required);
     }
+
+    public function shouldPassKeyArrayOfLengthRangeDataProvider(): array
+    {
+        $key = 'myKey';
+
+        $fixedTests = [
+            [$key, [], null, 2, false],
+            [$key, [$key => null], null, 2, false]
+        ];
+
+        $variable = [true, false];
+
+        $variableTests = [];
+
+        foreach ($variable as $v) {
+            $variableTests[] = [$key, [$key => [[]]], null, 2, $v];
+            $variableTests[] = [$key, [$key => [[], []]], null, 2, $v];
+            $variableTests[] = [$key, [$key => [[]]], 1, null, $v];
+            $variableTests[] = [$key, [$key => [[], []]], 1, null, $v];
+        }
+
+        return array_merge($fixedTests, $variableTests);
+    }
+
+    /**
+     * @dataProvider shouldPassKeyArrayOfLengthRangeDataProvider
+     * @throws EntryEmptyException
+     * @throws EntryMissingException
+     * @throws IncorrectParametrizationException
+     * @throws ValueNotAnArrayException
+     * @throws ValueTooBigException
+     * @throws ValueTooSmallException
+     */
+    public function testShouldPassKeyArrayOfLengthRange(
+        string $key,
+        array $payload,
+        ?int $minCount,
+        ?int $maxCount,
+        $required
+    ): void {
+        $this->sut->keyArrayOfLengthRange($key, $payload, $minCount, $maxCount, $required);
+        $this->expectNotToPerformAssertions();
+    }
 }
