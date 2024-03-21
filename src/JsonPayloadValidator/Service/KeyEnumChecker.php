@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace Utils\JsonPayloadValidator\Service;
 
+use Throwable;
 use Utils\JsonPayloadValidator\Exception\EntryForbiddenException;
+use Utils\JsonPayloadValidator\Exception\JsonPayloadValidatorUnmanagedException;
 use Utils\JsonPayloadValidator\Exception\ValueNotInListException;
 use Utils\JsonPayloadValidator\UseCase\CheckKeyEnum;
 use Utils\JsonPayloadValidator\UseCase\CheckKeyPresence;
@@ -38,7 +40,11 @@ class KeyEnumChecker extends AbstractJsonChecker implements CheckKeyEnum
 
         if (!in_array($value, $validValues, true)) {
             if (is_array($value)) {
-                $value = json_encode($value, JSON_THROW_ON_ERROR);
+                try {
+                    $value = json_encode($value, JSON_THROW_ON_ERROR);
+                } catch (Throwable $t) {
+                    throw new JsonPayloadValidatorUnmanagedException($t->getMessage(), $t->getCode(), $t);
+                }
             }
             throw ValueNotInListException::constructForList($key, $validValues, (string)$value);
         }

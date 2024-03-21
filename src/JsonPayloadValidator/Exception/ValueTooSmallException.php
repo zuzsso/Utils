@@ -28,6 +28,11 @@ class ValueTooSmallException extends AbstractMalformedRequestBody
         return new self("Entry '$key' is meant to be an array of minimum length of $expectedLength, but it is $actualLength");
     }
 
+    public static function constructForValueArray(int $expectedLength, int $actualLength): self
+    {
+        return new self("Value is meant to be an array of minimum length of $expectedLength, but it is $actualLength");
+    }
+
     public function errorCode(): string
     {
         return 'expectedMinValue';

@@ -40,12 +40,13 @@ interface CheckKeyArray
      */
     public function keyArrayOfJsonObjects(string $key, array $payload, bool $required = true): self;
 
+
     /**
      * @throws EntryEmptyException
      * @throws EntryMissingException
-     * @throws IncorrectParametrizationException
      * @throws RequiredArrayIsEmptyException
      * @throws ValueNotAnArrayException
+     * @throws IncorrectParametrizationException
      * @throws ValueTooBigException
      * @throws ValueTooSmallException
      */

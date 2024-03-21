@@ -71,7 +71,6 @@ class KeyArrayChecker extends AbstractJsonChecker implements CheckKeyArray
         }
 
 
-
         if (count($value) === 0) {
             return $this;
         }
@@ -163,14 +162,12 @@ class KeyArrayChecker extends AbstractJsonChecker implements CheckKeyArray
 
         $this->requiredKey($key, $payload);
 
-        $count = count($payload[$key]);
-
-        if (($minLength !== null) && ($count < $minLength)) {
-            throw ValueTooSmallException::constructForKeyArray($key, $minLength, $count);
-        }
-
-        if (($maxLength !== null) && ($count > $maxLength)) {
-            throw ValueTooBigException::constructForKeyArrayLength($key, $maxLength, $count);
+        try {
+            $this->checkValueArray->keyArrayOfLengthRange($payload[$key], $minLength, $maxLength);
+        } catch (ValueTooBigException $e) {
+            throw ValueTooBigException::constructForKeyArrayLength($key, $maxLength, count($payload[$key]));
+        } catch (ValueTooSmallException $e) {
+            throw ValueTooSmallException::constructForKeyArray($key, $minLength, count($payload[$key]));
         }
 
         return $this;

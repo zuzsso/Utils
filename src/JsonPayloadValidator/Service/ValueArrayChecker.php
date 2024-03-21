@@ -6,6 +6,8 @@ namespace Utils\JsonPayloadValidator\Service;
 
 use Utils\JsonPayloadValidator\Exception\RequiredArrayIsEmptyException;
 use Utils\JsonPayloadValidator\Exception\ValueNotAJsonObjectException;
+use Utils\JsonPayloadValidator\Exception\ValueTooBigException;
+use Utils\JsonPayloadValidator\Exception\ValueTooSmallException;
 use Utils\JsonPayloadValidator\UseCase\CheckValueArray;
 
 class ValueArrayChecker extends AbstractJsonChecker implements CheckValueArray
@@ -13,7 +15,6 @@ class ValueArrayChecker extends AbstractJsonChecker implements CheckValueArray
     /**
      * @inheritDoc
      */
-
     public function arrayOfJsonObjects(array $arrayElements, bool $required = true): self
     {
         $count = count($arrayElements);
@@ -32,6 +33,29 @@ class ValueArrayChecker extends AbstractJsonChecker implements CheckValueArray
             if (!is_array($r)) {
                 throw ValueNotAJsonObjectException::constructForStandardMessage((string)$i);
             }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function keyArrayOfLengthRange(
+        array $payload,
+        ?int $minLength,
+        ?int $maxLength
+    ): CheckValueArray {
+        $this->checkRanges($minLength, $maxLength);
+
+        $count = count($payload);
+
+        if (($minLength !== null) && ($count < $minLength)) {
+            throw ValueTooSmallException::constructForValueArray($minLength, $count);
+        }
+
+        if (($maxLength !== null) && ($count > $maxLength)) {
+            throw ValueTooBigException::constructForValueArrayLength($maxLength, $count);
         }
 
         return $this;
