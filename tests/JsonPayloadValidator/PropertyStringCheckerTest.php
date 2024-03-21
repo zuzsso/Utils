@@ -15,17 +15,17 @@ use Utils\JsonPayloadValidator\Exception\ValueNotAStringException;
 use Utils\JsonPayloadValidator\Exception\ValueStringNotExactLengthException;
 use Utils\JsonPayloadValidator\Exception\ValueTooBigException;
 use Utils\JsonPayloadValidator\Exception\ValueTooSmallException;
-use Utils\JsonPayloadValidator\Service\PropertyPresenceChecker;
-use Utils\JsonPayloadValidator\Service\PropertyStringChecker;
+use Utils\JsonPayloadValidator\Service\KeyPresenceChecker;
+use Utils\JsonPayloadValidator\Service\KeyStringChecker;
 
 class PropertyStringCheckerTest extends TestCase
 {
-    private PropertyStringChecker $sut;
+    private KeyStringChecker $sut;
 
     public function setUp(): void
     {
         parent::setUp();
-        $this->sut = new PropertyStringChecker(new PropertyPresenceChecker());
+        $this->sut = new KeyStringChecker(new KeyPresenceChecker());
     }
 
 

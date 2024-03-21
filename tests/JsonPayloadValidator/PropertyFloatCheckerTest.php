@@ -13,19 +13,19 @@ use Utils\JsonPayloadValidator\Exception\ValueNotAFloatException;
 use Utils\JsonPayloadValidator\Exception\ValueNotEqualsToException;
 use Utils\JsonPayloadValidator\Exception\ValueTooBigException;
 use Utils\JsonPayloadValidator\Exception\ValueTooSmallException;
-use Utils\JsonPayloadValidator\Service\PropertyFloatChecker;
-use Utils\JsonPayloadValidator\Service\PropertyPresenceChecker;
+use Utils\JsonPayloadValidator\Service\KeyFloatChecker;
+use Utils\JsonPayloadValidator\Service\KeyPresenceChecker;
 use Utils\Math\Numbers\Service\FloatsService;
 
 class PropertyFloatCheckerTest extends TestCase
 {
-    private PropertyFloatChecker $sut;
+    private KeyFloatChecker $sut;
 
     public function setUp(): void
     {
         parent::setUp();
-        $this->sut = new PropertyFloatChecker(
-            new PropertyPresenceChecker(),
+        $this->sut = new KeyFloatChecker(
+            new KeyPresenceChecker(),
             new FloatsService()
         );
     }

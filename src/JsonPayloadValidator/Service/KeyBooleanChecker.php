@@ -6,14 +6,14 @@ namespace Utils\JsonPayloadValidator\Service;
 
 use Utils\JsonPayloadValidator\Exception\EntryForbiddenException;
 use Utils\JsonPayloadValidator\Exception\InvalidBoolValueException;
-use Utils\JsonPayloadValidator\UseCase\CheckPropertyBoolean;
-use Utils\JsonPayloadValidator\UseCase\CheckPropertyPresence;
+use Utils\JsonPayloadValidator\UseCase\CheckKeyBoolean;
+use Utils\JsonPayloadValidator\UseCase\CheckKeyPresence;
 
-class PropertyBooleanChecker implements CheckPropertyBoolean
+class KeyBooleanChecker implements CheckKeyBoolean
 {
-    private CheckPropertyPresence $checkPropertyPresence;
+    private CheckKeyPresence $checkPropertyPresence;
 
-    public function __construct(CheckPropertyPresence $checkPropertyPresence)
+    public function __construct(CheckKeyPresence $checkPropertyPresence)
     {
         $this->checkPropertyPresence = $checkPropertyPresence;
     }
@@ -21,7 +21,7 @@ class PropertyBooleanChecker implements CheckPropertyBoolean
     /**
      * @inheritDoc
      */
-    public function required(string $key, array $payload): CheckPropertyBoolean
+    public function required(string $key, array $payload): CheckKeyBoolean
     {
         $this->checkPropertyPresence->required($key, $payload);
 
@@ -37,7 +37,7 @@ class PropertyBooleanChecker implements CheckPropertyBoolean
     /**
      * @inheritDoc
      */
-    public function optional(string $key, array $payload): CheckPropertyBoolean
+    public function optional(string $key, array $payload): CheckKeyBoolean
     {
         try {
             $this->checkPropertyPresence->forbidden($key, $payload);

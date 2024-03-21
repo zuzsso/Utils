@@ -8,17 +8,17 @@ use PHPUnit\Framework\TestCase;
 use Utils\JsonPayloadValidator\Exception\EntryEmptyException;
 use Utils\JsonPayloadValidator\Exception\EntryMissingException;
 use Utils\JsonPayloadValidator\Exception\ValueNotInListException;
-use Utils\JsonPayloadValidator\Service\PropertyCommonChecker;
-use Utils\JsonPayloadValidator\Service\PropertyPresenceChecker;
+use Utils\JsonPayloadValidator\Service\KeyCommonChecker;
+use Utils\JsonPayloadValidator\Service\KeyPresenceChecker;
 
 class PropertyCommonCheckerTest extends TestCase
 {
-    private PropertyCommonChecker $sut;
+    private KeyCommonChecker $sut;
 
     public function setUp(): void
     {
         parent::setUp();
-        $this->sut = new PropertyCommonChecker(new PropertyPresenceChecker());
+        $this->sut = new KeyCommonChecker(new KeyPresenceChecker());
     }
 
     public function shouldPassValidationDataProvider(): array

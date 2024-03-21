@@ -7,9 +7,9 @@ namespace Utils\JsonPayloadValidator\Service;
 use Utils\JsonPayloadValidator\Exception\EntryEmptyException;
 use Utils\JsonPayloadValidator\Exception\EntryForbiddenException;
 use Utils\JsonPayloadValidator\Exception\EntryMissingException;
-use Utils\JsonPayloadValidator\UseCase\CheckPropertyPresence;
+use Utils\JsonPayloadValidator\UseCase\CheckKeyPresence;
 
-class PropertyPresenceChecker implements CheckPropertyPresence
+class KeyPresenceChecker implements CheckKeyPresence
 {
     /**
      * @inheritDoc

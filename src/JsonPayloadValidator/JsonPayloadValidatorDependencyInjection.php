@@ -5,20 +5,23 @@ declare(strict_types=1);
 namespace Utils\JsonPayloadValidator;
 
 use Utils\AbstractDependencyInjection;
-use Utils\JsonPayloadValidator\Service\PropertyArrayChecker;
-use Utils\JsonPayloadValidator\Service\PropertyBooleanChecker;
-use Utils\JsonPayloadValidator\Service\PropertyCommonChecker;
-use Utils\JsonPayloadValidator\Service\PropertyFloatChecker;
-use Utils\JsonPayloadValidator\Service\PropertyIntegerChecker;
-use Utils\JsonPayloadValidator\Service\PropertyPresenceChecker;
-use Utils\JsonPayloadValidator\Service\PropertyStringChecker;
-use Utils\JsonPayloadValidator\UseCase\CheckPropertyArray;
-use Utils\JsonPayloadValidator\UseCase\CheckPropertyBoolean;
-use Utils\JsonPayloadValidator\UseCase\CheckPropertyCommon;
-use Utils\JsonPayloadValidator\UseCase\CheckPropertyFloat;
-use Utils\JsonPayloadValidator\UseCase\CheckPropertyInteger;
-use Utils\JsonPayloadValidator\UseCase\CheckPropertyPresence;
-use Utils\JsonPayloadValidator\UseCase\CheckPropertyString;
+use Utils\JsonPayloadValidator\Service\KeyArrayChecker;
+use Utils\JsonPayloadValidator\Service\KeyBooleanChecker;
+use Utils\JsonPayloadValidator\Service\KeyCommonChecker;
+use Utils\JsonPayloadValidator\Service\KeyFloatChecker;
+use Utils\JsonPayloadValidator\Service\KeyIntegerChecker;
+use Utils\JsonPayloadValidator\Service\KeyPresenceChecker;
+use Utils\JsonPayloadValidator\Service\KeyStringChecker;
+use Utils\JsonPayloadValidator\Service\ValueArrayChecker;
+use Utils\JsonPayloadValidator\UseCase\CheckKeyArray;
+use Utils\JsonPayloadValidator\UseCase\CheckKeyBoolean;
+use Utils\JsonPayloadValidator\UseCase\CheckKeyCommon;
+use Utils\JsonPayloadValidator\UseCase\CheckKeyFloat;
+use Utils\JsonPayloadValidator\UseCase\CheckKeyInteger;
+use Utils\JsonPayloadValidator\UseCase\CheckKeyPresence;
+use Utils\JsonPayloadValidator\UseCase\CheckKeyString;
+
+use Utils\JsonPayloadValidator\UseCase\CheckValueArray;
 
 use function DI\autowire;
 
@@ -27,13 +30,14 @@ class JsonPayloadValidatorDependencyInjection extends AbstractDependencyInjectio
     public static function getDependencies(): array
     {
         return [
-            CheckPropertyArray::class => autowire(PropertyArrayChecker::class),
-            CheckPropertyCommon::class => autowire(PropertyCommonChecker::class),
-            CheckPropertyFloat::class => autowire(PropertyFloatChecker::class),
-            CheckPropertyInteger::class => autowire(PropertyIntegerChecker::class),
-            CheckPropertyPresence::class => autowire(PropertyPresenceChecker::class),
-            CheckPropertyString::class => autowire(PropertyStringChecker::class),
-            CheckPropertyBoolean::class => autowire(PropertyBooleanChecker::class)
+            CheckKeyArray::class => autowire(KeyArrayChecker::class),
+            CheckKeyCommon::class => autowire(KeyCommonChecker::class),
+            CheckKeyFloat::class => autowire(KeyFloatChecker::class),
+            CheckKeyInteger::class => autowire(KeyIntegerChecker::class),
+            CheckKeyPresence::class => autowire(KeyPresenceChecker::class),
+            CheckKeyString::class => autowire(KeyStringChecker::class),
+            CheckKeyBoolean::class => autowire(KeyBooleanChecker::class),
+            CheckValueArray::class => autowire(ValueArrayChecker::class)
         ];
     }
 }

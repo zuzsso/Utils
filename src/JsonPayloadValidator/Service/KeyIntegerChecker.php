@@ -13,14 +13,14 @@ use Utils\JsonPayloadValidator\Exception\OptionalPropertyNotAnIntegerException;
 use Utils\JsonPayloadValidator\Exception\ValueNotEqualsToException;
 use Utils\JsonPayloadValidator\Exception\ValueTooBigException;
 use Utils\JsonPayloadValidator\Exception\ValueTooSmallException;
-use Utils\JsonPayloadValidator\UseCase\CheckPropertyInteger;
-use Utils\JsonPayloadValidator\UseCase\CheckPropertyPresence;
+use Utils\JsonPayloadValidator\UseCase\CheckKeyInteger;
+use Utils\JsonPayloadValidator\UseCase\CheckKeyPresence;
 
-class PropertyIntegerChecker implements CheckPropertyInteger
+class KeyIntegerChecker implements CheckKeyInteger
 {
-    private CheckPropertyPresence $checkPropertyPresence;
+    private CheckKeyPresence $checkPropertyPresence;
 
-    public function __construct(CheckPropertyPresence $checkPropertyPresence)
+    public function __construct(CheckKeyPresence $checkPropertyPresence)
     {
         $this->checkPropertyPresence = $checkPropertyPresence;
     }
@@ -58,7 +58,7 @@ class PropertyIntegerChecker implements CheckPropertyInteger
     /**
      * @inheritDoc
      */
-    public function optional(string $key, array $payload): CheckPropertyInteger
+    public function optional(string $key, array $payload): CheckKeyInteger
     {
         try {
             $this->checkPropertyPresence->forbidden($key, $payload);

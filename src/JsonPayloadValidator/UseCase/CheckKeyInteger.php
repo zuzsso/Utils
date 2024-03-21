@@ -12,7 +12,7 @@ use Utils\JsonPayloadValidator\Exception\ValueNotEqualsToException;
 use Utils\JsonPayloadValidator\Exception\ValueTooBigException;
 use Utils\JsonPayloadValidator\Exception\ValueTooSmallException;
 
-interface CheckPropertyInteger
+interface CheckKeyInteger
 {
     /**
      * @throws InvalidIntegerValueException

@@ -5,19 +5,15 @@ declare(strict_types=1);
 namespace Utils\JsonPayloadValidator\UseCase;
 
 use Utils\JsonPayloadValidator\Exception\EntryEmptyException;
-use Utils\JsonPayloadValidator\Exception\EntryForbiddenException;
 use Utils\JsonPayloadValidator\Exception\EntryMissingException;
+use Utils\JsonPayloadValidator\Exception\ValueNotInListException;
 
-interface CheckPropertyPresence
+interface CheckKeyCommon
 {
     /**
+     * @throws ValueNotInListException
      * @throws EntryEmptyException
      * @throws EntryMissingException
      */
-    public function required(string $key, array $payload): self;
-
-    /**
-     * @throws EntryForbiddenException
-     */
-    public function forbidden(string $key, array $payload): self;
+    public function isEnum(string $key, array $payload, array $validValues, bool $required = true): self;
 }

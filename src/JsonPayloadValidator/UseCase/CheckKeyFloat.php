@@ -12,9 +12,9 @@ use Utils\JsonPayloadValidator\Exception\ValueNotAFloatException;
 use Utils\JsonPayloadValidator\Exception\ValueNotEqualsToException;
 use Utils\JsonPayloadValidator\Exception\ValueTooBigException;
 use Utils\JsonPayloadValidator\Exception\ValueTooSmallException;
-use Utils\JsonPayloadValidator\Service\PropertyFloatChecker;
+use Utils\JsonPayloadValidator\Service\KeyFloatChecker;
 
-interface CheckPropertyFloat
+interface CheckKeyFloat
 {
     /**
      * @throws ValueNotAFloatException

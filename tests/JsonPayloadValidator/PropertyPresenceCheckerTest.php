@@ -8,16 +8,16 @@ use PHPUnit\Framework\TestCase;
 use Utils\JsonPayloadValidator\Exception\EntryEmptyException;
 use Utils\JsonPayloadValidator\Exception\EntryForbiddenException;
 use Utils\JsonPayloadValidator\Exception\EntryMissingException;
-use Utils\JsonPayloadValidator\Service\PropertyPresenceChecker;
+use Utils\JsonPayloadValidator\Service\KeyPresenceChecker;
 
 class PropertyPresenceCheckerTest extends TestCase
 {
-    private PropertyPresenceChecker $sut;
+    private KeyPresenceChecker $sut;
 
     public function setUp(): void
     {
         parent::setUp();
-        $this->sut = new PropertyPresenceChecker();
+        $this->sut = new KeyPresenceChecker();
     }
 
     public function shouldFailRequiredPresenceDataProvider(): array

@@ -8,17 +8,17 @@ use PHPUnit\Framework\TestCase;
 use Utils\JsonPayloadValidator\Exception\EntryEmptyException;
 use Utils\JsonPayloadValidator\Exception\EntryMissingException;
 use Utils\JsonPayloadValidator\Exception\InvalidBoolValueException;
-use Utils\JsonPayloadValidator\Service\PropertyBooleanChecker;
-use Utils\JsonPayloadValidator\Service\PropertyPresenceChecker;
+use Utils\JsonPayloadValidator\Service\KeyBooleanChecker;
+use Utils\JsonPayloadValidator\Service\KeyPresenceChecker;
 
 class PropertyBooleanCheckerTest extends TestCase
 {
-    private PropertyBooleanChecker $sut;
+    private KeyBooleanChecker $sut;
 
     public function setUp(): void
     {
         parent::setUp();
-        $this->sut = new PropertyBooleanChecker(new PropertyPresenceChecker());
+        $this->sut = new KeyBooleanChecker(new KeyPresenceChecker());
     }
 
     public function shouldFailRequiredDataProvider(): array

@@ -13,18 +13,18 @@ use Utils\JsonPayloadValidator\Exception\RequiredArrayIsEmptyException;
 use Utils\JsonPayloadValidator\Exception\ValueNotAnArrayException;
 use Utils\JsonPayloadValidator\Exception\ValueTooBigException;
 use Utils\JsonPayloadValidator\Exception\ValueTooSmallException;
-use Utils\JsonPayloadValidator\Service\PropertyArrayChecker;
-use Utils\JsonPayloadValidator\Service\PropertyPresenceChecker;
+use Utils\JsonPayloadValidator\Service\KeyArrayChecker;
+use Utils\JsonPayloadValidator\Service\KeyPresenceChecker;
 
 class PropertyArrayCheckerTest extends TestCase
 {
-    private PropertyArrayChecker $sut;
+    private KeyArrayChecker $sut;
 
     public function setUp(): void
     {
         parent::setUp();
 
-        $this->sut = new PropertyArrayChecker(new PropertyPresenceChecker());
+        $this->sut = new KeyArrayChecker(new KeyPresenceChecker());
     }
 
     public function shouldFailRequiredDataProvider(): array

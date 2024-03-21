@@ -14,9 +14,9 @@ use Utils\JsonPayloadValidator\Exception\ValueNotAStringException;
 use Utils\JsonPayloadValidator\Exception\ValueStringNotExactLengthException;
 use Utils\JsonPayloadValidator\Exception\ValueTooBigException;
 use Utils\JsonPayloadValidator\Exception\ValueTooSmallException;
-use Utils\JsonPayloadValidator\Service\PropertyStringChecker;
+use Utils\JsonPayloadValidator\Service\KeyStringChecker;
 
-interface CheckPropertyString
+interface CheckKeyString
 {
     /**
      * @throws ValueNotAStringException

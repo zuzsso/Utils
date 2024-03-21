@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Utils\JsonPayloadValidator\Service;
 
 use Utils\JsonPayloadValidator\Exception\IncorrectParametrizationException;
+use Utils\JsonPayloadValidator\Exception\OptionalPropertyNotAnArrayException;
 use Utils\JsonPayloadValidator\Exception\ValueArrayNotExactLengthException;
 use Utils\JsonPayloadValidator\Exception\ValueNotAJsonObjectException;
 use Utils\JsonPayloadValidator\Exception\EntryEmptyException;
@@ -14,14 +15,14 @@ use Utils\JsonPayloadValidator\Exception\RequiredArrayIsEmptyException;
 use Utils\JsonPayloadValidator\Exception\ValueNotAnArrayException;
 use Utils\JsonPayloadValidator\Exception\ValueTooBigException;
 use Utils\JsonPayloadValidator\Exception\ValueTooSmallException;
-use Utils\JsonPayloadValidator\UseCase\CheckPropertyArray;
-use Utils\JsonPayloadValidator\UseCase\CheckPropertyPresence;
+use Utils\JsonPayloadValidator\UseCase\CheckKeyArray;
+use Utils\JsonPayloadValidator\UseCase\CheckKeyPresence;
 
-class PropertyArrayChecker implements CheckPropertyArray
+class KeyArrayChecker implements CheckKeyArray
 {
-    private CheckPropertyPresence $checkPropertyPresence;
+    private CheckKeyPresence $checkPropertyPresence;
 
-    public function __construct(CheckPropertyPresence $checkPropertyPresence)
+    public function __construct(CheckKeyPresence $checkPropertyPresence)
     {
         $this->checkPropertyPresence = $checkPropertyPresence;
     }
@@ -39,17 +40,22 @@ class PropertyArrayChecker implements CheckPropertyArray
             throw ValueNotAnArrayException::constructForStandardMessage($key);
         }
 
+        $count = count($value);
+
+        if ($count === 0) {
+            throw RequiredArrayIsEmptyException::constructForStandardMessage();
+        }
+
         $this->checkAllKeysAreNumericAndNoGaps($value);
 
         return $this;
     }
 
     /**
+     * @throws OptionalPropertyNotAnArrayException
      * @throws ValueNotAnArrayException
-     * @throws EntryEmptyException
-     * @throws EntryMissingException
      */
-    public function optionalKey(string $key, array $payload): CheckPropertyArray
+    public function optionalKey(string $key, array $payload): CheckKeyArray
     {
         try {
             $this->checkPropertyPresence->forbidden($key, $payload);
@@ -63,7 +69,13 @@ class PropertyArrayChecker implements CheckPropertyArray
             return $this;
         }
 
-        $this->requiredKey($key, $payload);
+        try {
+            $this->requiredKey($key, $payload);
+        } catch (EntryEmptyException | EntryMissingException $e) {
+            return $this;
+        } catch (RequiredArrayIsEmptyException $e) {
+            throw OptionalPropertyNotAnArrayException::constructForKey($key);
+        }
 
 
         return $this;
@@ -244,15 +256,6 @@ class PropertyArrayChecker implements CheckPropertyArray
         }
 
         if ($minLength !== null && $minLength < 1) {
-            // Because of the same reason we reject empty strings ('', '     '), we also reject empty arrays. They
-            // should be replaced by NULLS in any case.
-            //
-            // Negative ranges are out of the question, but 0 ranges appear to be legit. However, allowing a min count
-            // of 0 will result on an empty array, so the min count should be at least 1.
-            //
-            // So, if your array is between 0 and 3 elements, then you should pass a range of 1-3 to this function,
-            // with the required flag set to true. And make sure you pass an array of at least one element, or null if
-            // no elements
             throw new IncorrectParametrizationException("Zero or negative range is not allowed as min count.");
         }
 

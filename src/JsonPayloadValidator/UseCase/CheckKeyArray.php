@@ -14,12 +14,13 @@ use Utils\JsonPayloadValidator\Exception\ValueNotAnArrayException;
 use Utils\JsonPayloadValidator\Exception\ValueTooBigException;
 use Utils\JsonPayloadValidator\Exception\ValueTooSmallException;
 
-interface CheckPropertyArray
+interface CheckKeyArray
 {
     /**
      * @throws EntryEmptyException
      * @throws EntryMissingException
      * @throws ValueNotAnArrayException
+     * @throws RequiredArrayIsEmptyException
      */
     public function requiredKey(string $key, array $payload): self;
 

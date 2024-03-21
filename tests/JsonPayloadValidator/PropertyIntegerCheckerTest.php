@@ -13,17 +13,17 @@ use Utils\JsonPayloadValidator\Exception\OptionalPropertyNotAnIntegerException;
 use Utils\JsonPayloadValidator\Exception\ValueNotEqualsToException;
 use Utils\JsonPayloadValidator\Exception\ValueTooBigException;
 use Utils\JsonPayloadValidator\Exception\ValueTooSmallException;
-use Utils\JsonPayloadValidator\Service\PropertyIntegerChecker;
-use Utils\JsonPayloadValidator\Service\PropertyPresenceChecker;
+use Utils\JsonPayloadValidator\Service\KeyIntegerChecker;
+use Utils\JsonPayloadValidator\Service\KeyPresenceChecker;
 
 class PropertyIntegerCheckerTest extends TestCase
 {
-    private PropertyIntegerChecker $sut;
+    private KeyIntegerChecker $sut;
 
     public function setUp(): void
     {
         parent::setUp();
-        $this->sut = new PropertyIntegerChecker(new PropertyPresenceChecker());
+        $this->sut = new KeyIntegerChecker(new KeyPresenceChecker());
     }
 
     public function shouldFailRequiredDataProvider(): array

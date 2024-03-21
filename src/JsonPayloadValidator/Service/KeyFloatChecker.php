@@ -12,16 +12,16 @@ use Utils\JsonPayloadValidator\Exception\ValueNotAFloatException;
 use Utils\JsonPayloadValidator\Exception\ValueNotEqualsToException;
 use Utils\JsonPayloadValidator\Exception\ValueTooBigException;
 use Utils\JsonPayloadValidator\Exception\ValueTooSmallException;
-use Utils\JsonPayloadValidator\UseCase\CheckPropertyFloat;
-use Utils\JsonPayloadValidator\UseCase\CheckPropertyPresence;
+use Utils\JsonPayloadValidator\UseCase\CheckKeyFloat;
+use Utils\JsonPayloadValidator\UseCase\CheckKeyPresence;
 use Utils\Math\Numbers\UseCase\EqualFloats;
 
-class PropertyFloatChecker implements CheckPropertyFloat
+class KeyFloatChecker implements CheckKeyFloat
 {
-    private CheckPropertyPresence $checkPropertyPresence;
+    private CheckKeyPresence $checkPropertyPresence;
     private EqualFloats $equalFloats;
 
-    public function __construct(CheckPropertyPresence $checkPropertyPresence, EqualFloats $equalFloats)
+    public function __construct(CheckKeyPresence $checkPropertyPresence, EqualFloats $equalFloats)
     {
         $this->checkPropertyPresence = $checkPropertyPresence;
         $this->equalFloats = $equalFloats;
@@ -30,7 +30,7 @@ class PropertyFloatChecker implements CheckPropertyFloat
     /**
      * @inheritDoc
      */
-    public function required(string $key, array $payload): CheckPropertyFloat
+    public function required(string $key, array $payload): CheckKeyFloat
     {
         $this->checkPropertyPresence->required($key, $payload);
 
@@ -60,7 +60,7 @@ class PropertyFloatChecker implements CheckPropertyFloat
     /**
      * @inheritDoc
      */
-    public function optional(string $key, array $payload): CheckPropertyFloat
+    public function optional(string $key, array $payload): CheckKeyFloat
     {
         try {
             $this->checkPropertyPresence->forbidden($key, $payload);

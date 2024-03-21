@@ -16,14 +16,14 @@ use Utils\JsonPayloadValidator\Exception\ValueNotAStringException;
 use Utils\JsonPayloadValidator\Exception\ValueStringNotExactLengthException;
 use Utils\JsonPayloadValidator\Exception\ValueTooBigException;
 use Utils\JsonPayloadValidator\Exception\ValueTooSmallException;
-use Utils\JsonPayloadValidator\UseCase\CheckPropertyPresence;
-use Utils\JsonPayloadValidator\UseCase\CheckPropertyString;
+use Utils\JsonPayloadValidator\UseCase\CheckKeyPresence;
+use Utils\JsonPayloadValidator\UseCase\CheckKeyString;
 
-class PropertyStringChecker implements CheckPropertyString
+class KeyStringChecker implements CheckKeyString
 {
-    private CheckPropertyPresence $checkPropertyPresence;
+    private CheckKeyPresence $checkPropertyPresence;
 
-    public function __construct(CheckPropertyPresence $checkPropertyPresence)
+    public function __construct(CheckKeyPresence $checkPropertyPresence)
     {
         $this->checkPropertyPresence = $checkPropertyPresence;
     }
@@ -72,7 +72,7 @@ class PropertyStringChecker implements CheckPropertyString
         ?int $minimumLength,
         ?int $maximumLength,
         bool $required = true
-    ): CheckPropertyString {
+    ): CheckKeyString {
 
         if (($minimumLength === null) && ($maximumLength === null)) {
             throw new IncorrectParametrizationException('No range defined');

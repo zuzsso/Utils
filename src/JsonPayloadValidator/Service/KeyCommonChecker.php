@@ -6,14 +6,14 @@ namespace Utils\JsonPayloadValidator\Service;
 
 use Utils\JsonPayloadValidator\Exception\EntryForbiddenException;
 use Utils\JsonPayloadValidator\Exception\ValueNotInListException;
-use Utils\JsonPayloadValidator\UseCase\CheckPropertyCommon;
-use Utils\JsonPayloadValidator\UseCase\CheckPropertyPresence;
+use Utils\JsonPayloadValidator\UseCase\CheckKeyCommon;
+use Utils\JsonPayloadValidator\UseCase\CheckKeyPresence;
 
-class PropertyCommonChecker implements CheckPropertyCommon
+class KeyCommonChecker implements CheckKeyCommon
 {
-    private CheckPropertyPresence $checkPropertyPresence;
+    private CheckKeyPresence $checkPropertyPresence;
 
-    public function __construct(CheckPropertyPresence $checkPropertyPresence)
+    public function __construct(CheckKeyPresence $checkPropertyPresence)
     {
         $this->checkPropertyPresence = $checkPropertyPresence;
     }
