@@ -19,7 +19,7 @@ use Utils\JsonPayloadValidator\Exception\ValueTooSmallException;
 use Utils\JsonPayloadValidator\UseCase\CheckKeyPresence;
 use Utils\JsonPayloadValidator\UseCase\CheckKeyString;
 
-class KeyStringChecker implements CheckKeyString
+class KeyStringChecker extends AbstractJsonChecker implements CheckKeyString
 {
     private CheckKeyPresence $checkPropertyPresence;
 

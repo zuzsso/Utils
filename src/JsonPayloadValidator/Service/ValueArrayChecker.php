@@ -8,7 +8,7 @@ use Utils\JsonPayloadValidator\Exception\RequiredArrayIsEmptyException;
 use Utils\JsonPayloadValidator\Exception\ValueNotAJsonObjectException;
 use Utils\JsonPayloadValidator\UseCase\CheckValueArray;
 
-class ValueArrayChecker implements CheckValueArray
+class ValueArrayChecker extends AbstractJsonChecker implements CheckValueArray
 {
     /**
      * @inheritDoc

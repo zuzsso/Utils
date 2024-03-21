@@ -9,7 +9,7 @@ use Utils\JsonPayloadValidator\Exception\InvalidBoolValueException;
 use Utils\JsonPayloadValidator\UseCase\CheckKeyBoolean;
 use Utils\JsonPayloadValidator\UseCase\CheckKeyPresence;
 
-class KeyBooleanChecker implements CheckKeyBoolean
+class KeyBooleanChecker extends AbstractJsonChecker implements CheckKeyBoolean
 {
     private CheckKeyPresence $checkPropertyPresence;
 

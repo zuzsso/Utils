@@ -9,7 +9,7 @@ use Utils\JsonPayloadValidator\Exception\EntryForbiddenException;
 use Utils\JsonPayloadValidator\Exception\EntryMissingException;
 use Utils\JsonPayloadValidator\UseCase\CheckKeyPresence;
 
-class KeyPresenceChecker implements CheckKeyPresence
+class KeyPresenceChecker extends AbstractJsonChecker implements CheckKeyPresence
 {
     /**
      * @inheritDoc

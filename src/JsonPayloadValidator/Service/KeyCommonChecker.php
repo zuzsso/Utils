@@ -9,7 +9,7 @@ use Utils\JsonPayloadValidator\Exception\ValueNotInListException;
 use Utils\JsonPayloadValidator\UseCase\CheckKeyCommon;
 use Utils\JsonPayloadValidator\UseCase\CheckKeyPresence;
 
-class KeyCommonChecker implements CheckKeyCommon
+class KeyCommonChecker extends AbstractJsonChecker implements CheckKeyCommon
 {
     private CheckKeyPresence $checkPropertyPresence;
 

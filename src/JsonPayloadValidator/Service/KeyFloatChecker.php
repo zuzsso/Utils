@@ -16,7 +16,7 @@ use Utils\JsonPayloadValidator\UseCase\CheckKeyFloat;
 use Utils\JsonPayloadValidator\UseCase\CheckKeyPresence;
 use Utils\Math\Numbers\UseCase\EqualFloats;
 
-class KeyFloatChecker implements CheckKeyFloat
+class KeyFloatChecker extends AbstractJsonChecker implements CheckKeyFloat
 {
     private CheckKeyPresence $checkPropertyPresence;
     private EqualFloats $equalFloats;

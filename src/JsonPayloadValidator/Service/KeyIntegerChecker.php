@@ -4,19 +4,16 @@ declare(strict_types=1);
 
 namespace Utils\JsonPayloadValidator\Service;
 
-use Utils\JsonPayloadValidator\Exception\EntryEmptyException;
 use Utils\JsonPayloadValidator\Exception\EntryForbiddenException;
-use Utils\JsonPayloadValidator\Exception\EntryMissingException;
 use Utils\JsonPayloadValidator\Exception\IncorrectParametrizationException;
 use Utils\JsonPayloadValidator\Exception\InvalidIntegerValueException;
-use Utils\JsonPayloadValidator\Exception\OptionalPropertyNotAnIntegerException;
 use Utils\JsonPayloadValidator\Exception\ValueNotEqualsToException;
 use Utils\JsonPayloadValidator\Exception\ValueTooBigException;
 use Utils\JsonPayloadValidator\Exception\ValueTooSmallException;
 use Utils\JsonPayloadValidator\UseCase\CheckKeyInteger;
 use Utils\JsonPayloadValidator\UseCase\CheckKeyPresence;
 
-class KeyIntegerChecker implements CheckKeyInteger
+class KeyIntegerChecker extends AbstractJsonChecker implements CheckKeyInteger
 {
     private CheckKeyPresence $checkPropertyPresence;
 
