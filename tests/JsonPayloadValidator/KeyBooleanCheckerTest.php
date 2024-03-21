@@ -11,7 +11,7 @@ use Utils\JsonPayloadValidator\Exception\InvalidBoolValueException;
 use Utils\JsonPayloadValidator\Service\KeyBooleanChecker;
 use Utils\JsonPayloadValidator\Service\KeyPresenceChecker;
 
-class PropertyBooleanCheckerTest extends TestCase
+class KeyBooleanCheckerTest extends TestCase
 {
     private KeyBooleanChecker $sut;
 

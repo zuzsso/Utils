@@ -10,7 +10,7 @@ use Utils\JsonPayloadValidator\Exception\EntryForbiddenException;
 use Utils\JsonPayloadValidator\Exception\EntryMissingException;
 use Utils\JsonPayloadValidator\Service\KeyPresenceChecker;
 
-class PropertyPresenceCheckerTest extends TestCase
+class KeyPresenceCheckerTest extends TestCase
 {
     private KeyPresenceChecker $sut;
 

@@ -11,7 +11,7 @@ use Utils\JsonPayloadValidator\Exception\ValueNotInListException;
 use Utils\JsonPayloadValidator\Service\KeyCommonChecker;
 use Utils\JsonPayloadValidator\Service\KeyPresenceChecker;
 
-class PropertyCommonCheckerTest extends TestCase
+class KeyCommonCheckerTest extends TestCase
 {
     private KeyCommonChecker $sut;
 

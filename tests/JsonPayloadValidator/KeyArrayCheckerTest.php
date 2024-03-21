@@ -16,7 +16,7 @@ use Utils\JsonPayloadValidator\Exception\ValueTooSmallException;
 use Utils\JsonPayloadValidator\Service\KeyArrayChecker;
 use Utils\JsonPayloadValidator\Service\KeyPresenceChecker;
 
-class PropertyArrayCheckerTest extends TestCase
+class KeyArrayCheckerTest extends TestCase
 {
     private KeyArrayChecker $sut;
 

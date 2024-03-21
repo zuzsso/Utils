@@ -17,7 +17,7 @@ use Utils\JsonPayloadValidator\Service\KeyFloatChecker;
 use Utils\JsonPayloadValidator\Service\KeyPresenceChecker;
 use Utils\Math\Numbers\Service\FloatsService;
 
-class PropertyFloatCheckerTest extends TestCase
+class KeyFloatCheckerTest extends TestCase
 {
     private KeyFloatChecker $sut;
 
