@@ -7,6 +7,7 @@ namespace Utils\Tests\JsonPayloadValidator;
 use PHPUnit\Framework\TestCase;
 use Utils\JsonPayloadValidator\Exception\EntryEmptyException;
 use Utils\JsonPayloadValidator\Exception\EntryMissingException;
+use Utils\JsonPayloadValidator\Exception\JsonPayloadValidatorUnmanagedException;
 use Utils\JsonPayloadValidator\Exception\ValueNotInListException;
 use Utils\JsonPayloadValidator\Service\KeyEnumChecker;
 use Utils\JsonPayloadValidator\Service\KeyPresenceChecker;
@@ -59,6 +60,7 @@ class KeyEnumCheckerTest extends TestCase
      * @throws EntryEmptyException
      * @throws EntryMissingException
      * @throws ValueNotInListException
+     * @throws JsonPayloadValidatorUnmanagedException
      */
     public function testShouldPassValidation(string $key, array $payload, array $validValues, bool $required): void
     {
@@ -108,6 +110,7 @@ class KeyEnumCheckerTest extends TestCase
      * @throws EntryEmptyException
      * @throws EntryMissingException
      * @throws ValueNotInListException
+     * @throws JsonPayloadValidatorUnmanagedException
      */
     public function testShouldFailValidation(
         string $key,

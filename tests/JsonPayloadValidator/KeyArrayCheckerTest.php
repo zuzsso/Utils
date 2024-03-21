@@ -300,6 +300,7 @@ class KeyArrayCheckerTest extends TestCase
      * @throws ValueNotAnArrayException
      * @throws ValueTooBigException
      * @throws ValueTooSmallException
+     * @throws RequiredArrayIsEmptyException
      */
     public function testShouldFailKeyArrayOfLengthRange(
         string $key,
@@ -349,6 +350,7 @@ class KeyArrayCheckerTest extends TestCase
      * @throws ValueNotAnArrayException
      * @throws ValueTooBigException
      * @throws ValueTooSmallException
+     * @throws RequiredArrayIsEmptyException
      */
     public function testShouldPassKeyArrayOfLengthRange(
         string $key,

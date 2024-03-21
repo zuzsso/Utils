@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Utils\JsonPayloadValidator\Service;
 
-use Utils\JsonPayloadValidator\Exception\IncorrectParametrizationException;
 use Utils\JsonPayloadValidator\Exception\OptionalPropertyNotAnArrayException;
 use Utils\JsonPayloadValidator\Exception\ValueArrayNotExactLengthException;
 use Utils\JsonPayloadValidator\Exception\EntryEmptyException;

@@ -9,7 +9,6 @@ use Utils\JsonPayloadValidator\Exception\EntryEmptyException;
 use Utils\JsonPayloadValidator\Exception\EntryMissingException;
 use Utils\JsonPayloadValidator\Exception\IncorrectParametrizationException;
 use Utils\JsonPayloadValidator\Exception\InvalidIntegerValueException;
-use Utils\JsonPayloadValidator\Exception\OptionalPropertyNotAnIntegerException;
 use Utils\JsonPayloadValidator\Exception\ValueNotEqualsToException;
 use Utils\JsonPayloadValidator\Exception\ValueTooBigException;
 use Utils\JsonPayloadValidator\Exception\ValueTooSmallException;
@@ -141,8 +140,10 @@ class KeyIntegerCheckerTest extends TestCase
 
     /**
      * @dataProvider shouldPassOptionalDataProvider
+     *
+     * @throws EntryEmptyException
+     * @throws EntryMissingException
      * @throws InvalidIntegerValueException
-     * @throws OptionalPropertyNotAnIntegerException
      */
     public function testShouldPassOptional(string $key, array $payload): void
     {
