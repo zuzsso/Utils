@@ -139,7 +139,7 @@ class KeyArrayChecker extends AbstractJsonChecker implements CheckKeyArray
     /**
      * @inheritDoc
      */
-    public function keyArrayOfLength(string $key, array $payload, int $length, bool $required = true): self
+    public function keyArrayOfExactLength(string $key, array $payload, int $length, bool $required = true): self
     {
         if ($length <= 0) {
             throw new IncorrectParametrizationException('Min required length is 1');
