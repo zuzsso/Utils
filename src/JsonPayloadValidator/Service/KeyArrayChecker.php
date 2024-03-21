@@ -113,12 +113,8 @@ class KeyArrayChecker extends AbstractJsonChecker implements CheckKeyArray
     /**
      * @inheritDoc
      */
-    public function keyArrayOfExactLength(string $key, array $payload, int $length, bool $required = true): self
+    public function keyArrayOfExactLength(string $key, array $payload, int $expectedLength, bool $required = true): self
     {
-        if ($length <= 0) {
-            throw new IncorrectParametrizationException('Min required length is 1');
-        }
-
         if (!$required) {
             try {
                 $this->checkPropertyPresence->forbidden($key, $payload);
@@ -131,12 +127,11 @@ class KeyArrayChecker extends AbstractJsonChecker implements CheckKeyArray
 
         $value = $payload[$key];
 
-        $count = count($value);
-
-        if ($count !== $length) {
-            throw ValueArrayNotExactLengthException::constructForKeyArray($key, $length, $count);
+        try {
+            $this->checkValueArray->arrayOfExactLength($value, $expectedLength);
+        } catch (ValueArrayNotExactLengthException $e) {
+            throw ValueArrayNotExactLengthException::constructForKeyArray($key, $expectedLength, count($value));
         }
-
         return $this;
     }
 
@@ -163,7 +158,7 @@ class KeyArrayChecker extends AbstractJsonChecker implements CheckKeyArray
         $this->requiredKey($key, $payload);
 
         try {
-            $this->checkValueArray->keyArrayOfLengthRange($payload[$key], $minLength, $maxLength);
+            $this->checkValueArray->arrayOfLengthRange($payload[$key], $minLength, $maxLength);
         } catch (ValueTooBigException $e) {
             throw ValueTooBigException::constructForKeyArrayLength($key, $maxLength, count($payload[$key]));
         } catch (ValueTooSmallException $e) {

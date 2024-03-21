@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace Utils\JsonPayloadValidator\Service;
 
+use Utils\JsonPayloadValidator\Exception\IncorrectParametrizationException;
 use Utils\JsonPayloadValidator\Exception\RequiredArrayIsEmptyException;
+use Utils\JsonPayloadValidator\Exception\ValueArrayNotExactLengthException;
 use Utils\JsonPayloadValidator\Exception\ValueNotAJsonObjectException;
 use Utils\JsonPayloadValidator\Exception\ValueTooBigException;
 use Utils\JsonPayloadValidator\Exception\ValueTooSmallException;
@@ -41,7 +43,7 @@ class ValueArrayChecker extends AbstractJsonChecker implements CheckValueArray
     /**
      * @inheritDoc
      */
-    public function keyArrayOfLengthRange(
+    public function arrayOfLengthRange(
         array $payload,
         ?int $minLength,
         ?int $maxLength
@@ -56,6 +58,24 @@ class ValueArrayChecker extends AbstractJsonChecker implements CheckValueArray
 
         if (($maxLength !== null) && ($count > $maxLength)) {
             throw ValueTooBigException::constructForValueArrayLength($maxLength, $count);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function arrayOfExactLength(array $payload, int $expectedLength): CheckValueArray
+    {
+        if ($expectedLength <= 0) {
+            throw new IncorrectParametrizationException('Min required length is 1');
+        }
+
+        $count = count($payload);
+
+        if ($count !== $expectedLength) {
+            throw ValueArrayNotExactLengthException::constructForValueArray($expectedLength, $count);
         }
 
         return $this;

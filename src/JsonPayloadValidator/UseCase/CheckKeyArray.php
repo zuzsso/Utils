@@ -66,5 +66,5 @@ interface CheckKeyArray
      * @throws ValueArrayNotExactLengthException
      * @throws ValueNotAnArrayException
      */
-    public function keyArrayOfExactLength(string $key, array $payload, int $length, bool $required = true): self;
+    public function keyArrayOfExactLength(string $key, array $payload, int $expectedLength, bool $required = true): self;
 }

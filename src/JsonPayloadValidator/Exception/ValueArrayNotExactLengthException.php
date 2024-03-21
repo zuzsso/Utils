@@ -12,4 +12,11 @@ class ValueArrayNotExactLengthException extends AbstractMalformedRequestBody
             "The key '$key' is expected to be an array of exact length of $expectedLength, but it is $actualLength"
         );
     }
+
+    public static function constructForValueArray(int $expectedLength, int $actualLength): self
+    {
+        return new self(
+            "Value is expected to be an array of exact length of $expectedLength, but it is $actualLength"
+        );
+    }
 }
