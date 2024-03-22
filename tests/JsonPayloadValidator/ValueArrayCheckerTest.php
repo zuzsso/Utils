@@ -132,4 +132,32 @@ class ValueArrayCheckerTest extends TestCase
 
         $this->sut->arrayOfLengthRange($payload, $minLength, $maxLength);
     }
+
+    public function shouldPassArrayOfLengthRangeDataProvider(): array
+    {
+        return [
+            [[[]], 1, null],
+            [[[], []], 1, null],
+
+            [[[]], null, 3],
+            [[[], []], null, 3],
+            [[[], [], []], null, 3],
+
+            [[[]], 1, 3],
+            [[[], []], 1, 3],
+            [[[], [], []], 1, 3],
+        ];
+    }
+
+    /**
+     * @dataProvider shouldPassArrayOfLengthRangeDataProvider
+     * @throws IncorrectParametrizationException
+     * @throws ValueTooBigException
+     * @throws ValueTooSmallException
+     */
+    public function testShouldPassArrayOfLengthRange(array $payload, ?int $minLength, ?int $maxLength): void
+    {
+        $this->sut->arrayOfLengthRange($payload, $minLength, $maxLength);
+        $this->expectNotToPerformAssertions();
+    }
 }
