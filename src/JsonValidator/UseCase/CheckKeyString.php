@@ -14,6 +14,8 @@ use Utils\JsonValidator\Exception\ValueNotAStringException;
 use Utils\JsonValidator\Exception\ValueStringNotExactLengthException;
 use Utils\JsonValidator\Exception\ValueTooBigException;
 use Utils\JsonValidator\Exception\ValueTooSmallException;
+use Utils\JsonValidator\Types\Range\AbstractIntegerRange;
+use Utils\JsonValidator\Types\Range\StringByteLengthRange;
 
 interface CheckKeyString
 {
@@ -40,8 +42,7 @@ interface CheckKeyString
     public function byteLengthRange(
         string $key,
         array $payload,
-        ?int $minimumLength,
-        ?int $maximumLength,
+        StringByteLengthRange $byteLengthRange,
         bool $required = true
     ): self;
 

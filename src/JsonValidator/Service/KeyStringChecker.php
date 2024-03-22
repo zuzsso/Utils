@@ -16,6 +16,7 @@ use Utils\JsonValidator\Exception\ValueNotAStringException;
 use Utils\JsonValidator\Exception\ValueStringNotExactLengthException;
 use Utils\JsonValidator\Exception\ValueTooBigException;
 use Utils\JsonValidator\Exception\ValueTooSmallException;
+use Utils\JsonValidator\Types\Range\StringByteLengthRange;
 use Utils\JsonValidator\UseCase\CheckKeyPresence;
 use Utils\JsonValidator\UseCase\CheckKeyString;
 
@@ -69,49 +70,9 @@ class KeyStringChecker extends AbstractJsonChecker implements CheckKeyString
     public function byteLengthRange(
         string $key,
         array $payload,
-        ?int $minimumLength,
-        ?int $maximumLength,
+        StringByteLengthRange $byteLengthRange,
         bool $required = true
     ): CheckKeyString {
-
-        if (($minimumLength === null) && ($maximumLength === null)) {
-            throw new IncorrectParametrizationException('No range defined');
-        }
-
-        if ($minimumLength !== null) {
-            if ($minimumLength < 0) {
-                throw new IncorrectParametrizationException(
-                    "Negative lengths not allowed, but you specified a minimum length of '$minimumLength'"
-                );
-            }
-
-            if ($minimumLength === 0) {
-                throw new IncorrectParametrizationException(
-                    "Zero lengths would require the 'optional' validator. Please correct the minimum length"
-                );
-            }
-        }
-
-        if ($maximumLength !== null) {
-            if ($maximumLength < 0) {
-                throw new IncorrectParametrizationException(
-                    "Negative lengths not allowed, but you specified a maximum length of '$maximumLength'"
-                );
-            }
-
-            if ($maximumLength === 0) {
-                throw new IncorrectParametrizationException(
-                    "Zero lengths would require the 'optional' validator. Please correct the maximum length"
-                );
-            }
-        }
-
-        if (($minimumLength !== null) && ($maximumLength !== null) && ($minimumLength >= $maximumLength)) {
-            throw new IncorrectParametrizationException(
-                "Minimum length cannot be greater or equals than maximum length"
-            );
-        }
-
         if (!$required) {
             try {
                 $this->checkPropertyPresence->forbidden($key, $payload);
@@ -126,6 +87,9 @@ class KeyStringChecker extends AbstractJsonChecker implements CheckKeyString
         $trim = trim($payload[$key]);
 
         $length = strlen($trim);
+
+        $maximumLength = $byteLengthRange->getMax();
+        $minimumLength = $byteLengthRange->getMin();
 
         if (($minimumLength !== null) && ($length < $minimumLength)) {
             throw ValueTooSmallException::constructForStringLength($key, $minimumLength, $length);

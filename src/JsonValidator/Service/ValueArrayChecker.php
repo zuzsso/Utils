@@ -10,6 +10,7 @@ use Utils\JsonValidator\Exception\ValueArrayNotExactLengthException;
 use Utils\JsonValidator\Exception\ValueNotAJsonObjectException;
 use Utils\JsonValidator\Exception\ValueTooBigException;
 use Utils\JsonValidator\Exception\ValueTooSmallException;
+use Utils\JsonValidator\Types\Range\ArrayLengthRange;
 use Utils\JsonValidator\UseCase\CheckValueArray;
 
 class ValueArrayChecker extends AbstractJsonChecker implements CheckValueArray
@@ -45,14 +46,15 @@ class ValueArrayChecker extends AbstractJsonChecker implements CheckValueArray
      */
     public function arrayOfLengthRange(
         array $payload,
-        ?int $minLength,
-        ?int $maxLength
+        ArrayLengthRange $lengthRange
     ): CheckValueArray {
-        $this->checkRanges($minLength, $maxLength);
 
         $count = count($payload);
 
         $this->checkAllKeysAreNumericAndNoGaps($payload);
+
+        $minLength = $lengthRange->getMin();
+        $maxLength = $lengthRange->getMax();
 
         if (($minLength !== null) && ($count < $minLength)) {
             throw ValueTooSmallException::constructForValueArray($minLength, $count);

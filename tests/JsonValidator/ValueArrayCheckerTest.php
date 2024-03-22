@@ -13,6 +13,7 @@ use Utils\JsonValidator\Exception\ValueNotAnArrayException;
 use Utils\JsonValidator\Exception\ValueTooBigException;
 use Utils\JsonValidator\Exception\ValueTooSmallException;
 use Utils\JsonValidator\Service\ValueArrayChecker;
+use Utils\JsonValidator\Types\Range\ArrayLengthRange;
 
 class ValueArrayCheckerTest extends TestCase
 {
@@ -95,9 +96,9 @@ class ValueArrayCheckerTest extends TestCase
     public function shouldFailArrayOfLengthRangeDataProvider(): array
     {
         $m1 = "No range given";
-        $m2 = "Zero or negative range is not allowed as min count";
+        $m2 = "Zero or negative range is not allowed as min value. Given: 0.";
         $m3 = "Values < 1 are not allowed as max count.";
-        $m4 = "Range not correctly defined. minCount should be < than max count, strictly";
+        $m4 = "Range not correctly defined. min should be < than max, strictly";
         $m5 = "Value is meant to be an array of minimum length of 2, but it is 1";
         $m6 = "Value is meant to be an array of maximum length of 1, but it is 2";
         $m7 = "Value is meant to be an array of maximum length of 2, but it is 3";
@@ -134,7 +135,8 @@ class ValueArrayCheckerTest extends TestCase
         $this->expectException($expectedException);
         $this->expectExceptionMessage($expectedExceptionMessage);
 
-        $this->sut->arrayOfLengthRange($payload, $minLength, $maxLength);
+        $range = new ArrayLengthRange($minLength, $maxLength);
+        $this->sut->arrayOfLengthRange($payload, $range);
     }
 
     public function shouldPassArrayOfLengthRangeDataProvider(): array
@@ -162,7 +164,8 @@ class ValueArrayCheckerTest extends TestCase
      */
     public function testShouldPassArrayOfLengthRange(array $payload, ?int $minLength, ?int $maxLength): void
     {
-        $this->sut->arrayOfLengthRange($payload, $minLength, $maxLength);
+        $range = new ArrayLengthRange($minLength, $maxLength);
+        $this->sut->arrayOfLengthRange($payload, $range);
         $this->expectNotToPerformAssertions();
     }
 

@@ -11,6 +11,8 @@ use Utils\JsonValidator\Exception\InvalidIntegerValueException;
 use Utils\JsonValidator\Exception\ValueNotEqualsToException;
 use Utils\JsonValidator\Exception\ValueTooBigException;
 use Utils\JsonValidator\Exception\ValueTooSmallException;
+use Utils\JsonValidator\Types\Range\AbstractIntegerRange;
+use Utils\JsonValidator\Types\Range\IntValueRange;
 
 interface CheckKeyInteger
 {
@@ -39,8 +41,7 @@ interface CheckKeyInteger
     public function withinRange(
         string $key,
         array $payload,
-        ?int $minValue,
-        ?int $maxValue,
+        IntValueRange $range,
         bool $required = true
     ): self;
 

@@ -13,6 +13,8 @@ use Utils\JsonValidator\Exception\ValueArrayNotExactLengthException;
 use Utils\JsonValidator\Exception\ValueNotAnArrayException;
 use Utils\JsonValidator\Exception\ValueTooBigException;
 use Utils\JsonValidator\Exception\ValueTooSmallException;
+use Utils\JsonValidator\Types\Range\AbstractIntegerRange;
+use Utils\JsonValidator\Types\Range\ArrayLengthRange;
 use Utils\JsonValidator\UseCase\CheckKeyArray;
 use Utils\JsonValidator\UseCase\CheckKeyPresence;
 use Utils\JsonValidator\UseCase\CheckValueArray;
@@ -140,12 +142,9 @@ class KeyArrayChecker extends AbstractJsonChecker implements CheckKeyArray
     public function keyArrayOfLengthRange(
         string $key,
         array $payload,
-        ?int $minLength,
-        ?int $maxLength,
+        ArrayLengthRange $lengthRange,
         bool $required = true
     ): self {
-        $this->checkRanges($minLength, $maxLength);
-
         if ($required === false) {
             try {
                 $this->checkPropertyPresence->forbidden($key, $payload);
@@ -157,11 +156,11 @@ class KeyArrayChecker extends AbstractJsonChecker implements CheckKeyArray
         $this->requiredKey($key, $payload);
 
         try {
-            $this->checkValueArray->arrayOfLengthRange($payload[$key], $minLength, $maxLength);
+            $this->checkValueArray->arrayOfLengthRange($payload[$key], $lengthRange);
         } catch (ValueTooBigException $e) {
-            throw ValueTooBigException::constructForKeyArrayLength($key, $maxLength, count($payload[$key]));
+            throw ValueTooBigException::constructForKeyArrayLength($key, $lengthRange->getMax(), count($payload[$key]));
         } catch (ValueTooSmallException $e) {
-            throw ValueTooSmallException::constructForKeyArray($key, $minLength, count($payload[$key]));
+            throw ValueTooSmallException::constructForKeyArray($key, $lengthRange->getMin(), count($payload[$key]));
         }
 
         return $this;

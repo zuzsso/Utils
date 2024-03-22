@@ -12,6 +12,7 @@ use Utils\JsonValidator\Exception\ValueNotAFloatException;
 use Utils\JsonValidator\Exception\ValueNotEqualsToException;
 use Utils\JsonValidator\Exception\ValueTooBigException;
 use Utils\JsonValidator\Exception\ValueTooSmallException;
+use Utils\JsonValidator\Types\Range\FloatRange;
 
 interface CheckKeyFloat
 {
@@ -38,8 +39,7 @@ interface CheckKeyFloat
     public function withinRange(
         string $key,
         array $payload,
-        ?float $minValue,
-        ?float $maxValue,
+        FloatRange $range,
         bool $required = true
     ): self;
 

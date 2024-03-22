@@ -11,6 +11,7 @@ use Utils\JsonValidator\Exception\ValueNotAJsonObjectException;
 use Utils\JsonValidator\Exception\ValueNotAnArrayException;
 use Utils\JsonValidator\Exception\ValueTooBigException;
 use Utils\JsonValidator\Exception\ValueTooSmallException;
+use Utils\JsonValidator\Types\Range\ArrayLengthRange;
 
 interface CheckValueArray
 {
@@ -29,8 +30,7 @@ interface CheckValueArray
      */
     public function arrayOfLengthRange(
         array $payload,
-        ?int $minLength,
-        ?int $maxLength
+        ArrayLengthRange $lengthRange
     ): self;
 
     /**

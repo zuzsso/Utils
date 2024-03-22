@@ -15,15 +15,21 @@ use Utils\JsonValidator\Exception\ValueTooBigException;
 use Utils\JsonValidator\Exception\ValueTooSmallException;
 use Utils\JsonValidator\Service\KeyFloatChecker;
 use Utils\JsonValidator\Service\KeyPresenceChecker;
+use Utils\JsonValidator\Types\Range\FloatRange;
 use Utils\Math\Numbers\Service\FloatsService;
+use Utils\Math\Numbers\UseCase\EqualFloats;
 
 class KeyFloatCheckerTest extends TestCase
 {
     private KeyFloatChecker $sut;
+    private EqualFloats $equalFloats;
 
     public function setUp(): void
     {
         parent::setUp();
+
+        $this->equalFloats = new FloatsService();
+
         $this->sut = new KeyFloatChecker(
             new KeyPresenceChecker(),
             new FloatsService()
@@ -222,7 +228,8 @@ class KeyFloatCheckerTest extends TestCase
         $this->expectException($expectedException);
         $this->expectExceptionMessage($expectedExceptionMessage);
 
-        $this->sut->withinRange($key, $payload, $minValue, $maxValue, $required);
+        $range = new FloatRange($this->equalFloats, $minValue, $maxValue);
+        $this->sut->withinRange($key, $payload, $range, $required);
     }
 
     public function shouldPassWithinRangeDataProvider(): array
@@ -270,7 +277,8 @@ class KeyFloatCheckerTest extends TestCase
         ?float $maxVal,
         bool $required
     ): void {
-        $this->sut->withinRange($key, $payload, $minVal, $maxVal, $required);
+        $range = new FloatRange($this->equalFloats, $minVal, $maxVal);
+        $this->sut->withinRange($key, $payload, $range, $required);
         $this->expectNotToPerformAssertions();
     }
 

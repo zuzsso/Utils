@@ -14,6 +14,8 @@ use Utils\JsonValidator\Exception\ValueNotAJsonObjectException;
 use Utils\JsonValidator\Exception\ValueNotAnArrayException;
 use Utils\JsonValidator\Exception\ValueTooBigException;
 use Utils\JsonValidator\Exception\ValueTooSmallException;
+use Utils\JsonValidator\Types\Range\AbstractIntegerRange;
+use Utils\JsonValidator\Types\Range\ArrayLengthRange;
 
 interface CheckKeyArray
 {
@@ -53,8 +55,7 @@ interface CheckKeyArray
     public function keyArrayOfLengthRange(
         string $key,
         array $payload,
-        ?int $minLength,
-        ?int $maxLength,
+        ArrayLengthRange $lengthRange,
         bool $required = true
     ): self;
 

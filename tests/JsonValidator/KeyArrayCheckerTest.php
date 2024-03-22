@@ -17,6 +17,7 @@ use Utils\JsonValidator\Exception\ValueTooSmallException;
 use Utils\JsonValidator\Service\KeyArrayChecker;
 use Utils\JsonValidator\Service\KeyPresenceChecker;
 use Utils\JsonValidator\Service\ValueArrayChecker;
+use Utils\JsonValidator\Types\Range\ArrayLengthRange;
 
 class KeyArrayCheckerTest extends TestCase
 {
@@ -254,14 +255,15 @@ class KeyArrayCheckerTest extends TestCase
         $key = 'myKey';
 
         $m1 = "No range given";
-        $m2 = "Range not correctly defined. minCount should be < than max count, strictly";
-        $m3 = "Zero or negative range is not allowed as min count.";
+        $m2 = "Range not correctly defined. min should be < than max, strictly";
+        $m3 = "Zero or negative range is not allowed as min value. Given: -1.";
         $m4 = "Values < 1 are not allowed as max count.";
         $m5 = "Entry 'myKey' missing";
         $m6 = "Entry 'myKey' empty";
         $m7 = "Entry 'myKey' is expected to be an array";
         $m8 = "Entry 'myKey' is meant to be an array of minimum length of 3, but it is 2";
         $m9 = "Entry 'myKey' is meant to be an array of maximum length of 2, but it is 3";
+        $ma = "Zero or negative range is not allowed as min value. Given: 0.";
 
         $fixtedTests = [
             [$key, [], 1, null, true, EntryMissingException::class, $m5],
@@ -277,7 +279,7 @@ class KeyArrayCheckerTest extends TestCase
             $variableTests[] = [$key, [], 2, 1, $v, IncorrectParametrizationException::class, $m2];
             $variableTests[] = [$key, [], 2, 2, $v, IncorrectParametrizationException::class, $m2];
             $variableTests[] = [$key, [], -1, 2, $v, IncorrectParametrizationException::class, $m3];
-            $variableTests[] = [$key, [], 0, 2, $v, IncorrectParametrizationException::class, $m3];
+            $variableTests[] = [$key, [], 0, 2, $v, IncorrectParametrizationException::class, $ma];
             $variableTests[] = [$key, [], null, 0, $v, IncorrectParametrizationException::class, $m4];
             $variableTests[] = [$key, [$key => ''], 1, 3, $v, EntryEmptyException::class, $m6];
             $variableTests[] = [$key, [$key => 'blah'], 1, 3, $v, ValueNotAnArrayException::class, $m7];
@@ -313,7 +315,8 @@ class KeyArrayCheckerTest extends TestCase
     ): void {
         $this->expectException($expectedException);
         $this->expectExceptionMessage($expectedExceptionMessage);
-        $this->sut->keyArrayOfLengthRange($key, $payload, $minCount, $maxCount, $required);
+        $range = new ArrayLengthRange($minCount, $maxCount);
+        $this->sut->keyArrayOfLengthRange($key, $payload, $range, $required);
     }
 
     public function shouldPassKeyArrayOfLengthRangeDataProvider(): array
@@ -359,7 +362,8 @@ class KeyArrayCheckerTest extends TestCase
         ?int $maxCount,
         $required
     ): void {
-        $this->sut->keyArrayOfLengthRange($key, $payload, $minCount, $maxCount, $required);
+        $lenghRange = new ArrayLengthRange($minCount, $maxCount);
+        $this->sut->keyArrayOfLengthRange($key, $payload, $lenghRange, $required);
         $this->expectNotToPerformAssertions();
     }
 }

@@ -6,12 +6,12 @@ namespace Utils\JsonValidator\Service;
 
 use Throwable;
 use Utils\JsonValidator\Exception\EntryForbiddenException;
-use Utils\JsonValidator\Exception\IncorrectParametrizationException;
 use Utils\JsonValidator\Exception\OptionalPropertyNotAFloatException;
 use Utils\JsonValidator\Exception\ValueNotAFloatException;
 use Utils\JsonValidator\Exception\ValueNotEqualsToException;
 use Utils\JsonValidator\Exception\ValueTooBigException;
 use Utils\JsonValidator\Exception\ValueTooSmallException;
+use Utils\JsonValidator\Types\Range\FloatRange;
 use Utils\JsonValidator\UseCase\CheckKeyFloat;
 use Utils\JsonValidator\UseCase\CheckKeyPresence;
 use Utils\Math\Numbers\UseCase\EqualFloats;
@@ -83,24 +83,9 @@ class KeyFloatChecker extends AbstractJsonChecker implements CheckKeyFloat
     public function withinRange(
         string $key,
         array $payload,
-        ?float $minValue,
-        ?float $maxValue,
+        FloatRange $range,
         bool $required = true
     ): self {
-        if (($minValue === null) && ($maxValue === null)) {
-            throw new IncorrectParametrizationException(
-                "No range defined. You may want to use the 'required' function"
-            );
-        }
-
-        if (($minValue !== null) && ($maxValue !== null)) {
-            $equals = $this->equalFloats->equalFloats($minValue, $maxValue);
-            $greaterThan = $minValue > $maxValue;
-            if ($equals || $greaterThan) {
-                throw new IncorrectParametrizationException("Min value cannot be equal or greater than max value");
-            }
-        }
-
         if (!$required) {
             try {
                 $this->checkPropertyPresence->forbidden($key, $payload);
@@ -112,6 +97,9 @@ class KeyFloatChecker extends AbstractJsonChecker implements CheckKeyFloat
         $this->required($key, $payload);
 
         $value = (float)$payload[$key];
+
+        $minValue = $range->getMin();
+        $maxValue = $range->getMax();
 
         if ($minValue !== null) {
             $equals = $this->equalFloats->equalFloats($minValue, $value);

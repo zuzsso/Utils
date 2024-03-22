@@ -17,6 +17,7 @@ use Utils\JsonValidator\Exception\ValueTooBigException;
 use Utils\JsonValidator\Exception\ValueTooSmallException;
 use Utils\JsonValidator\Service\KeyPresenceChecker;
 use Utils\JsonValidator\Service\KeyStringChecker;
+use Utils\JsonValidator\Types\Range\StringByteLengthRange;
 
 class KeyStringCheckerTest extends TestCase
 {
@@ -141,17 +142,17 @@ class KeyStringCheckerTest extends TestCase
     {
         $key = 'myKey';
 
-        $m1 = "Negative lengths not allowed, but you specified a minimum length of '-1'";
-        $m2 = "Negative lengths not allowed, but you specified a maximum length of '-1'";
-        $m3 = "Minimum length cannot be greater or equals than maximum length";
+        $m1 = "Zero or negative range is not allowed as min value. Given: -1.";
+        $m2 = "Values < 1 are not allowed as max count. Given: -1";
+        $m3 = "Range not correctly defined. min should be < than max, strictly";
         $m4 = "Entry 'myKey' is expected to be at least 2 bytes long, but it is 1";
         $m5 = "Entry 'myKey' is expected to be 3 bytes long maximum, but it is 4";
         $m6 = "Entry 'myKey' empty";
         $m7 = "The entry 'myKey' is not a string";
         $m8 = "Entry 'myKey' is expected to be 2 bytes long maximum, but it is 3";
-        $m9 = "Zero lengths would require the 'optional' validator. Please correct the minimum length";
-        $ma = "Zero lengths would require the 'optional' validator. Please correct the maximum length";
-        $mb = "No range defined";
+        $m9 = "Zero or negative range is not allowed as min value. Given: 0.";
+        $ma = "Values < 1 are not allowed as max count. Given: 0";
+        $mb = "No range given";
 
         $fixedTests = [
             // These errors are about failure to configure the validator. They are not related to failed validation
@@ -216,7 +217,8 @@ class KeyStringCheckerTest extends TestCase
         $this->expectException($expectedException);
         $this->expectExceptionMessage($expectedExceptionMessage);
 
-        $this->sut->byteLengthRange($key, $payload, $minLength, $maximumLength, $required);
+        $range = new StringByteLengthRange($minLength, $maximumLength);
+        $this->sut->byteLengthRange($key, $payload, $range, $required);
     }
 
     public function shouldPassByteLengthRangeDataProvider(): array
@@ -259,7 +261,8 @@ class KeyStringCheckerTest extends TestCase
         ?int $maximumLength,
         bool $required
     ): void {
-        $this->sut->byteLengthRange($key, $payload, $minLength, $maximumLength, $required);
+        $range = new StringByteLengthRange($minLength, $maximumLength);
+        $this->sut->byteLengthRange($key, $payload, $range, $required);
         $this->expectNotToPerformAssertions();
     }
 

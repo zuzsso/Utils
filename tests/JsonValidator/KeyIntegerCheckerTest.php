@@ -14,6 +14,7 @@ use Utils\JsonValidator\Exception\ValueTooBigException;
 use Utils\JsonValidator\Exception\ValueTooSmallException;
 use Utils\JsonValidator\Service\KeyIntegerChecker;
 use Utils\JsonValidator\Service\KeyPresenceChecker;
+use Utils\JsonValidator\Types\Range\IntValueRange;
 
 class KeyIntegerCheckerTest extends TestCase
 {
@@ -155,13 +156,13 @@ class KeyIntegerCheckerTest extends TestCase
     {
         $key = 'myKey';
 
-        $m1 = "Min value cannot be greater or equal than max value";
+        $m1 = "Range not correctly defined. min should be < than max, strictly";
         $m2 = "Entry 'myKey' missing";
         $m3 = "Entry 'myKey' empty";
         $m4 = "Entry 'myKey' is meant to be equals or greater than '3': '2'";
         $m5 = "Entry 'myKey' does not hold a valid int value";
         $m6 = "Entry 'myKey' is meant to be equals or less than '5': '6'";
-        $m7 = "No range defined";
+        $m7 = "No range given";
 
         $fixedTests = [
             [$key, [], 1, null, true, EntryMissingException::class, $m2],
@@ -214,7 +215,9 @@ class KeyIntegerCheckerTest extends TestCase
         $this->expectException($expectedException);
         $this->expectExceptionMessage($expectedExceptionMessage);
 
-        $this->sut->withinRange($key, $payload, $minValue, $maxValue, $required);
+        $range = new IntValueRange($minValue, $maxValue);
+
+        $this->sut->withinRange($key, $payload, $range, $required);
     }
 
     public function shouldPassWithinRangeDataProvider(): array
@@ -262,7 +265,8 @@ class KeyIntegerCheckerTest extends TestCase
         ?int $maxValue,
         bool $required
     ): void {
-        $this->sut->withinRange($key, $payload, $minValue, $maxValue, $required);
+        $range = new IntValueRange($minValue, $maxValue);
+        $this->sut->withinRange($key, $payload, $range, $required);
         $this->expectNotToPerformAssertions();
     }
 

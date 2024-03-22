@@ -5,11 +5,12 @@ declare(strict_types=1);
 namespace Utils\JsonValidator\Service;
 
 use Utils\JsonValidator\Exception\EntryForbiddenException;
-use Utils\JsonValidator\Exception\IncorrectParametrizationException;
 use Utils\JsonValidator\Exception\InvalidIntegerValueException;
 use Utils\JsonValidator\Exception\ValueNotEqualsToException;
 use Utils\JsonValidator\Exception\ValueTooBigException;
 use Utils\JsonValidator\Exception\ValueTooSmallException;
+use Utils\JsonValidator\Types\Range\AbstractIntegerRange;
+use Utils\JsonValidator\Types\Range\IntValueRange;
 use Utils\JsonValidator\UseCase\CheckKeyInteger;
 use Utils\JsonValidator\UseCase\CheckKeyPresence;
 
@@ -74,17 +75,12 @@ class KeyIntegerChecker extends AbstractJsonChecker implements CheckKeyInteger
     public function withinRange(
         string $key,
         array $payload,
-        ?int $minValue,
-        ?int $maxValue,
+        IntValueRange $range,
         bool $required = true
     ): self {
 
-        if (($minValue === null) && ($maxValue === null)) {
-            throw new IncorrectParametrizationException("No range defined");
-        }
-        if (($minValue !== null) && ($maxValue !== null) && ($minValue >= $maxValue)) {
-            throw new IncorrectParametrizationException("Min value cannot be greater or equal than max value");
-        }
+        $minValue = $range->getMin();
+        $maxValue = $range->getMax();
 
         if (!$required) {
             try {
