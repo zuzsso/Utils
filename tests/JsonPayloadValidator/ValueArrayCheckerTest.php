@@ -113,7 +113,7 @@ class ValueArrayCheckerTest extends TestCase
             [[[]], 2, 3, ValueTooSmallException::class, $m5],
             [[[], []], null, 1, ValueTooBigException::class, $m6],
             [[[], [], []], 1, 2, ValueTooBigException::class, $m7],
-            [["a" => []], 1, null,ValueNotAnArrayException::class, $m8],
+            [["a" => []], 1, null, ValueNotAnArrayException::class, $m8],
         ];
     }
 
@@ -194,5 +194,26 @@ class ValueArrayCheckerTest extends TestCase
         $this->expectException($expectedException);
         $this->expectExceptionMessage($expectedExceptionMessage);
         $this->sut->arrayOfExactLength($payload, $expectedLength);
+    }
+
+    public function shouldPassArrayOfExactLengthDataProvider(): array
+    {
+        return [
+            [["a", "b"], 2],
+            [[[], [], []], 3],
+            [[[], true, false, 1, 2, 1.3, 'Blah'], 7],
+        ];
+    }
+
+    /**
+     * @dataProvider shouldPassArrayOfExactLengthDataProvider
+     * @throws IncorrectParametrizationException
+     * @throws ValueArrayNotExactLengthException
+     * @throws ValueNotAnArrayException
+     */
+    public function testShouldPassArrayOfExactLength(array $payload, int $expectedLength): void
+    {
+        $this->sut->arrayOfExactLength($payload, $expectedLength);
+        $this->expectNotToPerformAssertions();
     }
 }
