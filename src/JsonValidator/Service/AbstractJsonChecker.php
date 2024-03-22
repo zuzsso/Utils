@@ -53,28 +53,28 @@ abstract class AbstractJsonChecker
         }
     }
 
-//    /**
-//     * @throws IncorrectParametrizationException
-//     */
-//    protected function checkRanges(?int $minLength, ?int $maxLength): void
-//    {
-//        if (($minLength === null) && ($maxLength === null)) {
-//            throw new IncorrectParametrizationException('No range given');
-//        }
-//
-//        if (($minLength !== null) && ($maxLength !== null) && ($minLength >= $maxLength)) {
-//            throw new IncorrectParametrizationException(
-//                'Range not correctly defined. minCount should be < than max count, strictly'
-//            );
-//        }
-//
-//        if ($minLength !== null && $minLength < 1) {
-//            throw new IncorrectParametrizationException("Zero or negative range is not allowed as min count.");
-//        }
-//
-//        if (($maxLength !== null) && ($maxLength < 1)) {
-//            // Similar reasoning as before.
-//            throw new IncorrectParametrizationException("Values < 1 are not allowed as max count.");
-//        }
-//    }
+    //    /**
+    //     * @throws IncorrectParametrizationException
+    //     */
+    //    protected function checkRanges(?int $minLength, ?int $maxLength): void
+    //    {
+    //        if (($minLength === null) && ($maxLength === null)) {
+    //            throw new IncorrectParametrizationException('No range given');
+    //        }
+    //
+    //        if (($minLength !== null) && ($maxLength !== null) && ($minLength >= $maxLength)) {
+    //            throw new IncorrectParametrizationException(
+    //                'Range not correctly defined. minCount should be < than max count, strictly'
+    //            );
+    //        }
+    //
+    //        if ($minLength !== null && $minLength < 1) {
+    //            throw new IncorrectParametrizationException("Zero or negative range is not allowed as min count.");
+    //        }
+    //
+    //        if (($maxLength !== null) && ($maxLength < 1)) {
+    //            // Similar reasoning as before.
+    //            throw new IncorrectParametrizationException("Values < 1 are not allowed as max count.");
+    //        }
+    //    }
 }

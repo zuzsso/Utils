@@ -6,5 +6,4 @@ namespace Utils\JsonValidator\Types\Range;
 
 class ArrayLengthRange extends StringByteLengthRange
 {
-
 }
