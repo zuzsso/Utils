@@ -52,6 +52,8 @@ class ValueArrayChecker extends AbstractJsonChecker implements CheckValueArray
 
         $count = count($payload);
 
+        $this->checkAllKeysAreNumericAndNoGaps($payload);
+
         if (($minLength !== null) && ($count < $minLength)) {
             throw ValueTooSmallException::constructForValueArray($minLength, $count);
         }
@@ -71,6 +73,8 @@ class ValueArrayChecker extends AbstractJsonChecker implements CheckValueArray
         if ($expectedLength <= 0) {
             throw new IncorrectParametrizationException('Min required length is 1');
         }
+
+        $this->checkAllKeysAreNumericAndNoGaps($payload);
 
         $count = count($payload);
 

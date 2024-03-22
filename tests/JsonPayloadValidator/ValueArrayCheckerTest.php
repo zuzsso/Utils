@@ -7,6 +7,7 @@ namespace Utils\Tests\JsonPayloadValidator;
 use PHPUnit\Framework\TestCase;
 use Utils\JsonPayloadValidator\Exception\IncorrectParametrizationException;
 use Utils\JsonPayloadValidator\Exception\RequiredArrayIsEmptyException;
+use Utils\JsonPayloadValidator\Exception\ValueArrayNotExactLengthException;
 use Utils\JsonPayloadValidator\Exception\ValueNotAJsonObjectException;
 use Utils\JsonPayloadValidator\Exception\ValueNotAnArrayException;
 use Utils\JsonPayloadValidator\Exception\ValueTooBigException;
@@ -100,6 +101,7 @@ class ValueArrayCheckerTest extends TestCase
         $m5 = "Value is meant to be an array of minimum length of 2, but it is 1";
         $m6 = "Value is meant to be an array of maximum length of 1, but it is 2";
         $m7 = "Value is meant to be an array of maximum length of 2, but it is 3";
+        $m8 = "Associative arrays not supported";
 
         return [
             [[], null, null, IncorrectParametrizationException::class, $m1],
@@ -111,6 +113,7 @@ class ValueArrayCheckerTest extends TestCase
             [[[]], 2, 3, ValueTooSmallException::class, $m5],
             [[[], []], null, 1, ValueTooBigException::class, $m6],
             [[[], [], []], 1, 2, ValueTooBigException::class, $m7],
+            [["a" => []], 1, null,ValueNotAnArrayException::class, $m8],
         ];
     }
 
@@ -119,6 +122,7 @@ class ValueArrayCheckerTest extends TestCase
      * @throws IncorrectParametrizationException
      * @throws ValueTooBigException
      * @throws ValueTooSmallException
+     * @throws ValueNotAnArrayException
      */
     public function testShouldFailArrayOfLengthRange(
         array $payload,
@@ -154,10 +158,41 @@ class ValueArrayCheckerTest extends TestCase
      * @throws IncorrectParametrizationException
      * @throws ValueTooBigException
      * @throws ValueTooSmallException
+     * @throws ValueNotAnArrayException
      */
     public function testShouldPassArrayOfLengthRange(array $payload, ?int $minLength, ?int $maxLength): void
     {
         $this->sut->arrayOfLengthRange($payload, $minLength, $maxLength);
         $this->expectNotToPerformAssertions();
+    }
+
+    public function shouldFailArrayOfExactLengthDataProvider(): array
+    {
+        $m1 = "Min required length is 1";
+        $m2 = "Value is expected to be an array of exact length of 1, but it is 0";
+        $m3 = "Associative arrays not supported";
+
+        return [
+            [[], 0, IncorrectParametrizationException::class, $m1],
+            [[], 1, ValueArrayNotExactLengthException::class, $m2],
+            [["test" => "blah"], 1, ValueNotAnArrayException::class, $m3]
+        ];
+    }
+
+    /**
+     * @dataProvider shouldFailArrayOfExactLengthDataProvider
+     * @throws IncorrectParametrizationException
+     * @throws ValueArrayNotExactLengthException
+     * @throws ValueNotAnArrayException
+     */
+    public function testShouldFailArrayOfExactLength(
+        array $payload,
+        int $expectedLength,
+        string $expectedException,
+        string $expectedExceptionMessage
+    ): void {
+        $this->expectException($expectedException);
+        $this->expectExceptionMessage($expectedExceptionMessage);
+        $this->sut->arrayOfExactLength($payload, $expectedLength);
     }
 }

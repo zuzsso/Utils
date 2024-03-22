@@ -25,6 +25,7 @@ interface CheckValueArray
      * @throws ValueTooBigException
      * @throws ValueTooSmallException
      * @throws IncorrectParametrizationException
+     * @throws ValueNotAnArrayException
      */
     public function arrayOfLengthRange(
         array $payload,
@@ -35,6 +36,7 @@ interface CheckValueArray
     /**
      * @throws IncorrectParametrizationException
      * @throws ValueArrayNotExactLengthException
+     * @throws ValueNotAnArrayException
      */
     public function arrayOfExactLength(array $payload, int $expectedLength): self;
 }
