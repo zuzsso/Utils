@@ -185,6 +185,12 @@ class KeyStringChecker extends AbstractJsonChecker implements CheckKeyString
             throw InvalidDateValueException::constructForStandardMessage($key, $dateFormat, $value);
         }
 
+        $newDateFormatted = $parsed->format($dateFormat);
+
+        if ($newDateFormatted !== $value) {
+            throw InvalidDateValueException::constructForStandardMessage($key, $dateFormat, $value);
+        }
+
         return $this;
     }
 }
