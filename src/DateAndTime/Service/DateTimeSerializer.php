@@ -61,6 +61,54 @@ class DateTimeSerializer implements SerializeDateTime
         ];
     }
 
+    private function getShortMonthNames(): array
+    {
+        return [
+            Spanish::getApiLiteral() => [
+                'Ene',
+                'Feb',
+                'Mar',
+                'Abr',
+                'May',
+                'Jun',
+                'Jul',
+                'Ago',
+                'Sep',
+                'Oct',
+                'Nov',
+                'Dic',
+            ],
+            French::getApiLiteral() => [
+                'jan',
+                'fév',
+                'mar',
+                'avr',
+                'mai',
+                'jui',
+                'jui',
+                'aoû',
+                'sep',
+                'oct',
+                'nov',
+                'déc',
+            ],
+            English::getApiLiteral() => [
+                'Jan',
+                'Feb',
+                'Mar',
+                'Apr',
+                'May',
+                'Jun',
+                'Jul',
+                'Aug',
+                'Sep',
+                'Oct',
+                'Nov',
+                'Dec',
+            ],
+        ];
+    }
+
     private function serializeComponents(DateTimeImmutable $dateTime): array
     {
         return [
@@ -128,8 +176,30 @@ class DateTimeSerializer implements SerializeDateTime
             'components' => $this->serializeComponents($dateTime),
             'formatted' => [
                 'longDate' => $long,
+                'dateTimeMonospace' => $this->formatDateTimeMonospace24H($dateTime, $lan)
             ],
         ];
+    }
+
+    /**
+     * @noinspection DuplicatedCode
+     */
+    private function formatDateTimeMonospace24H(DateTimeImmutable $dateTime, AbstractLanguage $lan): string
+    {
+        $monthNumeralZeroBased = (int)$dateTime->format('m') - 1;
+
+        $shortMonthNames = $this->getShortMonthNames();
+
+        if ($lan instanceof French) {
+            $monthShortName = $shortMonthNames[French::getApiLiteral()][$monthNumeralZeroBased];
+        } elseif ($lan instanceof Spanish) {
+            $monthShortName = $shortMonthNames[Spanish::getApiLiteral()][$monthNumeralZeroBased];
+        } else {
+            $monthShortName = $shortMonthNames[$lan::getApiLiteral()][$monthNumeralZeroBased];
+        }
+
+        return $dateTime->format('d') . " $monthShortName " . $dateTime->format('Y') . ' ' . $dateTime->format('H:i:s');
+
     }
 
     private function escapeLiteral(string $literal): string
