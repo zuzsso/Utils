@@ -14,7 +14,7 @@ class ArrayWithCustomIndexNumeration extends AbstractMalformedRequestBody
         );
     }
 
-    public function errorCode(): string
+    public function getErrorCode(): string
     {
         return 'arrayCustomNumeration';
     }

@@ -13,7 +13,7 @@ class ValueNotInListException extends AbstractMalformedRequestBody
         return new self("The key '$key' can only be one of the following: [$vals], but it is '$givenValue'");
     }
 
-    public function errorCode(): string
+    public function getErrorCode(): string
     {
         return 'unexpectedEnumValue';
     }

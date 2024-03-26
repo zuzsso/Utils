@@ -11,7 +11,7 @@ class EntryMissingException extends AbstractMalformedRequestBody
         return new self("Entry '$key' missing");
     }
 
-    public function errorCode(): string
+    public function getErrorCode(): string
     {
         return 'propertyRequired';
     }

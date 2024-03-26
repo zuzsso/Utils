@@ -16,7 +16,7 @@ class ValueNotEqualsToException extends AbstractMalformedRequestBody
         return new self("Entry '$key' is meant to be '$compareTo', but is '$value'");
     }
 
-    public function errorCode(): string
+    public function getErrorCode(): string
     {
         return 'unexpectedValue';
     }

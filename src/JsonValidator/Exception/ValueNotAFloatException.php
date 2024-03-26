@@ -21,7 +21,7 @@ class ValueNotAFloatException extends AbstractMalformedRequestBody
         return new self("The entry '$key' is required to be a float type");
     }
 
-    public function errorCode(): string
+    public function getErrorCode(): string
     {
         return 'expectedFloatValue';
     }

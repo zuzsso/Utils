@@ -11,7 +11,7 @@ class EntryEmptyException extends AbstractMalformedRequestBody
         return new self("Entry '$key' empty");
     }
 
-    public function errorCode(): string
+    public function getErrorCode(): string
     {
         return 'requiredValueForProperty';
     }

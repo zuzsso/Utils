@@ -19,4 +19,9 @@ class ValueArrayNotExactLengthException extends AbstractMalformedRequestBody
             "Value is expected to be an array of exact length of $expectedLength, but it is $actualLength"
         );
     }
+
+    public function getErrorCode(): string
+    {
+        return 'arrayOfUnexpectedFixedLength';
+    }
 }

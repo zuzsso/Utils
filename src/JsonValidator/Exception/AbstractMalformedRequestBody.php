@@ -8,10 +8,12 @@ use Exception;
 
 abstract class AbstractMalformedRequestBody extends Exception
 {
+    abstract public function getErrorCode(): string;
+
     final public function serialize(): array
     {
         return [
-            'code' => $this->getCode(),
+            'code' => $this->getErrorCode(),
             'message' => $this->getMessage()
         ];
     }

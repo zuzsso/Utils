@@ -11,7 +11,7 @@ class OptionalPropertyNotAFloatException extends AbstractMalformedRequestBody
         return new self("The entry '$key' is optional, but if provided it should be a a float");
     }
 
-    public function errorCode(): string
+    public function getErrorCode(): string
     {
         return 'entryOptionalNotFloat';
     }

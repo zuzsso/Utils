@@ -10,4 +10,9 @@ class ValueStringEmptyException extends AbstractMalformedRequestBody
     {
         return new self("Expected a string, but got null or empty string");
     }
+
+    public function getErrorCode(): string
+    {
+        return 'emptyString';
+    }
 }

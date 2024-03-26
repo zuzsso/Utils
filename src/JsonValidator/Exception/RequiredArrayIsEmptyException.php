@@ -10,4 +10,9 @@ class RequiredArrayIsEmptyException extends AbstractMalformedRequestBody
     {
         return new self("The array is required not to be empty");
     }
+
+    public function getErrorCode(): string
+    {
+        return 'requiredNotEmptyArray';
+    }
 }

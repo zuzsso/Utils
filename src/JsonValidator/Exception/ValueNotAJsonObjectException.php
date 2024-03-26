@@ -11,7 +11,7 @@ class ValueNotAJsonObjectException extends AbstractMalformedRequestBody
         return new self("Item index '$subKey' is not a JSON object");
     }
 
-    public function errorCode(): string
+    public function getErrorCode(): string
     {
         return 'valueNotAJsonObject';
     }

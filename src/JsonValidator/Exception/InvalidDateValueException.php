@@ -11,7 +11,7 @@ class InvalidDateValueException extends AbstractMalformedRequestBody
         return new self("Entry '$key' does not hold a valid '$format' date: '$value'");
     }
 
-    public function errorCode(): string
+    public function getErrorCode(): string
     {
         return 'invalidDateFormat';
     }

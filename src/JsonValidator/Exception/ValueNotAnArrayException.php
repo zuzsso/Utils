@@ -28,7 +28,7 @@ class ValueNotAnArrayException extends AbstractMalformedRequestBody
         return new self("The last key is expected to be $expectedLastKey, but it is $actualLastKey");
     }
 
-    public function errorCode(): string
+    public function getErrorCode(): string
     {
         return 'expectedArrayValue';
     }

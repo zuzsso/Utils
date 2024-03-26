@@ -11,7 +11,7 @@ class InvalidIntegerValueException extends AbstractMalformedRequestBody
         return new self("Entry '$key' does not hold a valid int value");
     }
 
-    public function errorCode(): string
+    public function getErrorCode(): string
     {
         return 'requiredIntegerValue';
     }

@@ -11,7 +11,7 @@ class StringIsNotAnUrlException extends AbstractMalformedRequestBody
         return new self("The string '$url' doesn't resemble an actual URL");
     }
 
-    public function errorCode(): string
+    public function getErrorCode(): string
     {
         return 'requiredUrlFormat';
     }

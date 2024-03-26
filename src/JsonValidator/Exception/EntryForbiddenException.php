@@ -11,7 +11,7 @@ class EntryForbiddenException extends AbstractMalformedRequestBody
         return new self("Entry '$key' should not be present in the payload");
     }
 
-    public function errorCode(): string
+    public function getErrorCode(): string
     {
         return 'propertyForbidden';
     }

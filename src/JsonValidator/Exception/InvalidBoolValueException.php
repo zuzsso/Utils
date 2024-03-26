@@ -12,4 +12,9 @@ class InvalidBoolValueException extends AbstractMalformedRequestBody
             "The entry '$key' does not hold a valid boolean value"
         );
     }
+
+    public function getErrorCode(): string
+    {
+        return 'notABooleanValue';
+    }
 }

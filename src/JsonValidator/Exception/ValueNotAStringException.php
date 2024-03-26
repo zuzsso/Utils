@@ -11,7 +11,7 @@ class ValueNotAStringException extends AbstractMalformedRequestBody
         return new self("The entry '$key' is not a string");
     }
 
-    public function errorCode(): string
+    public function getErrorCode(): string
     {
         return 'expectedStringValue';
     }

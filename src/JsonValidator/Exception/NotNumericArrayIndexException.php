@@ -16,7 +16,7 @@ class NotNumericArrayIndexException extends AbstractMalformedRequestBody
         );
     }
 
-    public function errorCode(): string
+    public function getErrorCode(): string
     {
         return 'arrayHasNotNumericIndexes';
     }
