@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Utils\JsonValidator\Service;
 
-use DateTimeImmutable;
+use Throwable;
 use Utils\JsonValidator\Exception\EntryEmptyException;
 use Utils\JsonValidator\Exception\EntryForbiddenException;
 use Utils\JsonValidator\Exception\EntryMissingException;
@@ -19,14 +19,17 @@ use Utils\JsonValidator\Exception\ValueTooSmallException;
 use Utils\JsonValidator\Types\Range\StringByteLengthRange;
 use Utils\JsonValidator\UseCase\CheckKeyPresence;
 use Utils\JsonValidator\UseCase\CheckKeyString;
+use Utils\JsonValidator\UseCase\CheckValueString;
 
 class KeyStringChecker extends AbstractJsonChecker implements CheckKeyString
 {
     private CheckKeyPresence $checkPropertyPresence;
+    private CheckValueString $checkValueString;
 
-    public function __construct(CheckKeyPresence $checkPropertyPresence)
+    public function __construct(CheckKeyPresence $checkPropertyPresence, CheckValueString $checkValueString)
     {
         $this->checkPropertyPresence = $checkPropertyPresence;
+        $this->checkValueString = $checkValueString;
     }
 
     /**
@@ -179,15 +182,9 @@ class KeyStringChecker extends AbstractJsonChecker implements CheckKeyString
 
         $value = trim((string)$payload[$key]);
 
-        $parsed = DateTimeImmutable::createFromFormat($dateFormat, $value);
-
-        if ($parsed === false) {
-            throw InvalidDateValueException::constructForStandardMessage($key, $dateFormat, $value);
-        }
-
-        $newDateFormatted = $parsed->format($dateFormat);
-
-        if ($newDateFormatted !== $value) {
+        try {
+            $this->checkValueString->dateTimeFormat($value, $dateFormat, $required);
+        } catch (Throwable $t) {
             throw InvalidDateValueException::constructForStandardMessage($key, $dateFormat, $value);
         }
 

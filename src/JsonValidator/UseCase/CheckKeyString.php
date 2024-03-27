@@ -14,7 +14,6 @@ use Utils\JsonValidator\Exception\ValueNotAStringException;
 use Utils\JsonValidator\Exception\ValueStringNotExactLengthException;
 use Utils\JsonValidator\Exception\ValueTooBigException;
 use Utils\JsonValidator\Exception\ValueTooSmallException;
-use Utils\JsonValidator\Types\Range\AbstractIntegerRange;
 use Utils\JsonValidator\Types\Range\StringByteLengthRange;
 
 interface CheckKeyString

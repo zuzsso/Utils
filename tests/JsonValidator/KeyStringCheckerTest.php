@@ -17,6 +17,7 @@ use Utils\JsonValidator\Exception\ValueTooBigException;
 use Utils\JsonValidator\Exception\ValueTooSmallException;
 use Utils\JsonValidator\Service\KeyPresenceChecker;
 use Utils\JsonValidator\Service\KeyStringChecker;
+use Utils\JsonValidator\Service\ValueStringChecker;
 use Utils\JsonValidator\Types\Range\StringByteLengthRange;
 
 class KeyStringCheckerTest extends TestCase
@@ -26,7 +27,7 @@ class KeyStringCheckerTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-        $this->sut = new KeyStringChecker(new KeyPresenceChecker());
+        $this->sut = new KeyStringChecker(new KeyPresenceChecker(), new ValueStringChecker());
     }
 
 
