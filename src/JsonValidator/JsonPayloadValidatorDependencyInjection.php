@@ -13,6 +13,7 @@ use Utils\JsonValidator\Service\KeyIntegerChecker;
 use Utils\JsonValidator\Service\KeyPresenceChecker;
 use Utils\JsonValidator\Service\KeyStringChecker;
 use Utils\JsonValidator\Service\ValueArrayChecker;
+use Utils\JsonValidator\Service\ValueIntegerChecker;
 use Utils\JsonValidator\Service\ValueStringChecker;
 use Utils\JsonValidator\UseCase\CheckKeyArray;
 use Utils\JsonValidator\UseCase\CheckKeyBoolean;
@@ -23,6 +24,7 @@ use Utils\JsonValidator\UseCase\CheckKeyPresence;
 use Utils\JsonValidator\UseCase\CheckKeyString;
 use Utils\JsonValidator\UseCase\CheckValueArray;
 
+use Utils\JsonValidator\UseCase\CheckValueInteger;
 use Utils\JsonValidator\UseCase\CheckValueString;
 
 use function DI\autowire;
@@ -40,6 +42,7 @@ class JsonPayloadValidatorDependencyInjection extends AbstractDependencyInjectio
             CheckKeyString::class => autowire(KeyStringChecker::class),
             CheckKeyBoolean::class => autowire(KeyBooleanChecker::class),
             CheckValueString::class => autowire(ValueStringChecker::class),
+            CheckValueInteger::class => autowire(ValueIntegerChecker::class),
             CheckValueArray::class => autowire(ValueArrayChecker::class)
         ];
     }
