@@ -14,6 +14,7 @@ use Utils\JsonValidator\Exception\ValueTooBigException;
 use Utils\JsonValidator\Exception\ValueTooSmallException;
 use Utils\JsonValidator\Service\KeyIntegerChecker;
 use Utils\JsonValidator\Service\KeyPresenceChecker;
+use Utils\JsonValidator\Service\ValueIntegerChecker;
 use Utils\JsonValidator\Types\Range\IntValueRange;
 
 class KeyIntegerCheckerTest extends TestCase
@@ -23,7 +24,7 @@ class KeyIntegerCheckerTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-        $this->sut = new KeyIntegerChecker(new KeyPresenceChecker());
+        $this->sut = new KeyIntegerChecker(new KeyPresenceChecker(), new ValueIntegerChecker());
     }
 
     public function shouldFailRequiredDataProvider(): array
