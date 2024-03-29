@@ -95,11 +95,11 @@ class KeyIntegerChecker extends AbstractJsonChecker implements CheckKeyInteger
         $value = (int)$payload[$key];
 
         if (($minValue !== null) && ($value < $minValue)) {
-            throw ValueTooSmallException::constructForInteger($key, $minValue, $value);
+            throw ValueTooSmallException::constructForKeyInteger($key, $minValue, $value);
         }
 
         if (($maxValue !== null) && ($value > $maxValue)) {
-            throw ValueTooBigException::constructForInteger($key, $maxValue, $value);
+            throw ValueTooBigException::constructForKeyInteger($key, $maxValue, $value);
         }
 
         return $this;

@@ -5,7 +5,11 @@ declare(strict_types=1);
 namespace Utils\JsonValidator\Service;
 
 use DateTimeImmutable;
+use Utils\JsonValidator\Exception\EntryForbiddenException;
 use Utils\JsonValidator\Exception\IntegerComponentsDontRepresentDate;
+use Utils\JsonValidator\Exception\ValueTooBigException;
+use Utils\JsonValidator\Exception\ValueTooSmallException;
+use Utils\JsonValidator\Types\Range\IntValueRange;
 use Utils\JsonValidator\UseCase\CheckValueInteger;
 
 class ValueIntegerChecker implements CheckValueInteger
@@ -35,4 +39,27 @@ class ValueIntegerChecker implements CheckValueInteger
             throw $e;
         }
     }
+
+    /**
+     * @inheritDoc
+     */
+    public function withinRange(
+        int $value,
+        IntValueRange $range,
+        bool $required = true
+    ): self {
+        $minValue = $range->getMin();
+        $maxValue = $range->getMax();
+
+        if (($minValue !== null) && ($value < $minValue)) {
+            throw ValueTooSmallException::constructForValueInteger($minValue, $value);
+        }
+
+        if (($maxValue !== null) && ($value > $maxValue)) {
+            throw ValueTooBigException::constructForValueInteger($maxValue, $value);
+        }
+
+        return $this;
+    }
+
 }
