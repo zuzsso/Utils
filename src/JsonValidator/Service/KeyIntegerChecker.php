@@ -9,18 +9,20 @@ use Utils\JsonValidator\Exception\InvalidIntegerValueException;
 use Utils\JsonValidator\Exception\ValueNotEqualsToException;
 use Utils\JsonValidator\Exception\ValueTooBigException;
 use Utils\JsonValidator\Exception\ValueTooSmallException;
-use Utils\JsonValidator\Types\Range\AbstractIntegerRange;
 use Utils\JsonValidator\Types\Range\IntValueRange;
 use Utils\JsonValidator\UseCase\CheckKeyInteger;
 use Utils\JsonValidator\UseCase\CheckKeyPresence;
+use Utils\JsonValidator\UseCase\CheckValueInteger;
 
 class KeyIntegerChecker extends AbstractJsonChecker implements CheckKeyInteger
 {
     private CheckKeyPresence $checkPropertyPresence;
+    private CheckValueInteger $checkValueInteger;
 
-    public function __construct(CheckKeyPresence $checkPropertyPresence)
+    public function __construct(CheckKeyPresence $checkPropertyPresence, CheckValueInteger $checkValueInteger)
     {
         $this->checkPropertyPresence = $checkPropertyPresence;
+        $this->checkValueInteger = $checkValueInteger;
     }
 
     /**
@@ -94,11 +96,11 @@ class KeyIntegerChecker extends AbstractJsonChecker implements CheckKeyInteger
 
         $value = (int)$payload[$key];
 
-        if (($minValue !== null) && ($value < $minValue)) {
+        try {
+            $this->checkValueInteger->withinRange($value, $range);
+        } catch (ValueTooSmallException $v) {
             throw ValueTooSmallException::constructForKeyInteger($key, $minValue, $value);
-        }
-
-        if (($maxValue !== null) && ($value > $maxValue)) {
+        } catch (ValueTooBigException $v) {
             throw ValueTooBigException::constructForKeyInteger($key, $maxValue, $value);
         }
 
