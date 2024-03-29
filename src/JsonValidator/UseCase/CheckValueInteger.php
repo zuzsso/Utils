@@ -22,7 +22,6 @@ interface CheckValueInteger
      */
     public function withinRange(
         int $value,
-        IntValueRange $range,
-        bool $required = true
+        IntValueRange $range
     ): self;
 }
