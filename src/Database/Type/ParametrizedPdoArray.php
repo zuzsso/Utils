@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Utils\Database\Type;
 
-
 use Utils\Database\Exception\ParametrizedPdoArrayException;
 
 class ParametrizedPdoArray

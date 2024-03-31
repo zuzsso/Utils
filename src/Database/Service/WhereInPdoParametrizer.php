@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Utils\Database\Service;
 
-
 use Utils\Database\Exception\NativeQueryDbReaderUnmanagedException;
 use Utils\Database\Type\ParametrizedPdoArray;
 use Utils\Database\UseCase\CheckPdoParameterNames;

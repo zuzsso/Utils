@@ -14,7 +14,6 @@ use Utils\Database\UseCase\ExtractParameterNamesFromRawQuery;
 use Utils\Database\UseCase\ParametrizeWhereInPdo;
 use Utils\Database\UseCase\ReadDbNativeQuery;
 
-
 use function DI\autowire;
 
 class DatabaseDependencyInjection extends AbstractDependencyInjection
