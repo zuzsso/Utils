@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Utils;
 
 use Utils\Cryptography\CryptographyDependencyInjection;
+use Utils\Database\DatabaseDependencyInjection;
 use Utils\DateAndTime\DateAndTimeDependencyInjection;
 use Utils\EmailAddress\EmailAddressDependencyInjection;
 use Utils\Files\FilesDependencyInjection;
@@ -25,7 +26,8 @@ class UtilsDependencyInjectionManifest extends AbstractDependencyInjection
             MathDependencyInjection::getDependencies(),
             NetworkingDependencyInjection::getDependencies(),
             SystemDependencyInjection::getDependencies(),
-            JsonPayloadValidatorDependencyInjection::getDependencies()
+            JsonPayloadValidatorDependencyInjection::getDependencies(),
+            DatabaseDependencyInjection::getDependencies()
         );
     }
 }
