@@ -13,7 +13,7 @@ interface ReadDbNativeQuery
     /**
      * @throws NativeQueryDbReaderUnmanagedException
      */
-    public function getAllRecords(
+    public function getAllRawRecords(
         Connection $connex,
         string $nativeSqlQuery,
         ParameterCollection $queryParameters

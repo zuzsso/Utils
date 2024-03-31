@@ -15,7 +15,7 @@ class NativeQueryDbReader implements ReadDbNativeQuery
     /**
      * @inheritDoc
      */
-    public function getAllRecords(
+    public function getAllRawRecords(
         Connection $connex,
         string $nativeSqlQuery,
         ParameterCollection $queryParameters
