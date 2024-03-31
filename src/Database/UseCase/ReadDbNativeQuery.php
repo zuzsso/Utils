@@ -6,7 +6,7 @@ namespace Utils\Database\UseCase;
 
 use Doctrine\DBAL\Connection;
 use Utils\Database\Exception\NativeQueryDbReaderUnmanagedException;
-use Utils\Database\Type\ParameterCollection;
+use Utils\Database\Type\NamedParameterCollection;
 
 interface ReadDbNativeQuery
 {
@@ -16,6 +16,6 @@ interface ReadDbNativeQuery
     public function getAllRawRecords(
         Connection $connex,
         string $nativeSqlQuery,
-        ParameterCollection $queryParameters
+        ?NamedParameterCollection $queryParameters
     ): array;
 }
