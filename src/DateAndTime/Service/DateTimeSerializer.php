@@ -177,6 +177,7 @@ class DateTimeSerializer implements SerializeDateTime
             'formatted' => [
                 'longDate' => $long,
                 'dateTimeMonospace' => $this->formatDateTimeMonospace24H($dateTime, $lan),
+                'dateMonospace' => $this->formatDateMonospace($dateTime, $lan),
                 'time24H' => $dateTime->format('H:i:s')
             ],
         ];
@@ -200,6 +201,27 @@ class DateTimeSerializer implements SerializeDateTime
         }
 
         return $dateTime->format('d') . " $monthShortName " . $dateTime->format('Y') . ' ' . $dateTime->format('H:i:s');
+
+    }
+
+    /**
+     * @noinspection DuplicatedCode
+     */
+    private function formatDateMonospace(DateTimeImmutable $dateTime, AbstractLanguage $lan): string
+    {
+        $monthNumeralZeroBased = (int)$dateTime->format('m') - 1;
+
+        $shortMonthNames = $this->getShortMonthNames();
+
+        if ($lan instanceof French) {
+            $monthShortName = $shortMonthNames[French::getApiLiteral()][$monthNumeralZeroBased];
+        } elseif ($lan instanceof Spanish) {
+            $monthShortName = $shortMonthNames[Spanish::getApiLiteral()][$monthNumeralZeroBased];
+        } else {
+            $monthShortName = $shortMonthNames[$lan::getApiLiteral()][$monthNumeralZeroBased];
+        }
+
+        return $dateTime->format('d') . " $monthShortName " . $dateTime->format('Y');
 
     }
 
