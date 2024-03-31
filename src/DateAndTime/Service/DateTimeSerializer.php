@@ -176,7 +176,8 @@ class DateTimeSerializer implements SerializeDateTime
             'components' => $this->serializeComponents($dateTime),
             'formatted' => [
                 'longDate' => $long,
-                'dateTimeMonospace' => $this->formatDateTimeMonospace24H($dateTime, $lan)
+                'dateTimeMonospace' => $this->formatDateTimeMonospace24H($dateTime, $lan),
+                'time24H' => $dateTime->format('H:i:s')
             ],
         ];
     }
