@@ -80,4 +80,53 @@ class KeyJsonObjectCheckerTest extends TestCase
 
         $this->expectNotToPerformAssertions();
     }
+
+    public function shouldFailOptionalDataProvider(): array
+    {
+        $key = "myKey";
+        $m1 = "The key 'myKey' is optional, but if provided, it must be a valid JSON object";
+
+        return [
+            [$key, [$key => []], InvalidJsonObjectValueException::class, $m1],
+            [$key, [$key => 1], InvalidJsonObjectValueException::class, $m1],
+            [$key, [$key => ""], InvalidJsonObjectValueException::class, $m1],
+        ];
+    }
+
+    /**
+     * @dataProvider shouldFailOptionalDataProvider
+     * @throws InvalidJsonObjectValueException
+     */
+    public function testShouldFailOptional(
+        string $key,
+        array $payload,
+        string $expectedException,
+        string $expectedExceptionMessage
+    ): void {
+        $this->expectException($expectedException);
+        $this->expectExceptionMessage($expectedExceptionMessage);
+
+        $this->sut->optional($key, $payload);
+    }
+
+    public function shouldPassOptionalDataProvider(): array
+    {
+        $key = "myKey";
+
+        return [
+            [$key, []],
+            [$key, [$key => null]],
+            [$key, [$key => ['a' => 'blah']]],
+        ];
+    }
+
+    /**
+     * @dataProvider shouldPassOptionalDataProvider
+     * @throws InvalidJsonObjectValueException
+     */
+    public function testShouldPassOptional(string $key, array $payload): void
+    {
+        $this->sut->optional($key, $payload);
+        $this->expectNotToPerformAssertions();
+    }
 }
