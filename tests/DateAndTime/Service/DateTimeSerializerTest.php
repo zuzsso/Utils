@@ -61,7 +61,9 @@ class DateTimeSerializerTest extends TestCase
             ],
             'formatted' => [
                 'longDate' => 'July 8th, 2023',
-                'dateTimeMonospace' => '08 Jul 2023 18:35:45'
+                'dateTimeMonospace' => '08 Jul 2023 18:35:45',
+                'time24H' => '18:35:45',
+                'dateMonospace' => '08 Jul 2023'
             ]
         ];
 
