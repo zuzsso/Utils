@@ -81,7 +81,7 @@ class NativeQueryDbReader implements ReadDbNativeQuery
         }
 
         foreach ($extractedParameters as $extractedParameter) {
-            if ($queryParameters->hasParameter($extractedParameter)) {
+            if (!$queryParameters->hasParameter($extractedParameter)) {
                 throw new NativeQueryDbReaderUnmanagedException("Placeholder ':$extractedParameter' is not bound");
             }
         }
