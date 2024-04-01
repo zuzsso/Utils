@@ -86,7 +86,7 @@ class NativeQueryDbReader implements ReadDbNativeQuery
             }
         }
 
-        foreach ($queryParameters as $parameterName) {
+        foreach ($queryParameters as $parameterName => $parameterValue) {
             if (!in_array($parameterName, $extractedParameters, true)) {
                 throw new NativeQueryDbReaderUnmanagedException("Placeholder ':$parameterName' not found in raw query");
             }
