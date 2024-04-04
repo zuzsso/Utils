@@ -8,18 +8,18 @@ use Doctrine\DBAL\Connection;
 use Throwable;
 use Utils\Database\Exception\NativeQueryDbReaderUnmanagedException;
 use Utils\Database\Type\NamedParameterCollection;
-use Utils\Database\UseCase\ReadDbNativeQuery;
+use Utils\Database\UseCase\RunDmlNativeQuery;
 
-class NativeQueryDbReader extends AbstractNativeQuery implements ReadDbNativeQuery
+class DmlNativeQueryRunner extends AbstractNativeQuery implements RunDmlNativeQuery
 {
     /**
      * @inheritDoc
      */
-    public function getAllRawRecords(
+    public function executeDml(
         Connection $connex,
         string $nativeSqlQuery,
         ?NamedParameterCollection $queryParameters
-    ): array {
+    ): void {
         try {
             $this->checkAllParametersInCollectionExistInQuery($nativeSqlQuery, $queryParameters);
 
@@ -29,10 +29,7 @@ class NativeQueryDbReader extends AbstractNativeQuery implements ReadDbNativeQue
                 $this->bindParameters($stm, $queryParameters);
             }
 
-            /** @noinspection OneTimeUseVariablesInspection */
-            $result = $stm->executeQuery();
-
-            return $result->fetchAllAssociative();
+            $stm->executeQuery();
         } catch (Throwable $t) {
             throw new NativeQueryDbReaderUnmanagedException($t->getMessage(), $t->getCode(), $t);
         }
