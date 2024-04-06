@@ -5,16 +5,16 @@ declare(strict_types=1);
 namespace Utils\Database\UseCase;
 
 use Doctrine\DBAL\Connection;
-use Utils\Database\Exception\NativeQueryDbReaderUnmanagedException;
-use Utils\Database\Type\NativeSelectSqlQuery;
+use Utils\Database\Exception\DmlNativeQueryRunnerUnmanagedException;
+use Utils\Database\Type\NativeDmlSqlQuery;
 
 interface RunDmlNativeQuery
 {
     /**
-     * @throws NativeQueryDbReaderUnmanagedException
+     * @throws DmlNativeQueryRunnerUnmanagedException
      */
     public function executeDml(
         Connection $connex,
-        NativeSelectSqlQuery $query
+        NativeDmlSqlQuery $query
     ): void;
 }

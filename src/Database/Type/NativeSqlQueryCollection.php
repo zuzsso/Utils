@@ -6,7 +6,7 @@ namespace Utils\Database\Type;
 
 use Utils\Collections\AbstractStringAssociativeCollection;
 
-class RawSqlQueryCollection extends AbstractStringAssociativeCollection
+class NativeSqlQueryCollection extends AbstractStringAssociativeCollection
 {
     public function getByStringKey(string $key): AbstractSqlNativeQuery
     {
