@@ -7,7 +7,7 @@ namespace Utils\Database\Service;
 use Doctrine\DBAL\Connection;
 use Throwable;
 use Utils\Database\Exception\NativeQueryDbReaderUnmanagedException;
-use Utils\Database\Type\NamedParameterCollection;
+use Utils\Database\Type\RawSqlQuery;
 use Utils\Database\UseCase\ReadDbNativeQuery;
 
 class NativeQueryDbReader extends AbstractNativeQuery implements ReadDbNativeQuery
@@ -17,12 +17,11 @@ class NativeQueryDbReader extends AbstractNativeQuery implements ReadDbNativeQue
      */
     public function getAllRawRecords(
         Connection $connex,
-        string $nativeSqlQuery,
-        ?NamedParameterCollection $queryParameters
+        RawSqlQuery $query
     ): array {
         try {
-            $this->checkAllParametersInCollectionExistInQuery($nativeSqlQuery, $queryParameters);
-
+            $nativeSqlQuery = $query->getRawSql();
+            $queryParameters = $query->getParams();
             $stm = $connex->prepare($nativeSqlQuery);
 
             if ($queryParameters !== null) {

@@ -7,7 +7,7 @@ namespace Utils\Database\Service;
 use Doctrine\DBAL\Connection;
 use Throwable;
 use Utils\Database\Exception\NativeQueryDbReaderUnmanagedException;
-use Utils\Database\Type\NamedParameterCollection;
+use Utils\Database\Type\RawSqlQuery;
 use Utils\Database\UseCase\RunDmlNativeQuery;
 
 class DmlNativeQueryRunner extends AbstractNativeQuery implements RunDmlNativeQuery
@@ -17,16 +17,14 @@ class DmlNativeQueryRunner extends AbstractNativeQuery implements RunDmlNativeQu
      */
     public function executeDml(
         Connection $connex,
-        string $nativeSqlQuery,
-        ?NamedParameterCollection $queryParameters
+        RawSqlQuery $query
     ): void {
         try {
-            $this->checkAllParametersInCollectionExistInQuery($nativeSqlQuery, $queryParameters);
 
-            $stm = $connex->prepare($nativeSqlQuery);
+            $stm = $connex->prepare($query->getRawSql());
 
-            if ($queryParameters !== null) {
-                $this->bindParameters($stm, $queryParameters);
+            if ($query->getParams() !== null) {
+                $this->bindParameters($stm, $query->getParams());
             }
 
             $stm->executeQuery();

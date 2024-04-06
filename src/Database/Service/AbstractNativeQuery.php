@@ -30,37 +30,37 @@ abstract class AbstractNativeQuery
         }
     }
 
-    /**
-     * @throws NativeQueryDbReaderUnmanagedException
-     */
-    protected function checkAllParametersInCollectionExistInQuery(
-        string $nativeSqlQuery,
-        ?NamedParameterCollection $queryParameters
-    ): void {
-        $extractedParameters = $this->extractParameterNamesFromRawQuery->extract($nativeSqlQuery);
-
-
-        $extractedParametersCount = count($extractedParameters);
-
-        $collectionCount = 0;
-        if ($queryParameters !== null) {
-            $collectionCount = $queryParameters->count();
-        }
-
-        if (($collectionCount === 0) && ($extractedParametersCount === 0)) {
-            return;
-        }
-
-        foreach ($extractedParameters as $extractedParameter) {
-            if (!$queryParameters->hasParameter($extractedParameter)) {
-                throw new NativeQueryDbReaderUnmanagedException("Placeholder ':$extractedParameter' is not bound");
-            }
-        }
-
-        foreach ($queryParameters as $parameterName => $parameterValue) {
-            if (!in_array($parameterName, $extractedParameters, true)) {
-                throw new NativeQueryDbReaderUnmanagedException("Placeholder ':$parameterName' not found in raw query");
-            }
-        }
-    }
+//    /**
+//     * @throws NativeQueryDbReaderUnmanagedException
+//     */
+//    protected function checkAllParametersInCollectionExistInQuery(
+//        string $nativeSqlQuery,
+//        ?NamedParameterCollection $queryParameters
+//    ): void {
+//        $extractedParameters = $this->extractParameterNamesFromRawQuery->extract($nativeSqlQuery);
+//
+//
+//        $extractedParametersCount = count($extractedParameters);
+//
+//        $collectionCount = 0;
+//        if ($queryParameters !== null) {
+//            $collectionCount = $queryParameters->count();
+//        }
+//
+//        if (($collectionCount === 0) && ($extractedParametersCount === 0)) {
+//            return;
+//        }
+//
+//        foreach ($extractedParameters as $extractedParameter) {
+//            if (!$queryParameters->hasParameter($extractedParameter)) {
+//                throw new NativeQueryDbReaderUnmanagedException("Placeholder ':$extractedParameter' is not bound");
+//            }
+//        }
+//
+//        foreach ($queryParameters as $parameterName => $parameterValue) {
+//            if (!in_array($parameterName, $extractedParameters, true)) {
+//                throw new NativeQueryDbReaderUnmanagedException("Placeholder ':$parameterName' not found in raw query");
+//            }
+//        }
+//    }
 }

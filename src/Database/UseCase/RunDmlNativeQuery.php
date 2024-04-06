@@ -6,7 +6,7 @@ namespace Utils\Database\UseCase;
 
 use Doctrine\DBAL\Connection;
 use Utils\Database\Exception\NativeQueryDbReaderUnmanagedException;
-use Utils\Database\Type\NamedParameterCollection;
+use Utils\Database\Type\RawSqlQuery;
 
 interface RunDmlNativeQuery
 {
@@ -15,7 +15,6 @@ interface RunDmlNativeQuery
      */
     public function executeDml(
         Connection $connex,
-        string $nativeSqlQuery,
-        ?NamedParameterCollection $queryParameters
+        RawSqlQuery $query
     ): void;
 }

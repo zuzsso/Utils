@@ -20,13 +20,14 @@ class PdoParameterNameCheckerTest extends TestCase
     public function correctlyIdentifiesPdoParameterNamesDataProvider(): array
     {
         return [
-            [":param", false],
             ["param1 param2", false],
             [" param1 ", false],
+            [" :param1 ", false],
 
-            ["param", true],
-            ["param123", true],
-            ["parAm123__", true]
+            [":param", true],
+            [":param", true],
+            [":param123", true],
+            [":parAm123__", true]
         ];
     }
 

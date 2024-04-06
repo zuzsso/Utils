@@ -8,14 +8,20 @@ use Utils\Database\UseCase\CheckPdoParameterNames;
 
 class PdoParameterNamesChecker implements CheckPdoParameterNames
 {
-    public function getPdoPlaceholderRegex(): string
+    public function getPdoPlaceholderRegex(bool $anyPosition = true): string
     {
-        return '/:\w+/';
+        $base = ':\w+';
+
+        if ($anyPosition) {
+            return "/$base/";
+        }
+
+        return "/^$base$/";
     }
 
     public function checkStringRepresentsParameterName(string $parameterName): bool
     {
-        preg_match_all('/^\w+$/', $parameterName, $matches);
+        preg_match_all($this->getPdoPlaceholderRegex(false), $parameterName, $matches);
 
         if (count($matches) === 0) {
             return false;
