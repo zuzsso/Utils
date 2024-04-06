@@ -7,17 +7,17 @@ namespace Utils\Database\Service;
 use Doctrine\DBAL\Connection;
 use Throwable;
 use Utils\Database\Exception\NativeQueryDbReaderUnmanagedException;
-use Utils\Database\Type\RawSqlQuery;
+use Utils\Database\Type\NativeSelectSqlQuery;
 use Utils\Database\UseCase\RunDmlNativeQuery;
 
-class DmlNativeQueryRunner extends AbstractNativeQuery implements RunDmlNativeQuery
+class DmlNativeQueryRunner extends AbstractNativeQueryRunner implements RunDmlNativeQuery
 {
     /**
      * @inheritDoc
      */
     public function executeDml(
         Connection $connex,
-        RawSqlQuery $query
+        NativeSelectSqlQuery $query
     ): void {
         try {
 

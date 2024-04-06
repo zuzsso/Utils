@@ -22,14 +22,15 @@ class ParameterNamesFromRawQueryExtractorTest extends TestCase
     {
         return [
             ["", []],
-            [":param1", ["param1"]],
-            [":param1,:param2", ["param1", "param2"]],
-            [":param1, param2", ["param1"]],
+            [":param1", [":param1"]],
+            [":param1,:param2", [":param1", ":param2"]],
+            [":param1, param2", [":param1"]],
 
-            ["(column=:param1)", ["param1"]],
-            ["(column= :param1)", ["param1"]],
-            ["(column= :param1 AND column=:param2)", ["param1", "param2"]],
-            [":param1:param2:param3", ["param1", "param2", "param3"]]
+            ["(column=:param1)", [":param1"]],
+            ["(column= :param1)", [":param1"]],
+            ["(column= :param1 AND column=:param2)", [":param1", ":param2"]],
+            [":param1:param2:param3", [":param1", ":param2", ":param3"]],
+            ["SELECT * FROM <my_table> WHERE column1 = :param1 AND column2 <> :param2", [':param1', ':param2']]
         ];
     }
 

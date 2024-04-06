@@ -28,7 +28,7 @@ class ParameterNamesFromRawQueryExtractor implements ExtractParameterNamesFromRa
             $occurrences = $matches[0];
 
             foreach ($occurrences as $parameterName) {
-                $result[] = str_replace(':', '', $parameterName);
+                $result[] = $parameterName;
             }
         }
 

@@ -7,17 +7,17 @@ namespace Utils\Database\Service;
 use Doctrine\DBAL\Connection;
 use Throwable;
 use Utils\Database\Exception\NativeQueryDbReaderUnmanagedException;
-use Utils\Database\Type\RawSqlQuery;
+use Utils\Database\Type\NativeSelectSqlQuery;
 use Utils\Database\UseCase\ReadDbNativeQuery;
 
-class NativeQueryDbReader extends AbstractNativeQuery implements ReadDbNativeQuery
+class NativeQueryDbReader extends AbstractNativeQueryRunner implements ReadDbNativeQuery
 {
     /**
      * @inheritDoc
      */
     public function getAllRawRecords(
         Connection $connex,
-        RawSqlQuery $query
+        NativeSelectSqlQuery $query
     ): array {
         try {
             $nativeSqlQuery = $query->getRawSql();
