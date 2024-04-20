@@ -11,6 +11,10 @@ use Iterator;
 use Utils\Collections\Exception\ArrayIndexOutOfBoundsException;
 use Utils\Collections\Exception\KeyAlreadyExistsException;
 
+/**
+ * @deprecated
+ * Migrated to zuzsso/typed-collection
+ */
 abstract class AbstractStringAssociativeCollection implements Iterator, Countable
 {
     private array $collection = [];
