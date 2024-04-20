@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 namespace Utils\Cryptography\Random\Type\CharacterPool;
+
 /**
  * @deprecated
  * Migrated to zuzsso/cryptography

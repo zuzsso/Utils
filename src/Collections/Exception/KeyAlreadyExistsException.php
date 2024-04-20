@@ -3,6 +3,7 @@
 namespace Utils\Collections\Exception;
 
 use Exception;
+
 /**
  * @deprecated
  * Migrated to zuzsso/typed-collection

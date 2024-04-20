@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Utils\Cryptography\Hash\UseCase;
 
 use SodiumException;
+
 /**
  * @deprecated
  * Migrated to zuzsso/cryptography
