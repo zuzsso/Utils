@@ -12,8 +12,16 @@ use Utils\Cryptography\Hash\UseCase\PasswordVerify;
 
 use function DI\autowire;
 
+/**
+ * @deprecated
+ * Migrated to zuzsso/cryptography
+ */
 class CryptographyDependencyInjection extends AbstractDependencyInjection
 {
+    /**
+     * @deprecated
+     * Migrated to zuzsso/cryptography
+     */
     public static function getDependencies(): array
     {
         return [

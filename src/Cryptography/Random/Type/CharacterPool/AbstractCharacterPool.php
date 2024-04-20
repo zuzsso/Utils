@@ -7,10 +7,22 @@ namespace Utils\Cryptography\Random\Type\CharacterPool;
 use InvalidArgumentException;
 use OutOfBoundsException;
 
+/**
+ * @deprecated
+ * Migrated to zuzsso/cryptography
+ */
 abstract class AbstractCharacterPool
 {
+    /**
+     * @deprecated
+     * Migrated to zuzsso/cryptography
+     */
     protected array $characterPool = [];
 
+    /**
+     * @deprecated
+     * Migrated to zuzsso/cryptography
+     */
     protected function addCharacterToPool(string $char): void
     {
         if (strlen($char) !== 1) {
@@ -27,16 +39,28 @@ abstract class AbstractCharacterPool
         $this->characterPool[] = $char;
     }
 
+    /**
+     * @deprecated
+     * Migrated to zuzsso/cryptography
+     */
     public function characterPoolSize(): int
     {
         return count($this->characterPool);
     }
 
+    /**
+     * @deprecated
+     * Migrated to zuzsso/cryptography
+     */
     public function getCharacterPoolAsSingleString(): string
     {
         return implode('', $this->characterPool);
     }
 
+    /**
+     * @deprecated
+     * Migrated to zuzsso/cryptography
+     */
     public function getCharAt(int $zeroBasedPosition): string
     {
         $poolSize = $this->characterPoolSize();
@@ -48,6 +72,10 @@ abstract class AbstractCharacterPool
         return $this->characterPool[$zeroBasedPosition];
     }
 
+    /**
+     * @deprecated
+     * Migrated to zuzsso/cryptography
+     */
     public function checkStringIsCompatibleWithCharacterPool(string $s): bool
     {
         $characterPoolOneLine = $this->getCharacterPoolAsSingleString();

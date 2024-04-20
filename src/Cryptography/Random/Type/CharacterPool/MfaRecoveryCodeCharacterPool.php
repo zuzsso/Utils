@@ -4,9 +4,17 @@ declare(strict_types=1);
 
 namespace Utils\Cryptography\Random\Type\CharacterPool;
 
+/**
+ * @deprecated
+ * Migrated to zuzsso/cryptography
+ */
 class MfaRecoveryCodeCharacterPool extends AbstractCharacterPool
 {
-    /** @noinspection DuplicatedCode */
+    /**
+     * @deprecated
+     * Migrated to zuzsso/cryptography
+     * @noinspection DuplicatedCode
+     */
     public function __construct()
     {
         $this->addCharacterToPool("2");

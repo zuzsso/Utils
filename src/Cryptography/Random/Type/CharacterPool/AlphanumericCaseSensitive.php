@@ -3,9 +3,16 @@
 declare(strict_types=1);
 
 namespace Utils\Cryptography\Random\Type\CharacterPool;
-
+/**
+ * @deprecated
+ * Migrated to zuzsso/cryptography
+ */
 class AlphanumericCaseSensitive extends AbstractCharacterPool
 {
+    /**
+     * @deprecated
+     * Migrated to zuzsso/cryptography
+     */
     public function __construct()
     {
         /** @noinspection DuplicatedCode */

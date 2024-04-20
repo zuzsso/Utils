@@ -11,6 +11,10 @@ use Utils\Cryptography\Random\Exception\TokenNotCompatibleWithCharacterPoolExcep
 use Utils\Cryptography\Random\Exception\UnableToGenerateRandomTokenUnmanagedException;
 use Utils\Cryptography\Random\Type\CharacterPool\AbstractCharacterPool;
 
+/**
+ * @deprecated
+ * Migrated to zuzsso/cryptography
+ */
 abstract class AbstractCrypToken
 {
     private string $crypToken;
@@ -19,6 +23,8 @@ abstract class AbstractCrypToken
      * @throws InadequateTokenLengthException
      * @throws TokenNotCompatibleWithCharacterPoolException
      * @throws UnableToGenerateRandomTokenUnmanagedException
+     * @deprecated
+     * Migrated to zuzsso/cryptography
      */
     public function __construct(?string $crypToken = null)
     {
@@ -40,6 +46,10 @@ abstract class AbstractCrypToken
         }
     }
 
+    /**
+     * @deprecated
+     * Migrated to zuzsso/cryptography
+     */
     private function validateLength(int $tokenLengthInOneByteChars): void
     {
         if ($tokenLengthInOneByteChars < 1) {
@@ -50,6 +60,10 @@ abstract class AbstractCrypToken
         }
     }
 
+    /**
+     * @deprecated
+     * Migrated to zuzsso/cryptography
+     */
     private function validateCharacterPool(AbstractCharacterPool $characterPool): void
     {
         $poolSize = $characterPool->characterPoolSize();
@@ -61,6 +75,8 @@ abstract class AbstractCrypToken
 
     /**
      * @throws UnableToGenerateRandomTokenUnmanagedException
+     * @deprecated
+     * Migrated to zuzsso/cryptography
      */
     private function generateNewCryptoken(
         AbstractCharacterPool $characterPool,
@@ -86,10 +102,22 @@ abstract class AbstractCrypToken
         return $result;
     }
 
+    /**
+     * @deprecated
+     * Migrated to zuzsso/cryptography
+     */
     abstract public function getCharacterPool(): AbstractCharacterPool;
 
+    /**
+     * @deprecated
+     * Migrated to zuzsso/cryptography
+     */
     abstract public function getTokenLengthInOneByteChars(): int;
 
+    /**
+     * @deprecated
+     * Migrated to zuzsso/cryptography
+     */
     public function getCryptokenAsString(): string
     {
         return $this->crypToken;
@@ -97,6 +125,8 @@ abstract class AbstractCrypToken
 
     /**
      * @throws TokenNotCompatibleWithCharacterPoolException
+     * @deprecated
+     * Migrated to zuzsso/cryptography
      */
     private function checkTokenCompatibleWithCharacterPool(
         AbstractCharacterPool $characterPool,
@@ -113,6 +143,8 @@ abstract class AbstractCrypToken
 
     /**
      * @throws InadequateTokenLengthException
+     * @deprecated
+     * Migrated to zuzsso/cryptography
      */
     private function checkLength(string $crypToken, int $expectedTokenLength): void
     {
