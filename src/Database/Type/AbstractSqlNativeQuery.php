@@ -8,15 +8,33 @@ use Utils\Database\Exception\NativeQueryDbReaderUnmanagedException;
 use Utils\Database\Exception\UnconstructibleRawSqlQueryException;
 use Utils\Database\UseCase\ExtractParameterNamesFromRawQuery;
 
+/**
+ * @deprecated
+ * See zuzsso/database
+ */
 abstract class AbstractSqlNativeQuery
 {
+    /**
+     * @deprecated
+     * See zuzsso/database
+     */
     protected ExtractParameterNamesFromRawQuery $extractParameterNamesFromRawQuery;
 
+    /**
+     * @deprecated
+     * See zuzsso/database
+     */
     protected string $rawSql;
 
+    /**
+     * @deprecated
+     * See zuzsso/database
+     */
     protected ?NamedParameterCollection $queryParams;
 
     /**
+     * @deprecated
+     * See zuzsso/database
      * @throws UnconstructibleRawSqlQueryException
      */
     public function __construct(
@@ -39,17 +57,27 @@ abstract class AbstractSqlNativeQuery
         }
     }
 
+    /**
+     * @deprecated
+     * See zuzsso/database
+     */
     final public function getRawSql(): string
     {
         return $this->rawSql;
     }
 
+    /**
+     * @deprecated
+     * See zuzsso/database
+     */
     final public function getParams(): ?NamedParameterCollection
     {
         return $this->queryParams;
     }
 
     /**
+     * @deprecated
+     * See zuzsso/database
      * @throws NativeQueryDbReaderUnmanagedException
      */
     private function checkAllParametersInCollectionExistInQuery(): void

@@ -18,8 +18,16 @@ use Utils\Database\UseCase\RunDmlNativeQuery;
 
 use function DI\autowire;
 
+/**
+ * @deprecated
+ * See zuzsso/database
+ */
 class DatabaseDependencyInjection extends AbstractDependencyInjection
 {
+    /**
+     * @deprecated
+     * See zuzsso/database
+     */
     public static function getDependencies(): array
     {
         return [

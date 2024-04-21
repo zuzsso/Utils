@@ -8,6 +8,9 @@ use Utils\Database\Exception\UnconstructibleRawSqlQueryException;
 use Utils\Database\UseCase\ExtractParameterNamesFromRawQuery;
 
 /**
+ * @deprecated
+ * See zuzsso/database
+ *
  * This class only checks that the raw string only contains one query (e.g. no ';' included), and that it is correctly
  * parametrized in the way PDO libraries expect to see when binding parameters.
  *
@@ -17,6 +20,8 @@ use Utils\Database\UseCase\ExtractParameterNamesFromRawQuery;
 class NativeSelectSqlQuery extends AbstractSqlNativeQuery
 {
     /**
+     * @deprecated
+     * See zuzsso/database
      * @throws UnconstructibleRawSqlQueryException
      */
     public function __construct(

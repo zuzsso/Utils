@@ -8,9 +8,15 @@ use Doctrine\DBAL\Connection;
 use Utils\Database\Exception\NativeQueryDbReaderUnmanagedException;
 use Utils\Database\Type\NativeSelectSqlQuery;
 
+/**
+ * @deprecated
+ * See zuzsso/database
+ */
 interface ReadDbNativeQuery
 {
     /**
+     * @deprecated
+     * See zuzsso/database
      * @throws NativeQueryDbReaderUnmanagedException
      */
     public function getAllRawRecords(

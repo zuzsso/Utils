@@ -6,8 +6,16 @@ namespace Utils\Database\Service;
 
 use Utils\Database\UseCase\CheckPdoParameterNames;
 
+/**
+ * @deprecated
+ * See zuzsso/database
+ */
 class PdoParameterNamesChecker implements CheckPdoParameterNames
 {
+    /**
+     * @deprecated
+     * See zuzsso/database
+     */
     public function getPdoPlaceholderRegex(bool $anyPosition = true): string
     {
         $base = ':\w+';
@@ -19,6 +27,10 @@ class PdoParameterNamesChecker implements CheckPdoParameterNames
         return "/^$base$/";
     }
 
+    /**
+     * @deprecated
+     * See zuzsso/database
+     */
     public function checkStringRepresentsParameterName(string $parameterName): bool
     {
         preg_match_all($this->getPdoPlaceholderRegex(false), $parameterName, $matches);

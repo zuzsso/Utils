@@ -7,10 +7,16 @@ namespace Utils\Database\Type;
 use Utils\Database\Exception\UnconstructibleRawSqlQueryException;
 use Utils\Database\UseCase\ExtractParameterNamesFromRawQuery;
 
-use function PHPUnit\Framework\stringStartsWith;
-
+/**
+ * @deprecated
+ * See zuzsso/database
+ */
 class NativeDmlSqlQuery extends AbstractSqlNativeQuery
 {
+    /**
+     * @deprecated
+     * See zuzsso/database
+     */
     public function __construct(
         ExtractParameterNamesFromRawQuery $extractParameterNamesFromRawQuery,
         string $rawSql,

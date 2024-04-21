@@ -10,9 +10,15 @@ use Utils\Database\Exception\DmlNativeQueryRunnerUnmanagedException;
 use Utils\Database\Type\NativeDmlSqlQuery;
 use Utils\Database\UseCase\RunDmlNativeQuery;
 
+/**
+ * @deprecated
+ * See zuzsso/database
+ */
 class DmlNativeQueryRunner extends AbstractNativeQueryRunner implements RunDmlNativeQuery
 {
     /**
+     * @deprecated
+     * See zuzsso/database
      * @inheritDoc
      */
     public function executeDml(

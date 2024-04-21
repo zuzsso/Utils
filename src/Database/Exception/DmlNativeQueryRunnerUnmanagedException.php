@@ -6,6 +6,10 @@ namespace Utils\Database\Exception;
 
 use Exception;
 
+/**
+ * @deprecated
+ * See zuzsso/database
+ */
 class DmlNativeQueryRunnerUnmanagedException extends Exception
 {
 }

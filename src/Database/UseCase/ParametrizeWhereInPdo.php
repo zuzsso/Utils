@@ -8,9 +8,15 @@ use Utils\Database\Exception\NativeQueryDbReaderUnmanagedException;
 use Utils\Database\Exception\ParametrizedPdoArrayException;
 use Utils\Database\Type\ParametrizedPdoArray;
 
+/**
+ * @deprecated
+ * See zuzsso/database
+ */
 interface ParametrizeWhereInPdo
 {
     /**
+     * @deprecated
+     * See zuzsso/database
      * @throws ParametrizedPdoArrayException
      * @throws NativeQueryDbReaderUnmanagedException
      */

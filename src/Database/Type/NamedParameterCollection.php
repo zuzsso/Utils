@@ -9,9 +9,15 @@ use Utils\Collections\Exception\KeyAlreadyExistsException;
 use Utils\Database\UseCase\CheckPdoParameterNames;
 use Utils\JsonValidator\Exception\IncorrectParametrizationException;
 
+/**
+ * @deprecated
+ * See zuzsso/database
+ */
 class NamedParameterCollection extends AbstractStringAssociativeCollection
 {
     /**
+     * @deprecated
+     * See zuzsso/database
      * @throws IncorrectParametrizationException
      */
     public function add(
@@ -41,6 +47,8 @@ class NamedParameterCollection extends AbstractStringAssociativeCollection
     }
 
     /**
+     * @deprecated
+     * See zuzsso/database
      * @inheritDoc
      */
     public function getByStringKey(
@@ -50,6 +58,8 @@ class NamedParameterCollection extends AbstractStringAssociativeCollection
     }
 
     /**
+     * @deprecated
+     * See zuzsso/database
      * @inheritDoc
      */
     public function getByNumericOffset(
@@ -59,6 +69,8 @@ class NamedParameterCollection extends AbstractStringAssociativeCollection
     }
 
     /**
+     * @deprecated
+     * See zuzsso/database
      * @inheritDoc
      */
     public function current(): string
@@ -66,6 +78,10 @@ class NamedParameterCollection extends AbstractStringAssociativeCollection
         return $this->currentUntyped();
     }
 
+    /**
+     * @deprecated
+     * See zuzsso/database
+     */
     public function hasParameter(string $parameterName): bool
     {
         return $this->checkStringKeyExists($parameterName);

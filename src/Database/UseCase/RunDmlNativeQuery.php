@@ -8,9 +8,15 @@ use Doctrine\DBAL\Connection;
 use Utils\Database\Exception\DmlNativeQueryRunnerUnmanagedException;
 use Utils\Database\Type\NativeDmlSqlQuery;
 
+/**
+ * @deprecated
+ * See zuzsso/database
+ */
 interface RunDmlNativeQuery
 {
     /**
+     * @deprecated
+     * See zuzsso/database
      * @throws DmlNativeQueryRunnerUnmanagedException
      */
     public function executeDml(

@@ -10,9 +10,15 @@ use Utils\Database\Exception\NativeQueryDbReaderUnmanagedException;
 use Utils\Database\Type\NativeSelectSqlQuery;
 use Utils\Database\UseCase\ReadDbNativeQuery;
 
+/**
+ * @deprecated
+ * See zuzsso/database
+ */
 class NativeQueryDbReader extends AbstractNativeQueryRunner implements ReadDbNativeQuery
 {
     /**
+     * @deprecated
+     * See zuzsso/database
      * @inheritDoc
      */
     public function getAllRawRecords(

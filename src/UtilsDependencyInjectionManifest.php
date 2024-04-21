@@ -14,8 +14,16 @@ use Utils\Math\MathDependencyInjection;
 use Utils\Networking\NetworkingDependencyInjection;
 use Utils\System\SystemDependencyInjection;
 
+/**
+ * @deprecated
+ * Utils repo is being broken down into smaller chunks
+ */
 class UtilsDependencyInjectionManifest extends AbstractDependencyInjection
 {
+    /**
+     * @deprecated
+     * Utils repo is being broken down into smaller chunks
+     */
     public static function getDependencies(): array
     {
         return array_merge(

@@ -9,16 +9,30 @@ use Utils\Database\Type\ParametrizedPdoArray;
 use Utils\Database\UseCase\CheckPdoParameterNames;
 use Utils\Database\UseCase\ParametrizeWhereInPdo;
 
+/**
+ * @deprecated
+ * See zuzsso/database
+ */
 class WhereInPdoParametrizer implements ParametrizeWhereInPdo
 {
+    /**
+     * @deprecated
+     * See zuzsso/database
+     */
     private CheckPdoParameterNames $checkPdoParameterNames;
 
+    /**
+     * @deprecated
+     * See zuzsso/database
+     */
     public function __construct(CheckPdoParameterNames $checkPdoParameterNames)
     {
         $this->checkPdoParameterNames = $checkPdoParameterNames;
     }
 
     /**
+     * @deprecated
+     * See zuzsso/database
      * @inheritDoc
      */
     public function parametrize(string $prefix, array $values): ParametrizedPdoArray

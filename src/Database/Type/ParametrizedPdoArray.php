@@ -6,12 +6,26 @@ namespace Utils\Database\Type;
 
 use Utils\Database\Exception\ParametrizedPdoArrayException;
 
+/**
+ * @deprecated
+ * See zuzsso/database
+ */
 class ParametrizedPdoArray
 {
+    /**
+     * @deprecated
+     * See zuzsso/database
+     */
     private array $parameterNames = [];
+    /**
+     * @deprecated
+     * See zuzsso/database
+     */
     private array $parameterAssociation = [];
 
     /**
+     * @deprecated
+     * See zuzsso/database
      * @throws ParametrizedPdoArrayException
      * @noinspection PhpUnused
      */
@@ -42,6 +56,8 @@ class ParametrizedPdoArray
     }
 
     /**
+     * @deprecated
+     * See zuzsso/database
      * @throws ParametrizedPdoArrayException
      */
     public function getParameterNames(): array
@@ -56,6 +72,8 @@ class ParametrizedPdoArray
     }
 
     /**
+     * @deprecated
+     * See zuzsso/database
      * @throws ParametrizedPdoArrayException
      * @noinspection PhpUnused
      */
@@ -67,6 +85,8 @@ class ParametrizedPdoArray
     }
 
     /**
+     * @deprecated
+     * See zuzsso/database
      * @throws ParametrizedPdoArrayException
      * @noinspection PhpUnused
      */
