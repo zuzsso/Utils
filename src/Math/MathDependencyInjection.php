@@ -12,8 +12,16 @@ use Utils\Math\Numbers\UseCase\EqualFloats;
 
 use function DI\autowire;
 
+/**
+ * @deprecated
+ * Migrated to zuzsso/math
+ */
 class MathDependencyInjection extends AbstractDependencyInjection
 {
+    /**
+     * @deprecated
+     * Migrated to zuzsso/math
+     */
     public static function getDependencies(): array
     {
         return [
