@@ -11,16 +11,30 @@ use Utils\JsonValidator\Exception\InvalidJsonObjectValueException;
 use Utils\JsonValidator\UseCase\CheckKeyJsonObject;
 use Utils\JsonValidator\UseCase\CheckKeyPresence;
 
+/**
+ * @deprecated
+ * Migrated to zuzsso/json-validator
+ */
 class KeyJsonObjectChecker implements CheckKeyJsonObject
 {
+    /**
+     * @deprecated
+     * Migrated to zuzsso/json-validator
+     */
     private CheckKeyPresence $checkKeyPresence;
 
+    /**
+     * @deprecated
+     * Migrated to zuzsso/json-validator
+     */
     public function __construct(CheckKeyPresence $checkKeyPresence)
     {
         $this->checkKeyPresence = $checkKeyPresence;
     }
 
     /**
+     * @deprecated
+     * Migrated to zuzsso/json-validator
      * @throws InvalidJsonObjectValueException
      * @throws EntryEmptyException
      * @throws EntryMissingException
@@ -45,6 +59,8 @@ class KeyJsonObjectChecker implements CheckKeyJsonObject
     }
 
     /**
+     * @deprecated
+     * Migrated to zuzsso/json-validator
      * @throws InvalidJsonObjectValueException
      */
     public function optional(string $key, array $payload): CheckKeyJsonObject

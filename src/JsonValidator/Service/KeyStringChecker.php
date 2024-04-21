@@ -21,11 +21,27 @@ use Utils\JsonValidator\UseCase\CheckKeyPresence;
 use Utils\JsonValidator\UseCase\CheckKeyString;
 use Utils\JsonValidator\UseCase\CheckValueString;
 
+/**
+ * @deprecated
+ * Migrated to zuzsso/json-validator
+ */
 class KeyStringChecker extends AbstractJsonChecker implements CheckKeyString
 {
+    /**
+     * @deprecated
+     * Migrated to zuzsso/json-validator
+     */
     private CheckKeyPresence $checkPropertyPresence;
+    /**
+     * @deprecated
+     * Migrated to zuzsso/json-validator
+     */
     private CheckValueString $checkValueString;
 
+    /**
+     * @deprecated
+     * Migrated to zuzsso/json-validator
+     */
     public function __construct(CheckKeyPresence $checkPropertyPresence, CheckValueString $checkValueString)
     {
         $this->checkPropertyPresence = $checkPropertyPresence;
@@ -33,6 +49,8 @@ class KeyStringChecker extends AbstractJsonChecker implements CheckKeyString
     }
 
     /**
+     * @deprecated
+     * Migrated to zuzsso/json-validator
      * @inheritDoc
      */
     public function required(string $key, array $payload): self
@@ -49,6 +67,8 @@ class KeyStringChecker extends AbstractJsonChecker implements CheckKeyString
     }
 
     /**
+     * @deprecated
+     * Migrated to zuzsso/json-validator
      * @inheritDoc
      */
     public function optional(string $key, array $payload): self
@@ -68,6 +88,8 @@ class KeyStringChecker extends AbstractJsonChecker implements CheckKeyString
     }
 
     /**
+     * @deprecated
+     * Migrated to zuzsso/json-validator
      * @inheritDoc
      */
     public function byteLengthRange(
@@ -107,6 +129,8 @@ class KeyStringChecker extends AbstractJsonChecker implements CheckKeyString
 
     /**
      * @inheritDoc
+     * @deprecated
+     * Migrated to zuzsso/json-validator
      */
     public function urlFormat(string $key, array $payload, bool $required = true): self
     {
@@ -131,6 +155,8 @@ class KeyStringChecker extends AbstractJsonChecker implements CheckKeyString
 
     /**
      * @inheritDoc
+     * @deprecated
+     * Migrated to zuzsso/json-validator
      */
     public function exactByteLength(string $key, array $payload, int $exactLength, bool $required = true): self
     {
@@ -167,6 +193,8 @@ class KeyStringChecker extends AbstractJsonChecker implements CheckKeyString
 
     /**
      * @inheritDoc
+     * @deprecated
+     * Migrated to zuzsso/json-validator
      */
     public function dateTimeFormat(string $key, array $payload, string $dateFormat, bool $required = true): self
     {

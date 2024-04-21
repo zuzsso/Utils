@@ -6,9 +6,15 @@ namespace Utils\JsonValidator\Service;
 
 use Utils\JsonValidator\Exception\ValueNotAnArrayException;
 
+/**
+ * @deprecated
+ * Migrated to zuzsso/json-validator
+ */
 abstract class AbstractJsonChecker
 {
     /**
+     * @deprecated
+     * Migrated to zuzsso/json-validator
      * @throws ValueNotAnArrayException
      */
     protected function checkAllKeysAreNumericAndNoGaps(array $array): void

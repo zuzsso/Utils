@@ -31,8 +31,16 @@ use Utils\JsonValidator\UseCase\CheckValueString;
 
 use function DI\autowire;
 
+/**
+ * @deprecated
+ * Migrated to zuzsso/json-validator
+ */
 class JsonPayloadValidatorDependencyInjection extends AbstractDependencyInjection
 {
+    /**
+     * @deprecated
+     * Migrated to zuzsso/json-validator
+     */
     public static function getDependencies(): array
     {
         return [

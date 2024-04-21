@@ -4,8 +4,16 @@ declare(strict_types=1);
 
 namespace Utils\JsonValidator\Exception;
 
+/**
+ * @deprecated
+ * Migrated to zuzsso/json-validator
+ */
 class ValueNotAnArrayException extends AbstractMalformedRequestBody
 {
+    /**
+     * @deprecated
+     * Migrated to zuzsso/json-validator
+     */
     public static function constructForStandardMessage(string $key): self
     {
         return new self(
@@ -13,21 +21,37 @@ class ValueNotAnArrayException extends AbstractMalformedRequestBody
         );
     }
 
+    /**
+     * @deprecated
+     * Migrated to zuzsso/json-validator
+     */
     public static function associativeArraysNotSupported(): self
     {
         return new self("Associative arrays not supported");
     }
 
+    /**
+     * @deprecated
+     * Migrated to zuzsso/json-validator
+     */
     public static function firstArrayKeyNotZero(): self
     {
         return new self("The first key of this array is not 0");
     }
 
+    /**
+     * @deprecated
+     * Migrated to zuzsso/json-validator
+     */
     public static function expectedLastKeyToBe(int $expectedLastKey, int $actualLastKey): self
     {
         return new self("The last key is expected to be $expectedLastKey, but it is $actualLastKey");
     }
 
+    /**
+     * @deprecated
+     * Migrated to zuzsso/json-validator
+     */
     public function getErrorCode(): string
     {
         return 'expectedArrayValue';

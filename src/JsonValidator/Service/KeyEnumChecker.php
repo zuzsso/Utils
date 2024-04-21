@@ -11,16 +11,30 @@ use Utils\JsonValidator\Exception\ValueNotInListException;
 use Utils\JsonValidator\UseCase\CheckKeyEnum;
 use Utils\JsonValidator\UseCase\CheckKeyPresence;
 
+/**
+ * @deprecated
+ * Migrated to zuzsso/json-validator
+ */
 class KeyEnumChecker extends AbstractJsonChecker implements CheckKeyEnum
 {
+    /**
+     * @deprecated
+     * Migrated to zuzsso/json-validator
+     */
     private CheckKeyPresence $checkPropertyPresence;
 
+    /**
+     * @deprecated
+     * Migrated to zuzsso/json-validator
+     */
     public function __construct(CheckKeyPresence $checkPropertyPresence)
     {
         $this->checkPropertyPresence = $checkPropertyPresence;
     }
 
     /**
+     * @deprecated
+     * Migrated to zuzsso/json-validator
      * @inheritDoc
      */
     public function isEnum(string $key, array $payload, array $validValues, bool $required = true): self

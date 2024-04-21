@@ -4,8 +4,16 @@ declare(strict_types=1);
 
 namespace Utils\JsonValidator\Exception;
 
+/**
+ * @deprecated
+ * Migrated to zuzsso/json-validator
+ */
 class ArrayWithCustomIndexNumeration extends AbstractMalformedRequestBody
 {
+    /**
+     * @deprecated
+     * Migrated to zuzsso/json-validator
+     */
     public static function constructForCustomNumeration(): self
     {
         return new self(
@@ -14,6 +22,10 @@ class ArrayWithCustomIndexNumeration extends AbstractMalformedRequestBody
         );
     }
 
+    /**
+     * @deprecated
+     * Migrated to zuzsso/json-validator
+     */
     public function getErrorCode(): string
     {
         return 'arrayCustomNumeration';

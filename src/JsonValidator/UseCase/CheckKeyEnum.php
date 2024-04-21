@@ -9,9 +9,15 @@ use Utils\JsonValidator\Exception\EntryMissingException;
 use Utils\JsonValidator\Exception\JsonPayloadValidatorUnmanagedException;
 use Utils\JsonValidator\Exception\ValueNotInListException;
 
+/**
+ * @deprecated
+ * Migrated to zuzsso/json-validator
+ */
 interface CheckKeyEnum
 {
     /**
+     * @deprecated
+     * Migrated to zuzsso/json-validator
      * @throws ValueNotInListException
      * @throws EntryEmptyException
      * @throws EntryMissingException

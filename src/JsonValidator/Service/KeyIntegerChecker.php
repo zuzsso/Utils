@@ -14,11 +14,27 @@ use Utils\JsonValidator\UseCase\CheckKeyInteger;
 use Utils\JsonValidator\UseCase\CheckKeyPresence;
 use Utils\JsonValidator\UseCase\CheckValueInteger;
 
+/**
+ * @deprecated
+ * Migrated to zuzsso/json-validator
+ */
 class KeyIntegerChecker extends AbstractJsonChecker implements CheckKeyInteger
 {
+    /**
+     * @deprecated
+     * Migrated to zuzsso/json-validator
+     */
     private CheckKeyPresence $checkPropertyPresence;
+    /**
+     * @deprecated
+     * Migrated to zuzsso/json-validator
+     */
     private CheckValueInteger $checkValueInteger;
 
+    /**
+     * @deprecated
+     * Migrated to zuzsso/json-validator
+     */
     public function __construct(CheckKeyPresence $checkPropertyPresence, CheckValueInteger $checkValueInteger)
     {
         $this->checkPropertyPresence = $checkPropertyPresence;
@@ -26,6 +42,8 @@ class KeyIntegerChecker extends AbstractJsonChecker implements CheckKeyInteger
     }
 
     /**
+     * @deprecated
+     * Migrated to zuzsso/json-validator
      * @inheritDoc
      */
     public function required(string $key, array $payload): self
@@ -56,6 +74,8 @@ class KeyIntegerChecker extends AbstractJsonChecker implements CheckKeyInteger
     }
 
     /**
+     * @deprecated
+     * Migrated to zuzsso/json-validator
      * @inheritDoc
      */
     public function optional(string $key, array $payload): CheckKeyInteger
@@ -72,6 +92,8 @@ class KeyIntegerChecker extends AbstractJsonChecker implements CheckKeyInteger
     }
 
     /**
+     * @deprecated
+     * Migrated to zuzsso/json-validator
      * @inheritDoc
      */
     public function withinRange(
@@ -109,6 +131,8 @@ class KeyIntegerChecker extends AbstractJsonChecker implements CheckKeyInteger
 
     /**
      * @inheritDoc
+     * @deprecated
+     * Migrated to zuzsso/json-validator
      */
     public function equalsTo(string $key, array $payload, int $compareTo, bool $required = true): self
     {

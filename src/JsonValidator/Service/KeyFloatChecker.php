@@ -16,11 +16,27 @@ use Utils\JsonValidator\UseCase\CheckKeyFloat;
 use Utils\JsonValidator\UseCase\CheckKeyPresence;
 use Utils\Math\Numbers\UseCase\EqualFloats;
 
+/**
+ * @deprecated
+ * Migrated to zuzsso/json-validator
+ */
 class KeyFloatChecker extends AbstractJsonChecker implements CheckKeyFloat
 {
+    /**
+     * @deprecated
+     * Migrated to zuzsso/json-validator
+     */
     private CheckKeyPresence $checkPropertyPresence;
+    /**
+     * @deprecated
+     * Migrated to zuzsso/json-validator
+     */
     private EqualFloats $equalFloats;
 
+    /**
+     * @deprecated
+     * Migrated to zuzsso/json-validator
+     */
     public function __construct(CheckKeyPresence $checkPropertyPresence, EqualFloats $equalFloats)
     {
         $this->checkPropertyPresence = $checkPropertyPresence;
@@ -28,6 +44,8 @@ class KeyFloatChecker extends AbstractJsonChecker implements CheckKeyFloat
     }
 
     /**
+     * @deprecated
+     * Migrated to zuzsso/json-validator
      * @inheritDoc
      */
     public function required(string $key, array $payload): CheckKeyFloat
@@ -58,6 +76,8 @@ class KeyFloatChecker extends AbstractJsonChecker implements CheckKeyFloat
     }
 
     /**
+     * @deprecated
+     * Migrated to zuzsso/json-validator
      * @inheritDoc
      */
     public function optional(string $key, array $payload): CheckKeyFloat
@@ -76,8 +96,9 @@ class KeyFloatChecker extends AbstractJsonChecker implements CheckKeyFloat
         return $this;
     }
 
-
     /**
+     * @deprecated
+     * Migrated to zuzsso/json-validator
      * @inheritDoc
      */
     public function withinRange(
@@ -119,6 +140,8 @@ class KeyFloatChecker extends AbstractJsonChecker implements CheckKeyFloat
     }
 
     /**
+     * @deprecated
+     * Migrated to zuzsso/json-validator
      * @inheritDoc
      */
     public function equalsTo(string $key, array $payload, float $compareTo, bool $required = true): self

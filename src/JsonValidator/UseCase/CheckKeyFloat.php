@@ -14,9 +14,15 @@ use Utils\JsonValidator\Exception\ValueTooBigException;
 use Utils\JsonValidator\Exception\ValueTooSmallException;
 use Utils\JsonValidator\Types\Range\FloatRange;
 
+/**
+ * @deprecated
+ * Migrated to zuzsso/json-validator
+ */
 interface CheckKeyFloat
 {
     /**
+     * @deprecated
+     * Migrated to zuzsso/json-validator
      * @throws ValueNotAFloatException
      * @throws EntryEmptyException
      * @throws EntryMissingException
@@ -24,11 +30,15 @@ interface CheckKeyFloat
     public function required(string $key, array $payload): self;
 
     /**
+     * @deprecated
+     * Migrated to zuzsso/json-validator
      * @throws OptionalPropertyNotAFloatException
      */
     public function optional(string $key, array $payload): self;
 
     /**
+     * @deprecated
+     * Migrated to zuzsso/json-validator
      * @throws IncorrectParametrizationException
      * @throws ValueNotAFloatException
      * @throws ValueTooSmallException
@@ -44,6 +54,8 @@ interface CheckKeyFloat
     ): self;
 
     /**
+     * @deprecated
+     * Migrated to zuzsso/json-validator
      * @throws ValueNotAFloatException
      * @throws ValueNotEqualsToException
      * @throws EntryEmptyException

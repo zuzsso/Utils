@@ -14,9 +14,15 @@ use Utils\JsonValidator\Exception\ValueTooSmallException;
 use Utils\JsonValidator\Types\Range\AbstractIntegerRange;
 use Utils\JsonValidator\Types\Range\IntValueRange;
 
+/**
+ * @deprecated
+ * Migrated to zuzsso/json-validator
+ */
 interface CheckKeyInteger
 {
     /**
+     * @deprecated
+     * Migrated to zuzsso/json-validator
      * @throws InvalidIntegerValueException
      * @throws EntryEmptyException
      * @throws EntryMissingException
@@ -24,6 +30,8 @@ interface CheckKeyInteger
     public function required(string $key, array $payload): self;
 
     /**
+     * @deprecated
+     * Migrated to zuzsso/json-validator
      * @throws EntryEmptyException
      * @throws EntryMissingException
      * @throws InvalidIntegerValueException
@@ -31,6 +39,8 @@ interface CheckKeyInteger
     public function optional(string $key, array $payload): self;
 
     /**
+     * @deprecated
+     * Migrated to zuzsso/json-validator
      * @throws EntryEmptyException
      * @throws EntryMissingException
      * @throws IncorrectParametrizationException
@@ -46,6 +56,8 @@ interface CheckKeyInteger
     ): self;
 
     /**
+     * @deprecated
+     * Migrated to zuzsso/json-validator
      * @throws InvalidIntegerValueException
      * @throws ValueNotEqualsToException
      * @throws EntryEmptyException

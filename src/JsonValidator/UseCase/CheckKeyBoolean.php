@@ -8,9 +8,15 @@ use Utils\JsonValidator\Exception\EntryEmptyException;
 use Utils\JsonValidator\Exception\EntryMissingException;
 use Utils\JsonValidator\Exception\InvalidBoolValueException;
 
+/**
+ * @deprecated
+ * Migrated to zuzsso/json-validator
+ */
 interface CheckKeyBoolean
 {
     /**
+     * @deprecated
+     * Migrated to zuzsso/json-validator
      * @throws InvalidBoolValueException
      * @throws EntryEmptyException
      * @throws EntryMissingException
@@ -18,6 +24,8 @@ interface CheckKeyBoolean
     public function required(string $key, array $payload): self;
 
     /**
+     * @deprecated
+     * Migrated to zuzsso/json-validator
      * @throws InvalidBoolValueException
      * @throws EntryEmptyException
      * @throws EntryMissingException

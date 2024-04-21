@@ -13,9 +13,15 @@ use Utils\JsonValidator\Exception\ValueTooSmallException;
 use Utils\JsonValidator\Types\Range\ArrayLengthRange;
 use Utils\JsonValidator\UseCase\CheckValueArray;
 
+/**
+ * @deprecated
+ * Migrated to zuzsso/json-validator
+ */
 class ValueArrayChecker extends AbstractJsonChecker implements CheckValueArray
 {
     /**
+     * @deprecated
+     * Migrated to zuzsso/json-validator
      * @inheritDoc
      */
     public function arrayOfJsonObjects(array $arrayElements, bool $required = true): self
@@ -42,6 +48,8 @@ class ValueArrayChecker extends AbstractJsonChecker implements CheckValueArray
     }
 
     /**
+     * @deprecated
+     * Migrated to zuzsso/json-validator
      * @inheritDoc
      */
     public function arrayOfLengthRange(
@@ -68,6 +76,8 @@ class ValueArrayChecker extends AbstractJsonChecker implements CheckValueArray
     }
 
     /**
+     * @deprecated
+     * Migrated to zuzsso/json-validator
      * @inheritDoc
      */
     public function arrayOfExactLength(array $payload, int $expectedLength): CheckValueArray

@@ -6,8 +6,16 @@ namespace Utils\JsonValidator\Types\Range;
 
 use Utils\JsonValidator\Exception\IncorrectParametrizationException;
 
+/**
+ * @deprecated
+ * Migrated to zuzsso/json-validator
+ */
 class StringByteLengthRange extends AbstractIntegerRange
 {
+    /**
+     * @deprecated
+     * Migrated to zuzsso/json-validator
+     */
     public function __construct(?int $min, ?int $max)
     {
         if ($min !== null && $min < 1) {

@@ -9,9 +9,15 @@ use Utils\JsonValidator\Exception\EntryForbiddenException;
 use Utils\JsonValidator\Exception\EntryMissingException;
 use Utils\JsonValidator\UseCase\CheckKeyPresence;
 
+/**
+ * @deprecated
+ * Migrated to zuzsso/json-validator
+ */
 class KeyPresenceChecker extends AbstractJsonChecker implements CheckKeyPresence
 {
     /**
+     * @deprecated
+     * Migrated to zuzsso/json-validator
      * @inheritDoc
      */
     public function required(string $key, array $payload): self
@@ -36,6 +42,8 @@ class KeyPresenceChecker extends AbstractJsonChecker implements CheckKeyPresence
     }
 
     /**
+     * @deprecated
+     * Migrated to zuzsso/json-validator
      * @inheritDoc
      */
     public function forbidden(string $key, array $payload): self

@@ -6,6 +6,10 @@ namespace Utils\JsonValidator\Exception;
 
 class ValueArrayNotExactLengthException extends AbstractMalformedRequestBody
 {
+    /**
+     * @deprecated
+     * Migrated to zuzsso/json-validator
+     */
     public static function constructForKeyArray(string $key, int $expectedLength, int $actualLength): self
     {
         return new self(
@@ -13,6 +17,10 @@ class ValueArrayNotExactLengthException extends AbstractMalformedRequestBody
         );
     }
 
+    /**
+     * @deprecated
+     * Migrated to zuzsso/json-validator
+     */
     public static function constructForValueArray(int $expectedLength, int $actualLength): self
     {
         return new self(
@@ -20,6 +28,10 @@ class ValueArrayNotExactLengthException extends AbstractMalformedRequestBody
         );
     }
 
+    /**
+     * @deprecated
+     * Migrated to zuzsso/json-validator
+     */
     public function getErrorCode(): string
     {
         return 'arrayOfUnexpectedFixedLength';

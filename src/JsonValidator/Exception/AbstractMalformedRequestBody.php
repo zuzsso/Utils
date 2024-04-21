@@ -6,10 +6,22 @@ namespace Utils\JsonValidator\Exception;
 
 use Exception;
 
+/**
+ * @deprecated
+ * Migrated to zuzsso/json-validator
+ */
 abstract class AbstractMalformedRequestBody extends Exception
 {
+    /**
+     * @deprecated
+     * Migrated to zuzsso/json-validator
+     */
     abstract public function getErrorCode(): string;
 
+    /**
+     * @deprecated
+     * Migrated to zuzsso/json-validator
+     */
     final public function serialize(): array
     {
         return [

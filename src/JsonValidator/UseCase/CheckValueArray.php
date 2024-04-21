@@ -13,9 +13,15 @@ use Utils\JsonValidator\Exception\ValueTooBigException;
 use Utils\JsonValidator\Exception\ValueTooSmallException;
 use Utils\JsonValidator\Types\Range\ArrayLengthRange;
 
+/**
+ * @deprecated
+ * Migrated to zuzsso/json-validator
+ */
 interface CheckValueArray
 {
     /**
+     * @deprecated
+     * Migrated to zuzsso/json-validator
      * @throws RequiredArrayIsEmptyException
      * @throws ValueNotAJsonObjectException
      * @throws ValueNotAnArrayException
@@ -23,6 +29,8 @@ interface CheckValueArray
     public function arrayOfJsonObjects(array $arrayElements, bool $required = true): self;
 
     /**
+     * @deprecated
+     * Migrated to zuzsso/json-validator
      * @throws ValueTooBigException
      * @throws ValueTooSmallException
      * @throws IncorrectParametrizationException
@@ -34,6 +42,8 @@ interface CheckValueArray
     ): self;
 
     /**
+     * @deprecated
+     * Migrated to zuzsso/json-validator
      * @throws IncorrectParametrizationException
      * @throws ValueArrayNotExactLengthException
      * @throws ValueNotAnArrayException

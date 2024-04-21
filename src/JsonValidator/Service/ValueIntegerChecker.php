@@ -12,9 +12,15 @@ use Utils\JsonValidator\Exception\ValueTooSmallException;
 use Utils\JsonValidator\Types\Range\IntValueRange;
 use Utils\JsonValidator\UseCase\CheckValueInteger;
 
+/**
+ * @deprecated
+ * Migrated to zuzsso/json-validator
+ */
 class ValueIntegerChecker implements CheckValueInteger
 {
     /**
+     * @deprecated
+     * Migrated to zuzsso/json-validator
      * @inheritDoc
      */
     public function integerGroupRepresentsADate(int $year, int $month, int $day): void
@@ -41,6 +47,8 @@ class ValueIntegerChecker implements CheckValueInteger
     }
 
     /**
+     * @deprecated
+     * Migrated to zuzsso/json-validator
      * @inheritDoc
      */
     public function withinRange(

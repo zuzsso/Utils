@@ -10,9 +10,15 @@ use Utils\JsonValidator\Exception\OptionalValueNotAStringException;
 use Utils\JsonValidator\Exception\ValueStringEmptyException;
 use Utils\JsonValidator\UseCase\CheckValueString;
 
+/**
+ * @deprecated
+ * Migrated to zuzsso/json-validator
+ */
 class ValueStringChecker implements CheckValueString
 {
     /**
+     * @deprecated
+     * Migrated to zuzsso/json-validator
      * @inheritDoc
      */
     public function required(?string $value): CheckValueString
@@ -27,6 +33,8 @@ class ValueStringChecker implements CheckValueString
     }
 
     /**
+     * @deprecated
+     * Migrated to zuzsso/json-validator
      * @inheritDoc
      */
     public function dateTimeFormat(?string $value, string $dateFormat, bool $required = true): self

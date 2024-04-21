@@ -6,6 +6,8 @@ namespace Utils\JsonValidator;
 
 /**
  * Abstract interface, ideally all the payload validators should be implementing or extending this interface
+ * @deprecated
+ * Migrated to zuzsso/json-validator
  */
 interface ValidateJsonPayload
 {

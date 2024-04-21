@@ -4,8 +4,16 @@ declare(strict_types=1);
 
 namespace Utils\JsonValidator\Exception;
 
+/**
+ * @deprecated
+ * Migrated to zuzsso/json-validator
+ */
 class EntryNotAnArrayOfObjectsException extends AbstractMalformedRequestBody
 {
+    /**
+     * @deprecated
+     * Migrated to zuzsso/json-validator
+     */
     public static function constructForStandardMessage(string $originalKey, string $subKey): self
     {
         return new self(
@@ -17,6 +25,10 @@ class EntryNotAnArrayOfObjectsException extends AbstractMalformedRequestBody
         );
     }
 
+    /**
+     * @deprecated
+     * Migrated to zuzsso/json-validator
+     */
     public static function constructForIndexNotNumericArrayIndex(string $key, string $index): self
     {
         return new self(
@@ -28,6 +40,10 @@ class EntryNotAnArrayOfObjectsException extends AbstractMalformedRequestBody
         );
     }
 
+    /**
+     * @deprecated
+     * Migrated to zuzsso/json-validator
+     */
     public static function constructForCustomNumeration(string $key): self
     {
         return new self(
@@ -38,6 +54,10 @@ class EntryNotAnArrayOfObjectsException extends AbstractMalformedRequestBody
         );
     }
 
+    /**
+     * @deprecated
+     * Migrated to zuzsso/json-validator
+     */
     public function getErrorCode(): string
     {
         return "notAnArrayOfJsonObjects";

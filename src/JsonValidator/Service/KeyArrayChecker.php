@@ -19,11 +19,27 @@ use Utils\JsonValidator\UseCase\CheckKeyArray;
 use Utils\JsonValidator\UseCase\CheckKeyPresence;
 use Utils\JsonValidator\UseCase\CheckValueArray;
 
+/**
+ * @deprecated
+ * Migrated to zuzsso/json-validator
+ */
 class KeyArrayChecker extends AbstractJsonChecker implements CheckKeyArray
 {
+    /**
+     * @deprecated
+     * Migrated to zuzsso/json-validator
+     */
     private CheckKeyPresence $checkPropertyPresence;
+    /**
+     * @deprecated
+     * Migrated to zuzsso/json-validator
+     */
     private CheckValueArray $checkValueArray;
 
+    /**
+     * @deprecated
+     * Migrated to zuzsso/json-validator
+     */
     public function __construct(CheckKeyPresence $checkPropertyPresence, CheckValueArray $checkValueArray)
     {
         $this->checkPropertyPresence = $checkPropertyPresence;
@@ -32,6 +48,8 @@ class KeyArrayChecker extends AbstractJsonChecker implements CheckKeyArray
 
     /**
      * @inheritDoc
+     * @deprecated
+     * Migrated to zuzsso/json-validator
      */
     public function requiredKey(string $key, array $payload): self
     {
@@ -56,6 +74,8 @@ class KeyArrayChecker extends AbstractJsonChecker implements CheckKeyArray
 
     /**
      * @inheritDoc
+     * @deprecated
+     * Migrated to zuzsso/json-validator
      */
     public function optionalKey(string $key, array $payload): CheckKeyArray
     {
@@ -90,6 +110,8 @@ class KeyArrayChecker extends AbstractJsonChecker implements CheckKeyArray
 
     /**
      * @inheritDoc
+     * @deprecated
+     * Migrated to zuzsso/json-validator
      */
     public function keyArrayOfJsonObjects(string $key, array $payload, bool $required = true): self
     {
@@ -113,6 +135,8 @@ class KeyArrayChecker extends AbstractJsonChecker implements CheckKeyArray
 
     /**
      * @inheritDoc
+     * @deprecated
+     * Migrated to zuzsso/json-validator
      */
     public function keyArrayOfExactLength(string $key, array $payload, int $expectedLength, bool $required = true): self
     {
@@ -138,6 +162,8 @@ class KeyArrayChecker extends AbstractJsonChecker implements CheckKeyArray
 
     /**
      * @inheritDoc
+     * @deprecated
+     * Migrated to zuzsso/json-validator
      */
     public function keyArrayOfLengthRange(
         string $key,
