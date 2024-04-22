@@ -10,8 +10,16 @@ use Utils\EmailAddress\UseCase\ValidateEmailAddress;
 
 use function DI\autowire;
 
+/**
+ * @deprecated
+ * migrated to zuzsso/json-validator
+ */
 class EmailAddressDependencyInjection extends AbstractDependencyInjection
 {
+    /**
+     * @deprecated
+     * migrated to zuzsso/json-validator
+     */
     public static function getDependencies(): array
     {
         return [
