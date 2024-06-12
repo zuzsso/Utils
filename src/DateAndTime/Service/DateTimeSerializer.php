@@ -11,8 +11,16 @@ use Utils\Language\Type\Language\English;
 use Utils\Language\Type\Language\French;
 use Utils\Language\Type\Language\Spanish;
 
+/**
+ * @deprecated
+ * Migrated to its own repo
+ */
 class DateTimeSerializer implements SerializeDateTime
 {
+    /**
+     * @deprecated
+     * Migrated to its own repo
+     */
     private function getLongMonthNames(): array
     {
         return [
@@ -61,6 +69,10 @@ class DateTimeSerializer implements SerializeDateTime
         ];
     }
 
+    /**
+     * @deprecated
+     * Migrated to its own repo
+     */
     private function getShortMonthNames(): array
     {
         return [
@@ -109,6 +121,10 @@ class DateTimeSerializer implements SerializeDateTime
         ];
     }
 
+    /**
+     * @deprecated
+     * Migrated to its own repo
+     */
     private function serializeComponents(DateTimeImmutable $dateTime): array
     {
         return [
@@ -122,6 +138,7 @@ class DateTimeSerializer implements SerializeDateTime
     }
 
     /**
+     * Migrated to its own repo
      * @deprecated
      * @see \Utils\DateAndTime\Service\DateTimeSerializer::serializeImmutableForLanguage
      */
@@ -152,6 +169,10 @@ class DateTimeSerializer implements SerializeDateTime
         ];
     }
 
+    /**
+     * @deprecated
+     * Migrated to its own repo
+     */
     public function serializeImmutableForLanguage(DateTimeImmutable $dateTime, AbstractLanguage $lan): array
     {
         $monthNumeralZeroBased = (int)$dateTime->format('m') - 1;
@@ -184,6 +205,8 @@ class DateTimeSerializer implements SerializeDateTime
     }
 
     /**
+     * @deprecated
+     * Migrated to its own repo
      * @noinspection DuplicatedCode
      */
     private function formatDateTimeMonospace24H(DateTimeImmutable $dateTime, AbstractLanguage $lan): string
@@ -205,6 +228,8 @@ class DateTimeSerializer implements SerializeDateTime
     }
 
     /**
+     * @deprecated
+     * Migrated to its own repo
      * @noinspection DuplicatedCode
      */
     private function formatDateMonospace(DateTimeImmutable $dateTime, AbstractLanguage $lan): string
@@ -225,6 +250,10 @@ class DateTimeSerializer implements SerializeDateTime
 
     }
 
+    /**
+     * @deprecated
+     * Migrated to its own repo
+     */
     private function escapeLiteral(string $literal): string
     {
         $result = '';

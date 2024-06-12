@@ -6,6 +6,10 @@ namespace Utils\DateAndTime\UseCase;
 
 use DateTimeImmutable;
 
+/**
+ * @deprecated
+ * Migrated to its own repo
+ */
 interface CompareDateTime
 {
     /**
@@ -13,6 +17,9 @@ interface CompareDateTime
      *
      * Pass $absolute = true to get the difference in absolute terms. Otherwise, it will return a positive result
      * if $d1 < $d2. Negative otherwise.
+     *
+     * @deprecated
+     * Migrated to its own repo
      */
     public function getDifferenceInSeconds(DateTimeImmutable $d1, DateTimeImmutable $d2, bool $absolute = false): int;
 }

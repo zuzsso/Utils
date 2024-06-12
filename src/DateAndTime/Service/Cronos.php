@@ -12,6 +12,10 @@ use Utils\DateAndTime\Exception\StopwatchNeverStartedException;
 use Utils\DateAndTime\Exception\StopwatchNeverStoppedException;
 use Utils\DateAndTime\Type\Stopwatch;
 
+/**
+ * @deprecated
+ * Migrated to its own repo
+ */
 class Cronos
 {
     /**
@@ -20,6 +24,8 @@ class Cronos
     private static array $stopwatches = [];
 
     /**
+     * @deprecated
+     * Migrated to its own repo
      * @throws StopwatchIdAlreadyExistsException
      */
     public static function startTraceId(string $id, bool $start = true): void
@@ -30,6 +36,8 @@ class Cronos
     }
 
     /**
+     * @deprecated
+     * Migrated to its own repo
      * @throws StopwatchAlreadyStoppedException
      * @throws NoStopwatchesInCollectionException
      * @throws StopwatchIdNotFoundException
@@ -52,6 +60,8 @@ class Cronos
     }
 
     /**
+     * @deprecated
+     * Migrated to its own repo
      * @throws StopwatchIdNotFoundException
      */
     public static function getStopwatchById(string $id): Stopwatch
@@ -67,6 +77,8 @@ class Cronos
     }
 
     /**
+     * @deprecated
+     * Migrated to its own repo
      * @throws StopwatchIdAlreadyExistsException
      */
     private static function addStopwatch(Stopwatch $s): void
@@ -83,6 +95,8 @@ class Cronos
     }
 
     /**
+     * @deprecated
+     * Migrated to its own repo
      * @throws StopwatchNeverStartedException
      * @throws StopwatchNeverStoppedException
      * @throws NoStopwatchesInCollectionException
@@ -106,6 +120,8 @@ class Cronos
     }
 
     /**
+     * @deprecated
+     * Migrated to its own repo
      * @throws StopwatchNeverStartedException
      * @throws StopwatchNeverStoppedException
      * @throws NoStopwatchesInCollectionException
@@ -129,6 +145,8 @@ class Cronos
     }
 
     /**
+     * @deprecated
+     * Migrated to its own repo
      * @throws StopwatchAlreadyStoppedException
      */
     public static function cancelAllRunningTraces(): void

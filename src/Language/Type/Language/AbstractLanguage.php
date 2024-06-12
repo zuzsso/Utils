@@ -6,13 +6,27 @@ namespace Utils\Language\Type\Language;
 
 use Utils\Language\Exception\UnrecognizedLanguageException;
 
+/**
+ * @deprecated
+ * migrated to its own repo
+ */
 abstract class AbstractLanguage
 {
+    /**
+     * @deprecated
+     * migrated to its own repo
+     */
     abstract public static function getApiLiteral(): string;
 
+    /**
+     * @deprecated
+     * migrated to its own repo
+     */
     abstract public static function getBcp47Code(): string;
 
     /**
+     * @deprecated
+     * migrated to its own repo
      * @throws UnrecognizedLanguageException
      * @noinspection PhpUnused
      */
@@ -31,6 +45,8 @@ abstract class AbstractLanguage
     }
 
     /**
+     * @deprecated
+     * migrated to its own repo
      * @throws UnrecognizedLanguageException
      * @noinspection PhpUnused
      */
@@ -48,13 +64,25 @@ abstract class AbstractLanguage
         }
     }
 
-    /** @noinspection PhpUnused */
+    /**
+     * @deprecated
+     * migrated to its own repo
+     * @noinspection PhpUnused
+     */
     final public static function equalsTo(AbstractLanguage $anotherLanguage): bool
     {
         return static::getApiLiteral() === $anotherLanguage::getApiLiteral();
     }
 
+    /**
+     * @deprecated
+     * migrated to its own repo
+     */
     abstract public static function getIso639Dash1Locale(): string;
 
+    /**
+     * @deprecated
+     * migrated to its own repo
+     */
     abstract public function getPlainNameInSameLanguage(): string;
 }

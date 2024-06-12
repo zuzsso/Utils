@@ -9,14 +9,24 @@ use DateTimeImmutable;
 use Utils\DateAndTime\Exception\DatetimeCommonOperationsUnmanagedException;
 use Utils\DateAndTime\UseCase\TransformDateTime;
 
+/**
+ * @deprecated
+ * Migrated to its own repo
+ */
 class DateTimeTransformer implements TransformDateTime
 {
+    /**
+     * @deprecated
+     * Migrated to its own repo
+     */
     public function removeTime(DateTimeImmutable $dateTimeImmutable): DateTimeImmutable
     {
         return $dateTimeImmutable->modify('midnight');
     }
 
     /**
+     * @deprecated
+     * Migrated to its own repo
      * @inheritDoc
      */
     public function substractDays(DateTimeImmutable $d, int $days): DateTimeImmutable
@@ -27,6 +37,8 @@ class DateTimeTransformer implements TransformDateTime
     }
 
     /**
+     * @deprecated
+     * Migrated to its own repo
      * @inheritDoc
      */
     public function substractSeconds(DateTimeImmutable $d, int $seconds): DateTimeImmutable
@@ -37,6 +49,8 @@ class DateTimeTransformer implements TransformDateTime
     }
 
     /**
+     * @deprecated
+     * Migrated to its own repo
      * @inheritDoc
      */
     public function addSeconds(DateTimeImmutable $d, int $seconds): DateTimeImmutable
@@ -47,6 +61,8 @@ class DateTimeTransformer implements TransformDateTime
     }
 
     /**
+     * @deprecated
+     * Migrated to its own repo
      * @inheritDoc
      */
     public function addDays(DateTimeImmutable $d, int $days): DateTimeImmutable
@@ -58,6 +74,8 @@ class DateTimeTransformer implements TransformDateTime
 
     /**
      * @throws DatetimeCommonOperationsUnmanagedException
+     * @deprecated
+     * Migrated to its own repo
      */
     private function checkStrictlyPositive(int $value): void
     {

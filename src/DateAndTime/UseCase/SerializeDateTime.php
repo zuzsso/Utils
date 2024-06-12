@@ -7,6 +7,10 @@ namespace Utils\DateAndTime\UseCase;
 use DateTimeImmutable;
 use Utils\Language\Type\Language\AbstractLanguage;
 
+/**
+ * @deprecated
+ * Migrated to its own repo
+ */
 interface SerializeDateTime
 {
     /**
@@ -15,5 +19,9 @@ interface SerializeDateTime
      */
     public function serializeImmutable(DateTimeImmutable $dateTime): array;
 
+    /**
+     * @deprecated
+     * Migrated to its own repo
+     */
     public function serializeImmutableForLanguage(DateTimeImmutable $dateTime, AbstractLanguage $lan): array;
 }

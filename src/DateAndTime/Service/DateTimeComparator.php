@@ -7,9 +7,15 @@ namespace Utils\DateAndTime\Service;
 use DateTimeImmutable;
 use Utils\DateAndTime\UseCase\CompareDateTime;
 
+/**
+ * @deprecated
+ * Migrated to its own repo
+ */
 class DateTimeComparator implements CompareDateTime
 {
     /**
+     * @deprecated
+     * Migrated to its own repo
      * @inheritDoc
      */
     public function getDifferenceInSeconds(DateTimeImmutable $d1, DateTimeImmutable $d2, bool $absolute = false): int

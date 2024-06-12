@@ -8,11 +8,17 @@ use Utils\DateAndTime\Exception\DatetimeCommonOperationsUnmanagedException;
 use Utils\DateAndTime\UseCase\FormatDateTime;
 use DateTimeImmutable;
 
+/**
+ * @deprecated
+ * Migrated to its own repo
+ */
 class DateTimeFormatter implements FormatDateTime
 {
     private const MYSQL_DATE_TIME_FORMAT = 'Y-m-d H:i:s';
 
     /**
+     * @deprecated
+     * Migrated to its own repo
      * @inheritDoc
      */
     public function fromMySqlDateTimeToImmutable(string $mysqlDateTime): DateTimeImmutable
@@ -28,6 +34,10 @@ class DateTimeFormatter implements FormatDateTime
         return $result;
     }
 
+    /**
+     * @deprecated
+     * Migrated to its own repo
+     */
     public function fromImmutableToMySqlDateTime(DateTimeImmutable $d): string
     {
         return $d->format(self::MYSQL_DATE_TIME_FORMAT);
